@@ -6,6 +6,7 @@ public class MetatraderClient
 {
     public async Task<Account> GetAccountInfo()
     { 
+
     }
        
 }
