@@ -27,8 +27,15 @@ public partial class MetatraderClient
 
     }
 
+    private async Task<SymbolList> GetSymbolListResponseAsync()
+    {
+        var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/symbol/list");
+        response.EnsureSuccessStatusCode();
 
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var terminalInfo = (responseContent != null) ? JsonConvert.DeserializeObject<SymbolList>(responseContent) : null;
 
-
+        return terminalInfo;
+    }
 
 }

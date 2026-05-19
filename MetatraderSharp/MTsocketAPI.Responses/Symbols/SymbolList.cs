@@ -17,4 +17,9 @@ public class SymbolList
 
     [JsonProperty("ERROR_DESCRIPTION")]
     public string ErrorDescription { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }

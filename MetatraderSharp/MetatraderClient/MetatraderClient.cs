@@ -32,4 +32,14 @@ public partial class MetatraderClient
         return GetTerminalInfoAsync().Result;
     }
 
+    public SymbolList? GetSymbolListResponse()
+    {
+        return GetSymbolListResponseAsync().Result;
+    }
+
+    public List<Symbol>? GetSymbolList()
+    {
+        return GetSymbolListResponseAsync().Result.Symbols;
+    }
+
 }
