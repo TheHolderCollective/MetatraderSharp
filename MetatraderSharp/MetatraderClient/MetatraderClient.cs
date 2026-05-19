@@ -1,15 +1,24 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses;
-using Newtonsoft.Json;
 namespace MetatraderSharp;
 
 public partial class MetatraderClient
 {
-    private string PartialURI { get; set; }
+    private HttpClient _client;
+    private string _partialURI;
     public string WebSocketPort { get; set;}
+
+    public HttpClient? Client 
+    { 
+        set
+        {
+            _client = value;
+        }
+    }
 
     public MetatraderClient()
     {
-        PartialURI = "http://127.0.0.1";
+        _partialURI = "http://127.0.0.1";
+        _client = new HttpClient();
         WebSocketPort = "81";
     }
     
@@ -18,5 +27,9 @@ public partial class MetatraderClient
         return GetAccountInfoAsync().Result;
     }
 
+    public TerminalInfo? GetTerminalInfo()
+    {
+        return GetTerminalInfoAsync().Result;
+    }
 
 }

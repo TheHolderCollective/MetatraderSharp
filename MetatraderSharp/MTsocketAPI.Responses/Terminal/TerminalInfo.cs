@@ -4,7 +4,7 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 /// <summary>
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/TerminalInfo
 /// </summary>
-public class TerminalInformation
+public class TerminalInfo
 {
     [JsonProperty("MSG")]
     public string Msg { get; set; }
@@ -28,13 +28,13 @@ public class TerminalInformation
     public string CommonDataPath { get; set; }
 
     [JsonProperty("BUILD")]
-    public int Build { get; set; }
+    public double Build { get; set; }
 
     [JsonProperty("COMMUNITY_ACCOUNT")]
-    public int CommunityAccount { get; set; }
+    public double CommunityAccount { get; set; }
 
     [JsonProperty("COMMUNITY_CONNECTION")]
-    public int CommunityConnection { get; set; }
+    public double CommunityConnection { get; set; }
 
     [JsonProperty("CONNECTED")]
     public int Connected { get; set; }
@@ -67,29 +67,34 @@ public class TerminalInformation
     public int CpuCores { get; set; }
 
     [JsonProperty("DISK_SPACE")]
-    public int DiskSpace { get; set; }
+    public double DiskSpace { get; set; }
 
     [JsonProperty("MEMORY_PHYSICAL")]
-    public int MemoryPhysical { get; set; }
+    public double MemoryPhysical { get; set; }
 
     [JsonProperty("MEMORY_TOTAL")]
-    public int MemoryTotal { get; set; }
+    public double MemoryTotal { get; set; }
 
     [JsonProperty("MEMORY_AVAILABLE")]
-    public int MemoryAvailable { get; set; }
+    public double MemoryAvailable { get; set; }
 
     [JsonProperty("MEMORY_USED")]
-    public int MemoryUsed { get; set; }
+    public double MemoryUsed { get; set; }
 
     [JsonProperty("SCREEN_DPI")]
-    public int ScreenDPI { get; set; }
+    public double ScreenDPI { get; set; }
 
     [JsonProperty("PING_LAST")]
-    public int PingLast { get; set; }
+    public double PingLast { get; set; }
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
     public string ErrorDescription { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }

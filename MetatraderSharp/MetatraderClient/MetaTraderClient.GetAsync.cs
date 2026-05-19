@@ -6,9 +6,7 @@ public partial class MetatraderClient
 {
     private async Task<Account?> GetAccountInfoAsync()
     {
-        var client = new HttpClient();
-
-        var response = await client.GetAsync($"{PartialURI}:{WebSocketPort}/v1/account");
+        var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/account");
         response.EnsureSuccessStatusCode();
 
         var responseContent = await response.Content.ReadAsStringAsync();
@@ -16,6 +14,21 @@ public partial class MetatraderClient
 
         return account;
     }
+
+    private async Task<TerminalInfo> GetTerminalInfoAsync()
+    {
+        var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/terminal");
+        response.EnsureSuccessStatusCode();
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var terminalInfo = (responseContent != null) ? JsonConvert.DeserializeObject<TerminalInfo>(responseContent) : null;
+
+        return terminalInfo;
+
+    }
+
+
+
 
 
 }
