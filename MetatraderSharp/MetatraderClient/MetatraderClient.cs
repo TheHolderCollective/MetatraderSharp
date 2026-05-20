@@ -65,4 +65,24 @@ public partial class MetatraderClient
     {
         return GetQuoteAsync(symbol).Result;
     }
+
+    public PriceHistory GetPriceHistoryResponse(string symbol, string timeFrame, string fromDate, string toDate)
+    {
+        return GetPriceHistoryAsync(symbol, timeFrame, fromDate, toDate).Result;
+    }
+
+    public List<Rate> GetOHLCs(string symbol, string timeFrame, string fromDate, string toDate)
+    {
+        var response = GetPriceHistoryAsync(symbol, timeFrame, fromDate, toDate);
+
+        if (LastQueryStatus == QueryStatus.OK)
+        {
+            return response.Result.Rates;
+        }
+        else
+        {
+            return new List<Rate>();
+        }
+
+    }
 }

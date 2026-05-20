@@ -99,4 +99,29 @@ public partial class MetatraderClient
             };
         }
     }
+
+    private async Task<PriceHistory> GetPriceHistoryAsync(string symbol, string timeFrame, string fromDate, string toDate)
+    {
+        try
+        {
+            var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/prices?symbol={symbol}&timeframe={timeFrame}&from_date={fromDate}&to_date={toDate}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var priceHistory = (responseContent != null) ? JsonConvert.DeserializeObject<PriceHistory>(responseContent) : null;
+
+            SetQueryResult(priceHistory.ErrorID, priceHistory.ErrorDescription);
+            return priceHistory;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new PriceHistory()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message,
+            };
+        }
+
+    }
 }

@@ -22,11 +22,16 @@ public class Rate
     public double? Close { get; set; }
 
     [JsonProperty("REAL_VOLUME")]
-    public int? RealVolume { get; set; }
+    public double RealVolume { get; set; }
 
     [JsonProperty("TICK_VOLUME")]
-    public int? TickVolume { get; set; }
+    public double TickVolume { get; set; }
 
     [JsonProperty("SPREAD")]
-    public int? Spread { get; set; }
+    public double Spread { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }
