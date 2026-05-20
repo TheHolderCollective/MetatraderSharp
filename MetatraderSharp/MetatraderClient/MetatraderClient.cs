@@ -12,6 +12,8 @@ public partial class MetatraderClient
 
     #region Properties
 
+    public QueryStatus LastQueryStatus { get; private set; }
+    public string LastQueryMessage { get; private set; }
     public string WebSocketPort { get; set; }
     public HttpClient? Client
     {
@@ -30,7 +32,7 @@ public partial class MetatraderClient
         WebSocketPort = "81";
     }
 
-    public Account? GetAccountInfo()
+    public Account GetAccountInfo()
     {
         return GetAccountInfoAsync().Result;
     }
@@ -45,9 +47,17 @@ public partial class MetatraderClient
         return GetSymbolListResponseAsync().Result;
     }
 
-    public List<Symbol>? GetSymbolList()
+    public List<Symbol> GetSymbolList()
     {
-        return GetSymbolListResponseAsync().Result.Symbols;
-    }
+        var response = GetSymbolListResponseAsync();
 
+        if (response.Result.ErrorID == 0)
+        {
+            return response.Result.Symbols;
+        }
+        else
+        {
+            return new List<Symbol>();
+        }
+    }
 }
