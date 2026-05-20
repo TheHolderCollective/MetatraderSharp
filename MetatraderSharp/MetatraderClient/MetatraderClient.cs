@@ -12,6 +12,7 @@ public partial class MetatraderClient
 
     #region Properties
 
+    public bool IsStatusOK { get; private set; }
     public QueryStatus LastQueryStatus { get; private set; }
     public string LastQueryMessage { get; private set; }
     public string WebSocketPort { get; set; }
@@ -27,9 +28,9 @@ public partial class MetatraderClient
 
     public MetatraderClient()
     {
-        _partialURI = "http://127.0.0.1";
-        _client = new HttpClient();
-        WebSocketPort = "81";
+        SetupRequestUriComponents();
+        SetupHttpClient();
+        VerifyHttpStatus();
     }
 
     public Account GetAccountInfo()

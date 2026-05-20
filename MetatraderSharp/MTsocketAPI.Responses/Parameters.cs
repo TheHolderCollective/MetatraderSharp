@@ -1,6 +1,6 @@
 ﻿namespace MetatraderSharp.MTsocketAPI.Responses;
 
-public class TimeFrame
+public static class TimeFrameMT4
 {
     public const string PERIOD_M1 = "PERIOD_M1";
     public const string PERIOD_M5 = "PERIOD_M5";
@@ -13,7 +13,7 @@ public class TimeFrame
     public const string PERIOD_MN1 = "PERIOD_MN1";
 }
 
-public class OrderType
+public static class OrderType
 {
     public const string ORDER_TYPE_BUY = "ORDER_TYPE_BUY";
     public const string ORDER_TYPE_SELL = "ORDER_TYPE_SELL";

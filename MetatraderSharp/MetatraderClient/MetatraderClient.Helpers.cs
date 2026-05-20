@@ -1,7 +1,39 @@
-﻿namespace MetatraderSharp;
+﻿using System;
+
+namespace MetatraderSharp;
 
 public partial class MetatraderClient
 {
+    #region Helpers - Constructor
+
+    private void SetupRequestUriComponents()
+    {
+        _partialURI = "http://127.0.0.1";
+        WebSocketPort = "81";
+    }
+
+    private void SetupHttpClient()
+    {
+        _client = new HttpClient();
+    }
+
+    private void VerifyHttpStatus()
+    {
+        try
+        {
+            string url = $"{_partialURI}:{WebSocketPort}";
+            var response = _client.GetAsync(url).Result;
+            IsStatusOK = response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            IsStatusOK = false;
+        }
+    }
+    #endregion
+
+    #region Helpers - Error Handling
+
     private void SetQueryResult(int errorID, string errorDescription)
     {
         switch (errorID)
@@ -15,4 +47,6 @@ public partial class MetatraderClient
         }
         LastQueryMessage = errorDescription;
     }
+
+    #endregion
 }
