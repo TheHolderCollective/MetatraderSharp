@@ -60,4 +60,9 @@ public partial class MetatraderClient
             return new List<Symbol>();
         }
     }
+
+    public Quote GetQuote(string symbol)
+    {
+        return GetQuoteAsync(symbol).Result;
+    }
 }

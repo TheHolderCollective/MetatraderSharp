@@ -76,4 +76,27 @@ public partial class MetatraderClient
         }
     }
 
+    private async Task<Quote> GetQuoteAsync(string symbol)
+    {
+        try
+        {
+            var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/quote?symbol={symbol}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var quote = (responseContent != null) ? JsonConvert.DeserializeObject<Quote>(responseContent) : null;
+
+            SetQueryResult(quote.ErrorID, quote.ErrorDescription);
+            return quote;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new Quote()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message,
+            };
+        }
+    }
 }

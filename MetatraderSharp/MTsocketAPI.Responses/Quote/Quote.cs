@@ -4,7 +4,7 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 /// <summary>
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/Quote
 /// </summary>
-public class GetQuote
+public class Quote
 {
     [JsonProperty("MSG")]
     public string Msg { get; set; }
@@ -32,6 +32,11 @@ public class GetQuote
 
     [JsonProperty("ERROR_DESCRIPTION")]
     public string ErrorDescription { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }
 
 
