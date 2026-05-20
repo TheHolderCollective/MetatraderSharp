@@ -3,17 +3,25 @@ namespace MetatraderSharp;
 
 public partial class MetatraderClient
 {
+    #region Fields
+
     private HttpClient _client;
     private string _partialURI;
-    public string WebSocketPort { get; set;}
 
-    public HttpClient? Client 
-    { 
+    #endregion
+
+    #region Properties
+
+    public string WebSocketPort { get; set; }
+    public HttpClient? Client
+    {
         set
         {
             _client = value;
         }
     }
+
+    #endregion
 
     public MetatraderClient()
     {
@@ -21,7 +29,7 @@ public partial class MetatraderClient
         _client = new HttpClient();
         WebSocketPort = "81";
     }
-    
+
     public Account? GetAccountInfo()
     {
         return GetAccountInfoAsync().Result;

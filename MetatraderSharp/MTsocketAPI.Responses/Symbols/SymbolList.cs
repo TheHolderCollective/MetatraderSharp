@@ -13,7 +13,7 @@ public class SymbolList
     public List<Symbol> Symbols { get; set; }
 
     [JsonProperty("ERROR_ID")]
-    public int ERRORID { get; set; }
+    public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
     public string ErrorDescription { get; set; }

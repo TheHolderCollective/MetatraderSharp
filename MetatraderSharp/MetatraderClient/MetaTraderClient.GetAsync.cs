@@ -6,36 +6,68 @@ public partial class MetatraderClient
 {
     private async Task<Account?> GetAccountInfoAsync()
     {
-        var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/account");
-        response.EnsureSuccessStatusCode();
+        try
+        {
+            var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/account");
+            response.EnsureSuccessStatusCode();
 
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var account = (responseContent != null) ? JsonConvert.DeserializeObject<Account>(responseContent) : null;
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var account = (responseContent != null) ? JsonConvert.DeserializeObject<Account>(responseContent) : null;
 
-        return account;
+            return account;
+        }
+        catch (Exception ex)
+        {
+            return new Account()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message,
+            };
+        }
     }
 
     private async Task<TerminalInfo> GetTerminalInfoAsync()
     {
-        var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/terminal");
-        response.EnsureSuccessStatusCode();
+        try
+        {
+            var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/terminal");
+            response.EnsureSuccessStatusCode();
 
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var terminalInfo = (responseContent != null) ? JsonConvert.DeserializeObject<TerminalInfo>(responseContent) : null;
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var terminalInfo = (responseContent != null) ? JsonConvert.DeserializeObject<TerminalInfo>(responseContent) : null;
 
-        return terminalInfo;
-
+            return terminalInfo;
+        }
+        catch (Exception ex)
+        {
+            return new TerminalInfo()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message,
+            };
+        }
     }
 
     private async Task<SymbolList> GetSymbolListResponseAsync()
     {
-        var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/symbol/list");
-        response.EnsureSuccessStatusCode();
+        try
+        {
+            var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/symbol/list");
+            response.EnsureSuccessStatusCode();
 
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var terminalInfo = (responseContent != null) ? JsonConvert.DeserializeObject<SymbolList>(responseContent) : null;
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var terminalInfo = (responseContent != null) ? JsonConvert.DeserializeObject<SymbolList>(responseContent) : null;
 
-        return terminalInfo;
+            return terminalInfo;
+        }
+        catch (Exception ex)
+        {
+            return new SymbolList()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message,
+            };
+        }
     }
 
 }
