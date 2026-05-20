@@ -51,7 +51,7 @@ public partial class MetatraderClient
     {
         var response = GetSymbolListResponseAsync();
 
-        if (response.Result.ErrorID == 0)
+        if (LastQueryStatus == QueryStatus.OK)
         {
             return response.Result.Symbols;
         }

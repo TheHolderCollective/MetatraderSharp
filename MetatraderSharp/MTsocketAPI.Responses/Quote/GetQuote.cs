@@ -25,7 +25,7 @@ public class GetQuote
     public string Time { get; set; }
 
     [JsonProperty("VOLUME")]
-    public int Volume { get; set; }
+    public double Volume { get; set; }
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }
