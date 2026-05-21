@@ -1,10 +1,5 @@
 ﻿namespace MetatraderSharp.MTsocketAPI.Responses;
 
-public enum TrackingCommand
-{
-    Start,
-    Stop
-}
 public static class TerminalType
 {
     public const string MT4 = "MT4";
