@@ -1,5 +1,15 @@
 ﻿namespace MetatraderSharp.MTsocketAPI.Responses;
 
+public enum TrackingCommand
+{
+    Start,
+    Stop
+}
+public static class TerminalType
+{
+    public const string MT4 = "MT4";
+    public const string MT5 = "MT5";
+}
 public static class TimeFrameMT4
 {
     public const string PERIOD_M1 = "PERIOD_M1";

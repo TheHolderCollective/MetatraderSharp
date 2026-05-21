@@ -23,11 +23,11 @@ public partial class MetatraderClient
         {
             string url = $"{_partialURI}:{WebSocketPort}";
             var response = _client.GetAsync(url).Result;
-            IsStatusOK = response.IsSuccessStatusCode;
+            StatusIsOK = response.IsSuccessStatusCode;
         }
         catch (Exception ex)
         {
-            IsStatusOK = false;
+            StatusIsOK = false;
         }
     }
     #endregion

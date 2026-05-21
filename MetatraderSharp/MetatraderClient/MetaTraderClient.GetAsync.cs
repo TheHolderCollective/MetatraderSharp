@@ -1,5 +1,6 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses;
 using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace MetatraderSharp;
 
 public partial class MetatraderClient
@@ -124,4 +125,52 @@ public partial class MetatraderClient
         }
 
     }
+
+    private async Task<TrackPricesResponse> TrackPricesAsync(TrackingCommand trackCommand, string symbol1 = "", string symbol2 = "", string symbol3 = "", string symbol4 = "", string symbol5 = "")
+    {
+        try
+        {
+            string symbols = "";
+
+            switch (trackCommand)
+            {
+                case TrackingCommand.Start:
+                    symbols = $"symbols={symbol1}&symbols={symbol2}&symbols={symbol3}&symbols={symbol4}&symbols={symbol5}";
+                    break;
+                case TrackingCommand.Stop:
+                    symbols = $"symbols=";
+                    break;
+            }
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri($"{_partialURI}:{WebSocketPort}/v1/track/prices?{symbols}"),
+                Headers =
+                {
+                    {"Accept","application/json" }
+                }
+            };
+
+            var response = await _client.SendAsync(request); 
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackPricesResponse>(responseContent) : null;
+
+            SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
+            return requestResponse;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new TrackPricesResponse()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message,
+            };
+        }
+    }
+
+
 }

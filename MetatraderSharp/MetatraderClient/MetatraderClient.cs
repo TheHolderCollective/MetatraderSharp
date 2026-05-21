@@ -12,7 +12,8 @@ public partial class MetatraderClient
 
     #region Properties
 
-    public bool IsStatusOK { get; private set; }
+    public string TerminalType { get; private set; }
+    public bool StatusIsOK { get; private set; }
     public QueryStatus LastQueryStatus { get; private set; }
     public string LastQueryMessage { get; private set; }
     public string WebSocketPort { get; set; }
@@ -26,8 +27,9 @@ public partial class MetatraderClient
 
     #endregion
 
-    public MetatraderClient()
+    public MetatraderClient(string terminalType)
     {
+        TerminalType = terminalType;
         SetupRequestUriComponents();
         SetupHttpClient();
         VerifyHttpStatus();
@@ -84,6 +86,10 @@ public partial class MetatraderClient
         {
             return new List<Rate>();
         }
+    }
 
+    public TrackPricesResponse PriceTracker(TrackingCommand trackCommand, string symbol1 = "", string symbol2 = "", string symbol3 = "", string symbol4 = "", string symbol5 = "")
+    {
+        return TrackPricesAsync(trackCommand, symbol1, symbol2, symbol3, symbol4, symbol5).Result;
     }
 }

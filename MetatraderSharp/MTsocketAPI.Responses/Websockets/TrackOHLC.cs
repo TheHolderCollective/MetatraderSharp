@@ -4,17 +4,54 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 /// <summary>
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/TrackOHLC
 /// </summary>
+
 public class TrackOHLC
 {
     [JsonProperty("MSG")]
     public string Msg { get; set; }
 
-    [JsonProperty("SUCCESS")]
-    public List<string> Success { get; set; }
+    [JsonProperty("SYMBOL")]
+    public string Symbol { get; set; }
 
-    [JsonProperty("ERROR_ID")]
-    public int ErrorID { get; set; }
+    [JsonProperty("PERIOD")]
+    public string Period { get; set; }
 
-    [JsonProperty("ERROR_DESCRIPTION")]
-    public string ErrorDescription { get; set; }
+    [JsonProperty("OHLC")]
+    public List<OHLC> OHLCs { get; set; }
+
+    [JsonProperty("DEMO")]
+    public string Demo { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }
+
+public class OHLC
+{
+    [JsonProperty("TIME")]
+    public string Time { get; set; }
+
+    [JsonProperty("OPEN")]
+    public double Open { get; set; }
+
+    [JsonProperty("HIGH")]
+    public double High { get; set; }
+
+    [JsonProperty("LOW")]
+    public double Low { get; set; }
+
+    [JsonProperty("CLOSE")]
+    public double Close { get; set; }
+
+    [JsonProperty("TICK_VOLUME")]
+    public int TickVolume { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
+}
+
+

@@ -4,17 +4,33 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 /// <summary>
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/TrackPrices
 /// </summary>
+/// 
+
 public class TrackPrices
 {
     [JsonProperty("MSG")]
     public string Msg { get; set; }
 
-    [JsonProperty("SUCCESS")]
-    public List<string> Success { get; set; }
+    [JsonProperty("TIME")]
+    public string Time { get; set; }
 
-    [JsonProperty("ERROR_ID")]
-    public int ErrorID { get; set; }
+    [JsonProperty("SYMBOL")]
+    public string Symbol { get; set; }
 
-    [JsonProperty("ERROR_DESCRIPTION")]
-    public string ErrorDescription { get; set; }
+    [JsonProperty("ASK")]
+    public double Ask { get; set; }
+
+    [JsonProperty("BID")]
+    public double Bid { get; set; }
+
+    [JsonProperty("VOLUME")]
+    public double Volume { get; set; }
+
+    [JsonProperty("DEMO")]
+    public string Demo { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }
