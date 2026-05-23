@@ -1,21 +1,17 @@
 ﻿using Newtonsoft.Json;
 namespace MetatraderSharp.MTsocketAPI.Responses;
 
-/// <summary>
-/// https://www.mtsocketapi.com/restapi_mt4.html#/operations/HistoryOrders
-/// </summary>
-public class OrderHistory
+public class Calendar
 {
     [JsonProperty("MSG")]
     public string Msg { get; set; }
 
-    [JsonProperty("TRADES")]
-    public List<Trade> Trades { get; set; }
+    [JsonProperty("EVENTS")]
+    public List<Event> Events { get; set; }
 
     [JsonProperty("ERROR_ID")]
-    public int? ErrorID { get; set; }
+    public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
     public string ErrorDescription { get; set; }
 }
-
