@@ -1,7 +1,7 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses;
-namespace MetatraderSharp;
+namespace MetatraderSharp.MetatraderClient;
 
-public partial class MetatraderClient
+public partial class MT4Client
 {
     #region Fields
 
@@ -12,10 +12,10 @@ public partial class MetatraderClient
 
     #region Properties
 
-    public string TerminalType { get; private set; }
-    public bool StatusIsOK { get; private set; }
-    public QueryStatus LastQueryStatus { get; private set; }
-    public string LastQueryMessage { get; private set; }
+    public string TerminalType { get; protected set; }
+    public bool StatusIsOK { get; protected set; }
+    public QueryStatus LastQueryStatus { get; protected set; }
+    public string LastQueryMessage { get; protected set; }
     public string WebSocketPort { get; set; }
     public HttpClient? Client
     {
@@ -27,9 +27,9 @@ public partial class MetatraderClient
 
     #endregion
 
-    public MetatraderClient(string terminalType)
+    public MT4Client()
     {
-        TerminalType = terminalType;
+        TerminalType = MetatraderTerminalType.MT4;
         SetupRequestUriComponents();
         SetupHttpClient();
         VerifyHttpStatus();

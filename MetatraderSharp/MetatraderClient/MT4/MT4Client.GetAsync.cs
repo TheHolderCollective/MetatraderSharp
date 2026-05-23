@@ -1,9 +1,8 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses;
 using Newtonsoft.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-namespace MetatraderSharp;
+namespace MetatraderSharp.MetatraderClient;
 
-public partial class MetatraderClient
+public partial class MT4Client
 {
     private async Task<Account> GetAccountInfoAsync()
     {

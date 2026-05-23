@@ -1,6 +1,6 @@
 ﻿namespace MetatraderSharp.MTsocketAPI.Responses;
 
-public static class TerminalType
+public static class MetatraderTerminalType
 {
     public const string MT4 = "MT4";
     public const string MT5 = "MT5";

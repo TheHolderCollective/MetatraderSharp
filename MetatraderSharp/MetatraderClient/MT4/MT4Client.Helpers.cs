@@ -1,8 +1,7 @@
 ﻿using System;
+namespace MetatraderSharp.MetatraderClient;
 
-namespace MetatraderSharp;
-
-public partial class MetatraderClient
+public partial class MT4Client
 {
     #region Helpers - Constructor
 
