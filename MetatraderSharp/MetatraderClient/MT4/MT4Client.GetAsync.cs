@@ -4,7 +4,7 @@ namespace MetatraderSharp.MetatraderClient;
 
 public partial class MT4Client
 {
-    private async Task<Account> GetAccountInfoAsync()
+    public async Task<Account> GetAccountInfoAsync()
     {
         try
         {
@@ -28,7 +28,7 @@ public partial class MT4Client
         }
     }
 
-    private async Task<TerminalInfo> GetTerminalInfoAsync()
+    public async Task<TerminalInfo> GetTerminalInfoAsync()
     {
         try
         {
@@ -52,7 +52,7 @@ public partial class MT4Client
         }
     }
 
-    private async Task<SymbolList> GetSymbolListResponseAsync()
+    public async Task<SymbolList> GetSymbolListResponseAsync()
     {
         try
         {
@@ -76,7 +76,7 @@ public partial class MT4Client
         }
     }
 
-    private async Task<Quote> GetQuoteAsync(string symbol)
+    public async Task<Quote> GetQuoteAsync(string symbol)
     {
         try
         {
@@ -100,7 +100,7 @@ public partial class MT4Client
         }
     }
 
-    private async Task<PriceHistory> GetPriceHistoryAsync(string symbol, string timeFrame, string fromDate, string toDate)
+    public async Task<PriceHistory> GetPriceHistoryAsync(string symbol, string timeFrame, string fromDate, string toDate)
     {
         try
         {
@@ -125,7 +125,7 @@ public partial class MT4Client
 
     }
 
-    private async Task<TrackPricesResponse> TrackPricesAsync(TrackingCommand trackCommand, string symbol1 = "", string symbol2 = "", string symbol3 = "", string symbol4 = "", string symbol5 = "")
+    public async Task<TrackPricesResponse> TrackPricesAsync(TrackingCommand trackCommand, string symbol1 = "", string symbol2 = "", string symbol3 = "", string symbol4 = "", string symbol5 = "")
     {
         try
         {
@@ -170,6 +170,4 @@ public partial class MT4Client
             };
         }
     }
-
-
 }
