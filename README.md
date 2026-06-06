@@ -4,7 +4,7 @@ MetatraderSharp is wrapper library which aims to simplify the use of the MTsocke
 
 ## Project Status
 
-[05/06/2026] - Still under development.
+[05-Jun-2026] - Still under development.
 
 ## Usage Requirements
 Successful usuage of the MeratraderSharp library requires:
