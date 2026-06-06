@@ -1,6 +1,10 @@
 ## MetatraderSharp
 
-MetatraderSharp is wrapper library developed to simplify the use of the MTsocketAPI.
+MetatraderSharp is wrapper library which aims to simplify the use of the MTsocketAPI.
+
+## Project Status
+
+[05/06/2026] - Still under development.
 
 ## Usage Requirements
 Successful usuage of the MeratraderSharp library requires:
