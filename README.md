@@ -7,7 +7,7 @@ MetatraderSharp is wrapper library which aims to simplify the use of the MTsocke
 [05-Jun-2026] - Still under development.
 
 ## Usage Requirements
-Successful usuage of the MeratraderSharp library requires:
+Successful usuage of the MetatraderSharp library requires:
 - Metatrader 4/Metratrader 5 to be installed 
 - a version of the MTsocketAPI installed in your Metatrader
 
