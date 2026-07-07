@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using MetatraderSharp.MTsocketAPI.Responses;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
-namespace MetatraderSharp.MetatraderClient.MT4;
+namespace MetatraderSharp.MetatraderClient;
 
 public class MT4Client : MetatraderClient
 {
@@ -33,30 +33,6 @@ public class MT4Client : MetatraderClient
         }
     }
 
-    public async Task<TerminalInfo> GetTerminalInfoAsync()
-    {
-        try
-        {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/terminal");
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var terminalInfo = (responseContent != null) ? JsonConvert.DeserializeObject<TerminalInfo>(responseContent) : null;
-
-            SetQueryResult(terminalInfo.ErrorID, terminalInfo.ErrorDescription);
-            return terminalInfo;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(-1, ex.Message);
-            return new TerminalInfo()
-            {
-                ErrorID = -1,
-                ErrorDescription = ex.Message,
-            };
-        }
-    }
-
     public async Task<SymbolList> GetSymbolListResponseAsync()
     {
         try
@@ -74,30 +50,6 @@ public class MT4Client : MetatraderClient
         {
             SetQueryResult(-1, ex.Message);
             return new SymbolList()
-            {
-                ErrorID = -1,
-                ErrorDescription = ex.Message,
-            };
-        }
-    }
-
-    public async Task<Quote> GetQuoteAsync(string symbol)
-    {
-        try
-        {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/quote?symbol={symbol}");
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var quote = (responseContent != null) ? JsonConvert.DeserializeObject<Quote>(responseContent) : null;
-
-            SetQueryResult(quote.ErrorID, quote.ErrorDescription);
-            return quote;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(-1, ex.Message);
-            return new Quote()
             {
                 ErrorID = -1,
                 ErrorDescription = ex.Message,
@@ -127,7 +79,6 @@ public class MT4Client : MetatraderClient
                 ErrorDescription = ex.Message,
             };
         }
-
     }
 
     public async Task<TrackPricesResponse> TrackPricesAsync(TrackingCommand trackCommand, string symbol1 = "", string symbol2 = "", string symbol3 = "", string symbol4 = "", string symbol5 = "")

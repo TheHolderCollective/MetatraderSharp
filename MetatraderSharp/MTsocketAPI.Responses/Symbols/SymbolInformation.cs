@@ -54,15 +54,30 @@ public class SymbolInformation
     [JsonProperty("POINT")]
     public double? Point { get; set; }
 
+    // MT4 Only
     [JsonProperty("SYMBOL_TRADE_TICK_VALUE")]
     public int? SymbolTradeTickValue { get; set; }
 
+    // MT4 Only
     [JsonProperty("SYMBOL_TRADE_TICK_VALUE_PROFIT")]
     public int? SymbolTradeTickValueProfit { get; set; }
 
+    // MT4 Only
     [JsonProperty("SYMBOL_TRADE_TICK_VALUE_LOSS")]
     public int? SymbolTradeTickValueLoss { get; set; }
+    
+    // MT5 Only
+    [JsonProperty("TRADE_TICK_VALUE")]
+    public int TRADE_TICK_VALUE { get; set; }
 
+    // MT5 Only
+    [JsonProperty("TRADE_TICK_VALUE_PROFIT")]
+    public int TRADE_TICK_VALUE_PROFIT { get; set; }
+    
+    // MT5 Only
+    [JsonProperty("TRADE_TICK_VALUE_LOSS")]
+    public int TRADE_TICK_VALUE_LOSS { get; set; }
+    
     [JsonProperty("TRADE_TICK_SIZE")]
     public double? TradeTickSize { get; set; }
 
@@ -78,8 +93,13 @@ public class SymbolInformation
     [JsonProperty("VOLUME_STEP")]
     public double? VolumeStep { get; set; }
 
+    // MT4 Only
     [JsonProperty("SYMBOL_VOLUME_LIMIT")]
     public int? SymbolVolumeLimit { get; set; }
+
+    // MT5 Only
+    [JsonProperty("VOLUME_LIMIT")]
+    public int VOLUME_LIMIT { get; set; }
 
     [JsonProperty("SWAP_LONG")]
     public double? SwapLong { get; set; }

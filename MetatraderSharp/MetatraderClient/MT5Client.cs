@@ -1,9 +1,11 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses;
-namespace MetatraderSharp.MetatraderClient.MT4;
+using Newtonsoft.Json;
+namespace MetatraderSharp.MetatraderClient;
 
 public class MT5Client: MetatraderClient
 {
     public MT5Client() : base(MetatraderTerminalType.MT5)
     {
     }
+
 }

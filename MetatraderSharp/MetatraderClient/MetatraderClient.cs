@@ -1,4 +1,7 @@
-﻿namespace MetatraderSharp.MetatraderClient;
+﻿using MetatraderSharp.MTsocketAPI.Responses;
+using Newtonsoft.Json;
+
+namespace MetatraderSharp.MetatraderClient;
 
 public abstract class MetatraderClient
 {
@@ -26,6 +29,54 @@ public abstract class MetatraderClient
         SetupRequestUriComponents();
         SetupHttpClient();
         VerifyHttpStatus();
+    }
+
+    public async Task<TerminalInfo> GetTerminalInfoAsync()
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/terminal");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var terminalInfo = (responseContent != null) ? JsonConvert.DeserializeObject<TerminalInfo>(responseContent) : null;
+
+            SetQueryResult(terminalInfo.ErrorID, terminalInfo.ErrorDescription);
+            return terminalInfo;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new TerminalInfo()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message,
+            };
+        }
+    }
+
+    public async Task<Quote> GetQuoteAsync(string symbol)
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/quote?symbol={symbol}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var quote = (responseContent != null) ? JsonConvert.DeserializeObject<Quote>(responseContent) : null;
+
+            SetQueryResult(quote.ErrorID, quote.ErrorDescription);
+            return quote;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new Quote()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message,
+            };
+        }
     }
 
     #region Helpers - Constructor
