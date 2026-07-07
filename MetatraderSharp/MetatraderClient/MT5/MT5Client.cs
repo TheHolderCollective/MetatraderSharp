@@ -1,12 +1,9 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses;
+namespace MetatraderSharp.MetatraderClient.MT4;
 
-namespace MetatraderSharp.MetatraderClient;
-
-public class MT5Client: MT4Client
+public class MT5Client: MetatraderClient
 {
-    public MT5Client (): base()
+    public MT5Client() : base(MetatraderTerminalType.MT5)
     {
-        TerminalType = MetatraderTerminalType.MT5;
     }
-
 }

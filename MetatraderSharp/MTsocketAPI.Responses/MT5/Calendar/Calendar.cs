@@ -1,5 +1,6 @@
-﻿using Newtonsoft.Json;
-namespace MetatraderSharp.MTsocketAPI.Responses;
+﻿using MetatraderSharp.MTsocketAPI.Responses.MT5.Calendar.Definitions;
+using Newtonsoft.Json;
+namespace MetatraderSharp.MTsocketAPI.Responses.MT5.Calendar;
 
 public class Calendar
 {

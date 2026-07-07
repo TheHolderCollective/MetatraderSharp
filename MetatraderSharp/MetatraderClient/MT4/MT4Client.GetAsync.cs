@@ -1,6 +1,7 @@
-﻿using MetatraderSharp.MTsocketAPI.Responses;
-using Newtonsoft.Json;
-namespace MetatraderSharp.MetatraderClient;
+﻿using Newtonsoft.Json;
+using MetatraderSharp.MTsocketAPI.Responses;
+using MetatraderSharp.MTsocketAPI.Responses.MT4;
+namespace MetatraderSharp.MetatraderClient.MT4;
 
 public partial class MT4Client
 {
@@ -8,7 +9,7 @@ public partial class MT4Client
     {
         try
         {
-            var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/account");
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/account");
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -32,7 +33,7 @@ public partial class MT4Client
     {
         try
         {
-            var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/terminal");
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/terminal");
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -56,7 +57,7 @@ public partial class MT4Client
     {
         try
         {
-            var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/symbol/list");
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/symbol/list");
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -80,7 +81,7 @@ public partial class MT4Client
     {
         try
         {
-            var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/quote?symbol={symbol}");
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/quote?symbol={symbol}");
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -104,7 +105,7 @@ public partial class MT4Client
     {
         try
         {
-            var response = await _client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/prices?symbol={symbol}&timeframe={timeFrame}&from_date={fromDate}&to_date={toDate}");
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/prices?symbol={symbol}&timeframe={timeFrame}&from_date={fromDate}&to_date={toDate}");
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -151,7 +152,7 @@ public partial class MT4Client
                 }
             };
 
-            var response = await _client.SendAsync(request); 
+            var response = await Client.SendAsync(request); 
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();

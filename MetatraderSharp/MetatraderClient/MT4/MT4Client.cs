@@ -1,38 +1,9 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses;
-namespace MetatraderSharp.MetatraderClient;
+namespace MetatraderSharp.MetatraderClient.MT4;
 
-public partial class MT4Client
+public partial class MT4Client : MetatraderClient
 {
-    #region Fields
-
-    private HttpClient _client;
-    private string _partialURI;
-
-    #endregion
-
-    #region Properties
-
-    public string TerminalType { get; protected set; }
-    public bool StatusIsOK { get; protected set; }
-    public QueryStatus LastQueryStatus { get; protected set; }
-    public string LastQueryMessage { get; protected set; }
-    public string WebSocketPort { get; set; }
-    public HttpClient? Client
+    public MT4Client(): base(MetatraderTerminalType.MT4)
     {
-        set
-        {
-            _client = value;
-        }
     }
-
-    #endregion
-
-    public MT4Client()
-    {
-        TerminalType = MetatraderTerminalType.MT4;
-        SetupRequestUriComponents();
-        SetupHttpClient();
-        VerifyHttpStatus();
-    }
-
 }

@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-namespace MetatraderSharp.MTsocketAPI.Responses;
+namespace MetatraderSharp.MTsocketAPI.Responses.MT5.Calendar.Definitions;
 public class Event
 {
     [JsonProperty("TIME")]
