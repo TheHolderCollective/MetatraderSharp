@@ -44,6 +44,23 @@ public static class TimeframesMT5
     public const string Period_MN = "PERIOD_MN1";
 }
 
+public static class AppliedPrice
+{
+    public const string Price_Open = "PRICE_OPEN";
+    public const string Price_Close = "PRICE_CLOSE";
+    public const string Price_High = "PRICE_HIGH";
+    public const string Price_Low = "PRICE_LOW";
+    public const string Price_Weighted = "PRICE_WEIGHTED";
+}
+
+public static class MA_Method
+{
+    public const string Mode_SMA = "MODE_SMA";
+    public const string Mode_EMA = "MODE_EMA";
+    public const string Mode_SMMA = "MODE_SMMA";
+    public const string Mode_LVMA = "MODE_LWMA";
+}
+
 public static class OrderType
 {
     public const string ORDER_TYPE_BUY = "ORDER_TYPE_BUY";
