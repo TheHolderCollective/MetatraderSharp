@@ -1,5 +1,0 @@
-﻿namespace MetatraderSharp.MTsocketAPI.Responses;
-
-
-
-
