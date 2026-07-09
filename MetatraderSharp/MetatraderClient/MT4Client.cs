@@ -57,6 +57,31 @@ public class MT4Client : MetatraderClient
         }
     }
 
+    public async Task<SymbolInformation> GetSymbolInformationResponseAsync(string symbol)
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/symbol/info?symbol={symbol}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var symbolInfo = (responseContent != null) ? JsonConvert.DeserializeObject<SymbolInformation>(responseContent) : null;
+
+            SetQueryResult(symbolInfo.ErrorID, symbolInfo.ErrorDescription);
+            return symbolInfo;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new SymbolInformation()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message,
+            };
+
+        }
+    }
+
     public async Task<PriceHistory> GetPriceHistoryAsync(string symbol, string timeFrame, string fromDate, string toDate)
     {
         try

@@ -52,31 +52,31 @@ public class SymbolInformation
     public double? Point { get; set; }
 
     [JsonProperty("TRADE_TICK_VALUE")]
-    public int? TradeTickValue { get; set; }
+    public double? TradeTickValue { get; set; }
 
     [JsonProperty("TRADE_TICK_VALUE_PROFIT")]
-    public int? TradeTickValueProfit { get; set; }
+    public double? TradeTickValueProfit { get; set; }
 
     [JsonProperty("TRADE_TICK_VALUE_LOSS")]
-    public int? TradeTickValueLoss { get; set; }
+    public double? TradeTickValueLoss { get; set; }
 
     [JsonProperty("TRADE_TICK_SIZE")]
     public double? TradeTickSize { get; set; }
 
     [JsonProperty("TRADE_CONTRACT_SIZE")]
-    public int? TradeContractSize { get; set; }
+    public double? TradeContractSize { get; set; }
 
     [JsonProperty("VOLUME_MIN")]
     public double? VolumeMin { get; set; }
 
     [JsonProperty("VOLUME_MAX")]
-    public int? VolumeMax { get; set; }
+    public double? VolumeMax { get; set; }
 
     [JsonProperty("VOLUME_STEP")]
     public double? VolumeStep { get; set; }
 
     [JsonProperty("VOLUME_LIMIT")]
-    public int? VolumeLimit { get; set; }
+    public double? VolumeLimit { get; set; }
 
     [JsonProperty("SWAP_LONG")]
     public double? SwapLong { get; set; }
@@ -85,10 +85,10 @@ public class SymbolInformation
     public double? SwapShort { get; set; }
 
     [JsonProperty("MARGIN_INITIAL")]
-    public int? MarginInitial { get; set; }
+    public double? MarginInitial { get; set; }
 
     [JsonProperty("MARGIN_MAINTENANCE")]
-    public int? MarginMaintenance { get; set; }
+    public double? MarginMaintenance { get; set; }
 
     [JsonProperty("CURRENCY_BASE")]
     public string CurrencyBase { get; set; }

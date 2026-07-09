@@ -55,31 +55,31 @@ public class SymbolInformation
     public double? Point { get; set; }
     
     [JsonProperty("SYMBOL_TRADE_TICK_VALUE")]
-    public int? SymbolTradeTickValue { get; set; }
+    public double? SymbolTradeTickValue { get; set; }
 
     [JsonProperty("SYMBOL_TRADE_TICK_VALUE_PROFIT")]
-    public int? SymbolTradeTickValueProfit { get; set; }
+    public double? SymbolTradeTickValueProfit { get; set; }
     
     [JsonProperty("SYMBOL_TRADE_TICK_VALUE_LOSS")]
-    public int? SymbolTradeTickValueLoss { get; set; }
+    public double? SymbolTradeTickValueLoss { get; set; }
     
     [JsonProperty("TRADE_TICK_SIZE")]
     public double? TradeTickSize { get; set; }
 
     [JsonProperty("TRADE_CONTRACT_SIZE")]
-    public int? TradeContractSize { get; set; }
+    public double? TradeContractSize { get; set; }
 
     [JsonProperty("VOLUME_MIN")]
     public double? VolumeMin { get; set; }
 
     [JsonProperty("VOLUME_MAX")]
-    public int? VolumeMax { get; set; }
+    public double? VolumeMax { get; set; }
 
     [JsonProperty("VOLUME_STEP")]
     public double? VolumeStep { get; set; }
 
     [JsonProperty("SYMBOL_VOLUME_LIMIT")]
-    public int? SymbolVolumeLimit { get; set; }
+    public double? SymbolVolumeLimit { get; set; }
 
     [JsonProperty("SWAP_LONG")]
     public double? SwapLong { get; set; }
@@ -88,10 +88,10 @@ public class SymbolInformation
     public double? SwapShort { get; set; }
 
     [JsonProperty("MARGIN_INITIAL")]
-    public int? MarginInitial { get; set; }
+    public double? MarginInitial { get; set; }
 
     [JsonProperty("MARGIN_MAINTENANCE")]
-    public int? MarginMaintenance { get; set; }
+    public double? MarginMaintenance { get; set; }
 
     [JsonProperty("CURRENCY_BASE")]
     public string CurrencyBase { get; set; }
@@ -115,10 +115,15 @@ public class SymbolInformation
     public List<SessionTrade> SessionTrade { get; set; }
 
     [JsonProperty("ERROR_ID")]
-    public int? ErrorID { get; set; }
+    public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
     public string ErrorDescription { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }
 
 
