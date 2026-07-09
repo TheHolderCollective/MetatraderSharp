@@ -112,7 +112,7 @@ public class SymbolInformation
     public List<SessionTrade> SessionTrade { get; set; }
 
     [JsonProperty("ERROR_ID")]
-    public int? ErrorID { get; set; }
+    public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
     public string ErrorDescription { get; set; }
