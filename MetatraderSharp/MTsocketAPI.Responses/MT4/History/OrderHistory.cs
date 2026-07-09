@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
-namespace MetatraderSharp.MTsocketAPI.Responses;
+namespace MetatraderSharp.MTsocketAPI.Responses.MT4;
 
 /// <summary>
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/HistoryOrders
 /// </summary>
-public class MT4OrderHistory
+public class OrderHistory
 {
     [JsonProperty("MSG")]
     public string Msg { get; set; }
