@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
-namespace MetatraderSharp.MTsocketAPI.Responses;
+namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
-/// <summary>
-/// https://www.mtsocketapi.com/restapi_mt4.html#/operations/SymbolInfo
-/// </summary>
 public class SymbolInformation
 {
     [JsonProperty("MSG")]
@@ -54,30 +51,15 @@ public class SymbolInformation
     [JsonProperty("POINT")]
     public double? Point { get; set; }
 
-    // MT4 Only
-    [JsonProperty("SYMBOL_TRADE_TICK_VALUE")]
-    public int? SymbolTradeTickValue { get; set; }
-
-    // MT4 Only
-    [JsonProperty("SYMBOL_TRADE_TICK_VALUE_PROFIT")]
-    public int? SymbolTradeTickValueProfit { get; set; }
-
-    // MT4 Only
-    [JsonProperty("SYMBOL_TRADE_TICK_VALUE_LOSS")]
-    public int? SymbolTradeTickValueLoss { get; set; }
-    
-    // MT5 Only
     [JsonProperty("TRADE_TICK_VALUE")]
-    public int TRADE_TICK_VALUE { get; set; }
+    public int? TradeTickValue { get; set; }
 
-    // MT5 Only
     [JsonProperty("TRADE_TICK_VALUE_PROFIT")]
-    public int TRADE_TICK_VALUE_PROFIT { get; set; }
-    
-    // MT5 Only
+    public int? TradeTickValueProfit { get; set; }
+
     [JsonProperty("TRADE_TICK_VALUE_LOSS")]
-    public int TRADE_TICK_VALUE_LOSS { get; set; }
-    
+    public int? TradeTickValueLoss { get; set; }
+
     [JsonProperty("TRADE_TICK_SIZE")]
     public double? TradeTickSize { get; set; }
 
@@ -93,13 +75,8 @@ public class SymbolInformation
     [JsonProperty("VOLUME_STEP")]
     public double? VolumeStep { get; set; }
 
-    // MT4 Only
-    [JsonProperty("SYMBOL_VOLUME_LIMIT")]
-    public int? SymbolVolumeLimit { get; set; }
-
-    // MT5 Only
     [JsonProperty("VOLUME_LIMIT")]
-    public int VOLUME_LIMIT { get; set; }
+    public int? VolumeLimit { get; set; }
 
     [JsonProperty("SWAP_LONG")]
     public double? SwapLong { get; set; }
@@ -141,38 +118,3 @@ public class SymbolInformation
     public string ErrorDescription { get; set; }
 }
 
-public class SessionQuote
-{
-    [JsonProperty("MONDAY")]
-    public string Monday { get; set; }
-
-    [JsonProperty("TUESDAY")]
-    public string Tuesday { get; set; }
-
-    [JsonProperty("WEDNESDAY")]
-    public string Wednesday { get; set; }
-
-    [JsonProperty("THURSDAY")]
-    public string Thursday { get; set; }
-
-    [JsonProperty("FRIDAY")]
-    public string Friday { get; set; }
-}
-
-public class SessionTrade
-{
-    [JsonProperty("MONDAY")]
-    public string Monday { get; set; }
-
-    [JsonProperty("TUESDAY")]
-    public string Tuesday { get; set; }
-
-    [JsonProperty("WEDNESDAY")]
-    public string Wednesday { get; set; }
-
-    [JsonProperty("THURSDAY")]
-    public string Thursday { get; set; }
-
-    [JsonProperty("FRIDAY")]
-    public string Friday { get; set; }
-}
