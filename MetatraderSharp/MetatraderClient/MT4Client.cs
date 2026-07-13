@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
-using MetatraderSharp.MTsocketAPI.Responses;
+﻿using MetatraderSharp.MTsocketAPI.Responses;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
+using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace MetatraderSharp.MetatraderClient;
 
 public class MT4Client : MetatraderClient
@@ -198,6 +199,30 @@ public class MT4Client : MetatraderClient
         {
             SetQueryResult(-1, ex.Message);
             return new OrderHistory()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message,
+            };
+        }
+    }
+
+    public async Task<OrderList> GetOrderListAsync()
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/order/list");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderList = (responseContent != null) ? JsonConvert.DeserializeObject<OrderList>(responseContent) : null;
+
+            SetQueryResult(orderList.ErrorID, orderList.ErrorDescription);
+            return orderList;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new OrderList()
             {
                 ErrorID = -1,
                 ErrorDescription = ex.Message,
