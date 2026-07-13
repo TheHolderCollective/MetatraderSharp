@@ -230,4 +230,43 @@ public class MT4Client : MetatraderClient
         }
     }
 
+    public async Task<OrderInfo> GetOrderInfoAsync(long ticketNumber)
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/order/info?ticket={ticketNumber}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            bool ticketNotFound = responseContent.Contains("\"ERROR_ID\":-1"); // this check needs to be done because exception isn't thrown when ticket isn't found
+
+            if (ticketNotFound)
+            {
+                string message = "TICKET not found";
+
+                SetQueryResult(-1, message);
+                return new OrderInfo()
+                {
+                    Msg = "ORDER_INFO",
+                    ErrorID = -1,
+                    ErrorDescription = message,
+                };
+            }
+
+            var orderInfo = (responseContent != null) ? JsonConvert.DeserializeObject<OrderInfo>(responseContent) : null;
+
+            SetQueryResult(orderInfo.ErrorID, orderInfo.ErrorDescription);
+            return orderInfo;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new OrderInfo()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message,
+            };
+        }
+    }
+
 }
