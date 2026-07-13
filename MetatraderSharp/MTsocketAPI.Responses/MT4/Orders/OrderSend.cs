@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-namespace MetatraderSharp.MTsocketAPI.Responses;
+namespace MetatraderSharp.MTsocketAPI.Responses.MT4;
 
 /// <summary>
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/OrderSend

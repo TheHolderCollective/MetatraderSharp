@@ -1,16 +1,19 @@
 ﻿using Newtonsoft.Json;
-namespace MetatraderSharp.MTsocketAPI.Responses;
+namespace MetatraderSharp.MTsocketAPI.Responses.MT4;
 
 /// <summary>
-/// https://www.mtsocketapi.com/restapi_mt4.html#/operations/OrderModify
+/// https://www.mtsocketapi.com/restapi_mt4.html#/operations/OrderClose
 /// </summary>
-public class OrderModify
+public class OrderClose
 {
     [JsonProperty("MSG")]
     public string Msg { get; set; }
 
     [JsonProperty("TICKET")]
     public int? Ticket { get; set; }
+
+    [JsonProperty("TYPE")]
+    public string Type { get; set; }
 
     [JsonProperty("ERROR_ID")]
     public int? ErrorID { get; set; }

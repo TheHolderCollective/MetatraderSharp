@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-namespace MetatraderSharp.MTsocketAPI.Responses;
+namespace MetatraderSharp.MTsocketAPI.Responses.MT4;
 
 /// <summary>
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/OrderList
@@ -34,16 +34,16 @@ public class Trade
     public double? Lots { get; set; }
 
     [JsonProperty("STOP_LOSS")]
-    public int? StopLoss { get; set; }
+    public double? StopLoss { get; set; }
 
     [JsonProperty("TAKE_PROFIT")]
-    public int? TakeProfit { get; set; }
+    public double? TakeProfit { get; set; }
 
     [JsonProperty("SWAP")]
-    public int? Swap { get; set; }
+    public double? Swap { get; set; }
 
     [JsonProperty("COMMISSION")]
-    public int? Commission { get; set; }
+    public double? Commission { get; set; }
 
     [JsonProperty("COMMENT")]
     public object Comment { get; set; }
@@ -53,4 +53,9 @@ public class Trade
 
     [JsonProperty("EXPIRATION")]
     public string Expiration { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }

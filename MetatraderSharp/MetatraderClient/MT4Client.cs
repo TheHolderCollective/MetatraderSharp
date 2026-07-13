@@ -180,6 +180,29 @@ public class MT4Client : MetatraderClient
             };
         }
     }
+    
+    public async Task<OrderHistory> GetOrderHistoryAsync(string fromDate, string toDate)
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/orders?from_date={fromDate}&to_date={toDate}");
+            response.EnsureSuccessStatusCode();
 
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderHistory = (responseContent != null) ? JsonConvert.DeserializeObject<OrderHistory>(responseContent) : null;
+
+            SetQueryResult(orderHistory.ErrorID, orderHistory.ErrorDescription);
+            return orderHistory;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new OrderHistory()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message,
+            };
+        }
+    }
 
 }
