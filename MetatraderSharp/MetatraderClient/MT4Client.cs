@@ -1,7 +1,6 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
 using Newtonsoft.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace MetatraderSharp.MetatraderClient;
 
 public class MT4Client : MetatraderClient
@@ -106,7 +105,7 @@ public class MT4Client : MetatraderClient
         }
     }
 
-    public async Task<AverageTrueRangeIndicator> GetATRValues(int period, int shift, string symbol, string timeframe)
+    public async Task<Indicator> GetATRValues(int period, int shift, string symbol, string timeframe)
     {
         try
         {
@@ -114,7 +113,7 @@ public class MT4Client : MetatraderClient
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var atrIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<AverageTrueRangeIndicator>(responseContent) : null;
+            var atrIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
 
             SetQueryResult(atrIndicator.ErrorID, atrIndicator.ErrorDescription);
             return atrIndicator;
@@ -122,7 +121,7 @@ public class MT4Client : MetatraderClient
         catch (Exception ex)
         {
             SetQueryResult(-1, ex.Message);
-            return new AverageTrueRangeIndicator()
+            return new Indicator()
             {
                 ErrorID = -1,
                 ErrorDescription = ex.Message,
@@ -130,7 +129,7 @@ public class MT4Client : MetatraderClient
         }
     }
 
-    public async Task<MovingAverageIndicator> GetMAValues(string appliedPrice, string ma_Method, int ma_Period,int ma_Shift, string symbol, string timeframe)
+    public async Task<Indicator> GetMAValues(string appliedPrice, string ma_Method, int ma_Period,int ma_Shift, string symbol, string timeframe)
     {
         try
         {
@@ -140,7 +139,7 @@ public class MT4Client : MetatraderClient
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var maIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<MovingAverageIndicator>(responseContent) : null;
+            var maIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
 
             SetQueryResult(maIndicator.ErrorID, maIndicator.ErrorDescription);
             return maIndicator;
@@ -148,7 +147,7 @@ public class MT4Client : MetatraderClient
         catch (Exception ex)
         {
             SetQueryResult(-1, ex.Message);
-            return new MovingAverageIndicator()
+            return new Indicator()
             {
                 ErrorID = -1,
                 ErrorDescription = ex.Message,
@@ -156,7 +155,7 @@ public class MT4Client : MetatraderClient
         }
     }
 
-    public async Task<CustomIndicator> GetCustomIndicatorValues(string indicatorName, int mode, int shift, string symbol,string timeframe, string param1 = "", string param2 = "", string param3 = "", string param4 = "")
+    public async Task<Indicator> GetCustomIndicatorValues(string indicatorName, int mode, int shift, string symbol,string timeframe, string param1 = "", string param2 = "", string param3 = "", string param4 = "")
     {
         try
         {
@@ -166,7 +165,7 @@ public class MT4Client : MetatraderClient
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var customIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<CustomIndicator>(responseContent) : null;
+            var customIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
 
             SetQueryResult(customIndicator.ErrorID, customIndicator.ErrorDescription);
             return customIndicator;
@@ -174,7 +173,7 @@ public class MT4Client : MetatraderClient
         catch (Exception ex)
         {
             SetQueryResult(-1, ex.Message);
-            return new CustomIndicator()
+            return new Indicator()
             {
                 ErrorID = -1,
                 ErrorDescription = ex.Message,

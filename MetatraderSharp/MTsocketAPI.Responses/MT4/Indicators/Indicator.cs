@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 namespace MetatraderSharp.MTsocketAPI.Responses.MT4;
 
-public abstract class Indicator
+public class Indicator
 {
     [JsonProperty("MSG")]
     public string Msg { get; set; }
