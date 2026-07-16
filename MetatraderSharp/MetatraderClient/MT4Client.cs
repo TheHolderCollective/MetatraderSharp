@@ -3,7 +3,7 @@ using MetatraderSharp.MTsocketAPI.Responses.MT4;
 using Newtonsoft.Json;
 namespace MetatraderSharp.MetatraderClient;
 
-public class MT4Client : MetatraderClient
+public partial class MT4Client : MetatraderClient
 {
     public MT4Client() : base(MetatraderTerminalType.MT4)
     {
@@ -28,7 +28,7 @@ public class MT4Client : MetatraderClient
             return new Account()
             {
                 ErrorID = -1,
-                ErrorDescription = ex.Message,
+                ErrorDescription = ex.Message
             };
         }
     }
@@ -52,9 +52,8 @@ public class MT4Client : MetatraderClient
             return new SymbolInformation()
             {
                 ErrorID = -1,
-                ErrorDescription = ex.Message,
+                ErrorDescription = ex.Message
             };
-
         }
     }
 
@@ -100,7 +99,7 @@ public class MT4Client : MetatraderClient
             return new TrackPricesResponse()
             {
                 ErrorID = -1,
-                ErrorDescription = ex.Message,
+                ErrorDescription = ex.Message
             };
         }
     }
@@ -124,12 +123,12 @@ public class MT4Client : MetatraderClient
             return new Indicator()
             {
                 ErrorID = -1,
-                ErrorDescription = ex.Message,
+                ErrorDescription = ex.Message
             };
         }
     }
 
-    public async Task<Indicator> GetMAValues(string appliedPrice, string ma_Method, int ma_Period,int ma_Shift, string symbol, string timeframe)
+    public async Task<Indicator> GetMAValues(string appliedPrice, string ma_Method, int ma_Period, int ma_Shift, string symbol, string timeframe)
     {
         try
         {
@@ -150,12 +149,12 @@ public class MT4Client : MetatraderClient
             return new Indicator()
             {
                 ErrorID = -1,
-                ErrorDescription = ex.Message,
+                ErrorDescription = ex.Message
             };
         }
     }
 
-    public async Task<Indicator> GetCustomIndicatorValues(string indicatorName, int mode, int shift, string symbol,string timeframe, string param1 = "", string param2 = "", string param3 = "", string param4 = "")
+    public async Task<Indicator> GetCustomIndicatorValues(string indicatorName, int mode, int shift, string symbol, string timeframe, string param1 = "", string param2 = "", string param3 = "", string param4 = "")
     {
         try
         {
@@ -176,11 +175,11 @@ public class MT4Client : MetatraderClient
             return new Indicator()
             {
                 ErrorID = -1,
-                ErrorDescription = ex.Message,
+                ErrorDescription = ex.Message
             };
         }
     }
-    
+
     public async Task<OrderHistory> GetOrderHistoryAsync(string fromDate, string toDate)
     {
         try
@@ -200,7 +199,7 @@ public class MT4Client : MetatraderClient
             return new OrderHistory()
             {
                 ErrorID = -1,
-                ErrorDescription = ex.Message,
+                ErrorDescription = ex.Message
             };
         }
     }
@@ -224,7 +223,7 @@ public class MT4Client : MetatraderClient
             return new OrderList()
             {
                 ErrorID = -1,
-                ErrorDescription = ex.Message,
+                ErrorDescription = ex.Message
             };
         }
     }
@@ -248,7 +247,7 @@ public class MT4Client : MetatraderClient
                 {
                     Msg = "ORDER_INFO",
                     ErrorID = -1,
-                    ErrorDescription = message,
+                    ErrorDescription = message
                 };
             }
 
@@ -263,9 +262,169 @@ public class MT4Client : MetatraderClient
             return new OrderInfo()
             {
                 ErrorID = -1,
-                ErrorDescription = ex.Message,
+                ErrorDescription = ex.Message
             };
         }
     }
 
+    /// <summary>
+    /// Used to send market, limit or stop orders to the market.
+    /// </summary>
+    /// <param name="symbol">Symbol name (Check your broker's symbol name format)</param>
+    /// <param name="orderType">Order type</param>
+    /// <param name="volume">Order volume</param>
+    /// <param name="price">Price for limit or stop orders</param>
+    /// <param name="stopLoss">Stop loss</param>
+    /// <param name="takeProfit">Take profit</param>
+    /// <param name="magic">Order magic number</param>
+    /// <param name="comment">Order comment</param>
+    /// <param name="expiration">Order expiration time</param>
+    /// <returns></returns>
+    public async Task<OrderSend> PlaceOrderAsync(string symbol, string orderType, string volume, double price = 0, double stopLoss = 0, double takeProfit = 0, int magic = 0, string comment = "", string expiration = "")
+    {
+        try
+        {
+            string orderParameters = $"symbol={symbol}&volume={volume}&type={orderType}"; //&sl={stopLoss}&tp={takeProfit}&comment={comment}&magic={magic}";
+
+            switch (orderType)
+            {
+                case OrderType.ORDER_TYPE_BUY_LIMIT:
+                case OrderType.ORDER_TYPE_SELL_LIMIT:
+                case OrderType.ORDER_TYPE_BUY_STOP:
+                case OrderType.ORDER_TYPE_SELL_STOP:
+                    orderParameters += $"&price{price}&expiration{expiration}";
+                    break;
+                default:
+                    break;
+            }
+
+            string uri = $"{_partialURI}:{WebSocketPort}/v1/order?symbol={symbol}&volume={volume}&type={orderType}";
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(uri),
+                Headers = { { "Accept", "application/json" } }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderSend>(responseContent) : null;
+
+            SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
+            return orderResponse;
+
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new OrderSend()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
+    public async Task<OrderModify> ModifyOrderAsync(long ticketNumber, string stopLoss, string takeProfit = "", string price = "", string expiration = "")
+    {
+        try
+        {
+            string uri = BuildModifyOrderUri(ticketNumber, stopLoss, takeProfit, price, expiration);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(uri),
+                Headers = { { "Accept", "application/json" } }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderModify>(responseContent) : null;
+
+            SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
+            return orderResponse;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new OrderModify()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
+    public async Task<OrderClose> CloseOrderAsync(long ticketNumber, string volume = null)
+    {
+        try
+        {
+            string uri = $"{_partialURI}:{WebSocketPort}/v1/order/close?ticket={ticketNumber}";
+
+            if (volume != null)
+            {
+                uri = $"{_partialURI}:{WebSocketPort}/v1/order/close?ticket={ticketNumber}&volume={volume}";
+            }
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(uri),
+                Headers = { { "Accept", "application/json" } }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderClose>(responseContent) : null;
+
+            SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
+            return orderResponse;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new OrderClose()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
+    /// <summary>
+    /// Searches for new order ticket created when an order with the given ticket number was partially closed
+    /// Returns 0 if no match found
+    /// </summary>
+    /// <returns></returns>
+    public async Task<long> FindNewTicketNumber(long ticketNumber)
+    {
+        try
+        {
+            string matchTicket = Convert.ToString(ticketNumber);
+            long newTicketNumber = 0;
+
+            OrderList orderList = await GetOrderListAsync();
+
+            List<Trade> trade = orderList.Trades.Where(x => x.Comment.Contains(matchTicket)).ToList<Trade>();
+            if(trade != null)
+            {
+                newTicketNumber = trade[0].Ticket;
+            }
+
+            return newTicketNumber;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return 0;
+        }
+    }
 }

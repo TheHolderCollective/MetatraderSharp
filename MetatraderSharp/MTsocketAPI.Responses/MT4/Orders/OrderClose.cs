@@ -10,14 +10,19 @@ public class OrderClose
     public string Msg { get; set; }
 
     [JsonProperty("TICKET")]
-    public int? Ticket { get; set; }
+    public long Ticket { get; set; }
 
     [JsonProperty("TYPE")]
     public string Type { get; set; }
 
     [JsonProperty("ERROR_ID")]
-    public int? ErrorID { get; set; }
+    public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
     public string ErrorDescription { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }
