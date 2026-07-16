@@ -5,21 +5,21 @@ namespace MetatraderSharp.MetatraderClient;
 
 public partial class MT4Client : MetatraderClient
 {
-    private string BuildModifyOrderUri(long ticketNumber,string stopLoss, string takeProfit, string price, string expiration)
+    private string BuildModifyOrderUri(long ticketNumber,double stopLoss, double takeProfit, double price, string expiration)
     {
         string uri = $"{_partialURI}:{WebSocketPort}/v1/modify?ticket={ticketNumber}&sl={stopLoss}";
 
-        if (takeProfit != "")
+        if (takeProfit != 0.0)
         {
-            uri = uri + $"&tp={takeProfit}";
+            uri += $"&tp={takeProfit}";
         }
-        if (price != "")
+        if (price != 0.0)
         {
-            uri = uri + $"&price={price}";
+            uri += $"&price={price}";
         }
         if (expiration != "")
         {
-            uri = uri + $"&expiration={expiration}";
+            uri += $"&expiration={expiration}";
         }
         return uri;
     }

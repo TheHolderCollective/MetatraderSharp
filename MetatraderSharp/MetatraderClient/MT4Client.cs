@@ -328,7 +328,7 @@ public partial class MT4Client : MetatraderClient
         }
     }
 
-    public async Task<OrderModify> ModifyOrderAsync(long ticketNumber, string stopLoss, string takeProfit = "", string price = "", string expiration = "")
+    public async Task<OrderModify> ModifyOrderAsync(long ticketNumber, double stopLoss, double takeProfit = 0.0, double price = 0.0, string expiration = "")
     {
         try
         {
@@ -361,13 +361,13 @@ public partial class MT4Client : MetatraderClient
         }
     }
 
-    public async Task<OrderClose> CloseOrderAsync(long ticketNumber, string volume = null)
+    public async Task<OrderClose> CloseOrderAsync(long ticketNumber, double volume = 0.0)
     {
         try
         {
             string uri = $"{_partialURI}:{WebSocketPort}/v1/order/close?ticket={ticketNumber}";
 
-            if (volume != null)
+            if (volume != 0.0)
             {
                 uri = $"{_partialURI}:{WebSocketPort}/v1/order/close?ticket={ticketNumber}&volume={volume}";
             }
@@ -411,18 +411,22 @@ public partial class MT4Client : MetatraderClient
             string matchTicket = Convert.ToString(ticketNumber);
             long newTicketNumber = 0;
 
-            OrderList orderList = await GetOrderListAsync();
+            OrderList orderList = await this.GetOrderListAsync();
 
-            List<Trade> trade = orderList.Trades.Where(x => x.Comment.Contains(matchTicket)).ToList<Trade>();
-            if(trade != null)
+            foreach (var trade in orderList.Trades)
             {
-                newTicketNumber = trade[0].Ticket;
+                if (trade.Comment.Contains(matchTicket))
+                {
+                    newTicketNumber = trade.Ticket;
+                    break;
+                }
             }
 
             return newTicketNumber;
         }
         catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
             SetQueryResult(-1, ex.Message);
             return 0;
         }
