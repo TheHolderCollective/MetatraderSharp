@@ -12,3 +12,4 @@ public class TrackOHLCResponse: Response
         return JsonConvert.SerializeObject(this, Formatting.Indented);
     }
 }
+

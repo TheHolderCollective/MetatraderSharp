@@ -1,6 +1,7 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 namespace MetatraderSharp.MetatraderClient;
 
 public partial class MT4Client : MetatraderClient
@@ -91,6 +92,47 @@ public partial class MT4Client : MetatraderClient
                 ErrorDescription = ex.Message
             };
         }
+    }
+
+    public async Task<TrackOHLCResponse> TrackOHLCsAsync(TrackOHLCRequest ohlcRequest)
+    {
+        try
+        {
+            string requestContent = ohlcRequest.ToString();
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri("http://127.0.0.1:81/v1/track/ohlc"),
+                Headers = { { "Accept", "application/json" } },
+                Content = new StringContent(requestContent)
+                {
+                    Headers =
+                      {
+                         ContentType = new MediaTypeHeaderValue("application/json")
+                      }
+                }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackOHLCResponse>(responseContent) : null;
+
+            SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
+            return requestResponse;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new TrackOHLCResponse()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message
+            };
+        }
+
     }
 
     public async Task<Indicator> GetATRValues(int period, int shift, string symbol, string timeframe)
