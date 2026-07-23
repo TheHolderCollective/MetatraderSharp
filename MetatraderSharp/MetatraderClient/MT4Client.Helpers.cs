@@ -3,6 +3,24 @@ namespace MetatraderSharp.MetatraderClient;
 
 public partial class MT4Client : MetatraderClient
 {
+    private string BuildTrackPricesUri(TrackingCommand trackCommand, string symbol1 = "", string symbol2 = "", string symbol3 = "", string symbol4 = "", string symbol5 = "")
+    {
+        string symbols = "";
+
+        switch (trackCommand)
+        {
+            case TrackingCommand.Start:
+                symbols = $"symbols={symbol1}&symbols={symbol2}&symbols={symbol3}&symbols={symbol4}&symbols={symbol5}";
+                break;
+            case TrackingCommand.Stop:
+                symbols = $"symbols=";
+                break;
+        }
+
+        return $"{_partialURI}:{WebSocketPort}/v1/track/prices?{symbols}";
+
+    }
+
     private string BuildModifyOrderUri(long ticketNumber,double stopLoss, double takeProfit, double price, string expiration)
     {
         string uri = $"{_partialURI}:{WebSocketPort}/v1/order/modify?ticket={ticketNumber}&sl={stopLoss}";

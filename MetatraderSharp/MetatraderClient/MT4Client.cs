@@ -57,27 +57,16 @@ public partial class MT4Client : MetatraderClient
         }
     }
 
-
     public async Task<TrackPricesResponse> TrackPricesAsync(TrackingCommand trackCommand, string symbol1 = "", string symbol2 = "", string symbol3 = "", string symbol4 = "", string symbol5 = "")
     {
         try
         {
-            string symbols = "";
-
-            switch (trackCommand)
-            {
-                case TrackingCommand.Start:
-                    symbols = $"symbols={symbol1}&symbols={symbol2}&symbols={symbol3}&symbols={symbol4}&symbols={symbol5}";
-                    break;
-                case TrackingCommand.Stop:
-                    symbols = $"symbols=";
-                    break;
-            }
+            string uri = BuildTrackPricesUri(trackCommand, symbol1, symbol2, symbol3, symbol4, symbol5);
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri($"{_partialURI}:{WebSocketPort}/v1/track/prices?{symbols}"),
+                RequestUri = new Uri(uri),
                 Headers =
                 {
                     {"Accept","application/json" }
