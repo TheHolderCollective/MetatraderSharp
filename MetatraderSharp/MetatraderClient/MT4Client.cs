@@ -280,7 +280,7 @@ public partial class MT4Client : MetatraderClient
     /// <param name="comment">Order comment</param>
     /// <param name="expiration">Order expiration time</param>
     /// <returns></returns>
-    public async Task<OrderSend> PlaceOrderAsync(string symbol, string orderType, double volume, double price = 0, double stopLoss = 0, double takeProfit = 0, int magic = 0, string comment = "", string expiration = "")
+    public async Task<OrderSend> PlaceOrderAsync(string symbol, string orderType, double volume, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0, int magic = 0, string comment = "", string expiration = "")
     {
         try
         {
