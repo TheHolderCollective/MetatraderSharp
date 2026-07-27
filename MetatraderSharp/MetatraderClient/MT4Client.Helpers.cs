@@ -3,6 +3,33 @@ namespace MetatraderSharp.MetatraderClient;
 
 public partial class MT4Client : MetatraderClient
 {
+    private string BuildTrackPricesUri(TrackingCommand trackCommand, string[] symbolList)
+    {
+        string symbolParameters = "";
+
+        if (trackCommand == TrackingCommand.Start)
+        {
+            for (int i = 0; i < symbolList.Length; i++)
+            {
+                if (i == symbolList.Length - 1)
+                {
+                    symbolParameters += $"symbols={symbolList[i]}";
+                }
+                else
+                {
+                    symbolParameters += $"symbols={symbolList[i]}&";
+                }
+            }
+        }
+        else if (trackCommand == TrackingCommand.Stop)
+        {
+            symbolParameters = $"symbols=";
+        }
+
+        return $"{_partialURI}:{WebSocketPort}/v1/track/prices?{symbolParameters}";
+
+    }
+
     private string BuildTrackPricesUri(TrackingCommand trackCommand, string symbol1 = "", string symbol2 = "", string symbol3 = "", string symbol4 = "", string symbol5 = "")
     {
         string symbols = "";
@@ -21,7 +48,7 @@ public partial class MT4Client : MetatraderClient
 
     }
 
-    private string BuildModifyOrderUri(long ticketNumber,double stopLoss, double takeProfit, double price, string expiration)
+    private string BuildModifyOrderUri(long ticketNumber, double stopLoss, double takeProfit, double price, string expiration)
     {
         string uri = $"{_partialURI}:{WebSocketPort}/v1/order/modify?ticket={ticketNumber}&sl={stopLoss}";
 
@@ -40,7 +67,7 @@ public partial class MT4Client : MetatraderClient
         return uri;
     }
 
-    private string BuildSendOrderUri(string symbol, string orderType, double volume, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0, 
+    private string BuildSendOrderUri(string symbol, string orderType, double volume, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0,
                                      int magic = 0, string comment = "", string expiration = "")
     {
         string uri = $"{_partialURI}:{WebSocketPort}/v1/order?symbol={symbol}&volume={volume}&type={orderType}";
