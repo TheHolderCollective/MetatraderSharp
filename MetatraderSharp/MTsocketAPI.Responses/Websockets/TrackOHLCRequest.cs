@@ -6,6 +6,19 @@ public class TrackOHLCRequest
     [JsonProperty("OHLC")]
     public List<SymbolRequest> OHLCRequests { get; set; }
 
+    public TrackOHLCRequest()
+    {
+        OHLCRequests = new();
+    }
+
+    public TrackOHLCRequest(params SymbolRequest[] requests) : this()
+    {
+        for (int i = 0; i < requests.Length; i++)
+        {
+            OHLCRequests.Add(requests[i]);
+        }
+    }
+
     public override string ToString()
     {
         return JsonConvert.SerializeObject(this, Formatting.Indented);
