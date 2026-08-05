@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
 namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
+/// <summary>
+/// https://www.mtsocketapi.com/restapi.html#/operations/SymbolInfo
+/// </summary>
 public class SymbolInformation
 {
     [JsonProperty("MSG")]
@@ -116,5 +119,10 @@ public class SymbolInformation
 
     [JsonProperty("ERROR_DESCRIPTION")]
     public string ErrorDescription { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }
 

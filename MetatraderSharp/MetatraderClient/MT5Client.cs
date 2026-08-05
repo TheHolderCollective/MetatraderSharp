@@ -54,7 +54,6 @@ public class MT5Client: MetatraderClient
                 ErrorID = -1,
                 ErrorDescription = ex.Message,
             };
-
         }
     }
 
