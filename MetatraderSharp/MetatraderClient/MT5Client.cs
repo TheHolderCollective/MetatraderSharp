@@ -9,6 +9,30 @@ public class MT5Client: MetatraderClient
     {
     }
 
+    public async Task<Calendar> GetCalendarAsync(string fromDate, string toDate, string countryCode="", string currency="")
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/calendar?from_date={fromDate}&to_date={toDate}&country_code={countryCode}&currency={currency}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var calendar = (responseContent != null) ? JsonConvert.DeserializeObject<Calendar>(responseContent) : null;
+
+            SetQueryResult(calendar.ErrorID, calendar.ErrorDescription);
+            return calendar;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new Calendar()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
     public async Task<Account> GetAccountInfoAsync()
     {
         try

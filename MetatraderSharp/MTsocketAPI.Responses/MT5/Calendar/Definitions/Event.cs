@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
-namespace MetatraderSharp.MTsocketAPI.Responses.MT5.Calendar.Definitions;
+namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
+
 public class Event
 {
     [JsonProperty("TIME")]
@@ -60,8 +61,13 @@ public class Event
     public string ImpactType { get; set; }
 
     [JsonProperty("REVISION")]
-    public int Revision { get; set; }
+    public double Revision { get; set; }
 
     [JsonProperty("PERIOD")]
     public string Period { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }

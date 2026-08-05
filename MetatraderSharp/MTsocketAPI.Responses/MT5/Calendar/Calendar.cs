@@ -1,6 +1,5 @@
-﻿using MetatraderSharp.MTsocketAPI.Responses.MT5.Calendar.Definitions;
-using Newtonsoft.Json;
-namespace MetatraderSharp.MTsocketAPI.Responses.MT5.Calendar;
+﻿using Newtonsoft.Json;
+namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
 public class Calendar
 {
@@ -15,4 +14,9 @@ public class Calendar
 
     [JsonProperty("ERROR_DESCRIPTION")]
     public string ErrorDescription { get; set; }
+     
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }
