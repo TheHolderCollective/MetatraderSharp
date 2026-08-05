@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-namespace MetatraderSharp.MTsocketAPI.Responses.MT5.History;
+namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
-internal class TickHistory
+public class TickHistory
 {
     [JsonProperty("MSG")]
     public string Msg { get; set; }
@@ -17,4 +17,9 @@ internal class TickHistory
 
     [JsonProperty("ERROR_DESCRIPTION")]
     public string ErrorDescription { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }

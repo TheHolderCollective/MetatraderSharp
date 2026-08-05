@@ -9,6 +9,30 @@ public class MT5Client: MetatraderClient
     {
     }
 
+    public async Task<TickHistory> GetTickHistoryAsync(string fromDate, string toDate, string symbol, string tickFlag)
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/ticks?symbol={symbol}&flags={tickFlag}&from_date={fromDate}&to_date={toDate}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var tickHistory = (responseContent != null) ? JsonConvert.DeserializeObject<TickHistory>(responseContent) : null;
+
+            SetQueryResult(tickHistory.ErrorID, tickHistory.ErrorDescription);
+            return tickHistory;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new TickHistory()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
     public async Task<Calendar> GetCalendarAsync(string fromDate, string toDate, string countryCode="", string currency="")
     {
         try

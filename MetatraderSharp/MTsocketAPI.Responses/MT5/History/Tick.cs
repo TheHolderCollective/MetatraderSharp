@@ -16,15 +16,20 @@ public class Tick
     public int Flags { get; set; }
 
     [JsonProperty("LAST")]
-    public int Last { get; set; }
+    public double Last { get; set; }
 
     [JsonProperty("TIME_MSC")]
     public string TimeMsc { get; set; }
 
     [JsonProperty("VOLUME")]
-    public int Volume { get; set; }
+    public long Volume { get; set; }
 
     [JsonProperty("VOLUME_REAL")]
-    public int VolumeReal { get; set; }
+    public double VolumeReal { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }
 

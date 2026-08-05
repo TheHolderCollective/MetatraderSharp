@@ -70,3 +70,11 @@ public static class OrderType
     public const string ORDER_TYPE_BUY_STOP = "ORDER_TYPE_BUY_STOP";
     public const string ORDER_TYPE_SELL_STOP = "ORDER_TYPE_SELL_STOP";
 }
+
+public static class TickFlag
+{
+    public const string COPY_TICKS_INFO = "COPY_TICKS_INFO";
+    public const string COPY_TICKS_TRADE = "COPY_TICKS_TRADE";
+    public const string COPY_TICKS_ALL = "COPY_TICKS_ALL";
+}
+
