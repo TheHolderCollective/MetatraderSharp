@@ -58,7 +58,7 @@ public class Account
     public double Balance { get; set; }
 
     [JsonProperty("CREDIT")]
-    public int Credit { get; set; }
+    public double Credit { get; set; }
 
     [JsonProperty("PROFIT")]
     public double Profit { get; set; }
@@ -76,10 +76,10 @@ public class Account
     public double MarginLevel { get; set; }
 
     [JsonProperty("MARGIN_SO_CAL")]
-    public int MarginSoCal { get; set; }
+    public double MarginSoCal { get; set; }
 
     [JsonProperty("MARGIN_SO_SO")]
-    public int MarginSoSo { get; set; }
+    public double MarginSoSo { get; set; }
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }
