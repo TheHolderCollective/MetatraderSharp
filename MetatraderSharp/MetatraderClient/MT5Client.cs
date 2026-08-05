@@ -9,6 +9,30 @@ public class MT5Client: MetatraderClient
     {
     }
 
+    public async Task<Account> GetAccountInfoAsync()
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/account");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var account = (responseContent != null) ? JsonConvert.DeserializeObject<Account>(responseContent) : null;
+
+            SetQueryResult(account.ErrorID, account.ErrorDescription);
+            return account;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new Account()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
     public async Task<SymbolInformation> GetSymbolInformationResponseAsync(string symbol)
     {
         try

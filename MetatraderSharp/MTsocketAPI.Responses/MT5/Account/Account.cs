@@ -7,85 +7,88 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 public class Account
 {
     [JsonProperty("MSG")]
-    public string MSG { get; set; }
+    public string Msg { get; set; }
 
     [JsonProperty("COMPANY")]
-    public string COMPANY { get; set; }
+    public string Company { get; set; }
 
     [JsonProperty("CURRENCY")]
-    public string CURRENCY { get; set; }
+    public string Currency { get; set; }
 
     [JsonProperty("NAME")]
-    public string NAME { get; set; }
+    public string Name { get; set; }
 
     [JsonProperty("SERVER")]
-    public string SERVER { get; set; }
+    public string Server { get; set; }
 
     [JsonProperty("LOGIN")]
-    public int LOGIN { get; set; }
+    public int Login { get; set; }
 
     [JsonProperty("TRADE_MODE")]
-    public int TRADE_MODE { get; set; }
+    public int TradeMode { get; set; }
 
     [JsonProperty("LEVERAGE")]
-    public int LEVERAGE { get; set; }
+    public int Leverage { get; set; }
 
     [JsonProperty("LIMIT_ORDERS")]
-    public int LIMIT_ORDERS { get; set; }
+    public int LimitOrders { get; set; }
 
     [JsonProperty("MARGIN_SO_MODE")]
-    public int MARGIN_SO_MODE { get; set; }
+    public int MarginSoMode { get; set; }
 
     [JsonProperty("TRADE_ALLOWED")]
-    public int TRADE_ALLOWED { get; set; }
+    public int TradeAllowed { get; set; }
 
     [JsonProperty("TRADE_EXPERT")]
-    public int TRADE_EXPERT { get; set; }
+    public int TradeExpert { get; set; }
 
     [JsonProperty("MARGIN_MODE")]
-    public int MARGIN_MODE { get; set; }
+    public int MarginMode { get; set; }
 
     [JsonProperty("CURRENCY_DIGITS")]
-    public int CURRENCY_DIGITS { get; set; }
+    public int CurrencyDigits { get; set; }
 
     [JsonProperty("FIFO_CLOSE")]
-    public int FIFO_CLOSE { get; set; }
+    public int FifoClose { get; set; }
 
     [JsonProperty("HEDGE_ALLOWED")]
-    public int HEDGE_ALLOWED { get; set; }
+    public int HedgeAllowed { get; set; }
 
     [JsonProperty("BALANCE")]
-    public double BALANCE { get; set; }
+    public double Balance { get; set; }
 
     [JsonProperty("CREDIT")]
-    public int CREDIT { get; set; }
+    public int Credit { get; set; }
 
     [JsonProperty("PROFIT")]
-    public double PROFIT { get; set; }
+    public double Profit { get; set; }
 
     [JsonProperty("EQUITY")]
-    public double EQUITY { get; set; }
+    public double Equity { get; set; }
 
     [JsonProperty("MARGIN")]
-    public double MARGIN { get; set; }
+    public double Margin { get; set; }
 
     [JsonProperty("MARGIN_FREE")]
-    public double MARGIN_FREE { get; set; }
+    public double MarginFree { get; set; }
 
     [JsonProperty("MARGIN_LEVEL")]
-    public double MARGIN_LEVEL { get; set; }
+    public double MarginLevel { get; set; }
 
     [JsonProperty("MARGIN_SO_CAL")]
-    public int MARGIN_SO_CAL { get; set; }
+    public int MarginSoCal { get; set; }
 
     [JsonProperty("MARGIN_SO_SO")]
-    public int MARGIN_SO_SO { get; set; }
+    public int MarginSoSo { get; set; }
 
     [JsonProperty("ERROR_ID")]
-    public int ERROR_ID { get; set; }
+    public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
-    public string ERROR_DESCRIPTION { get; set; }
+    public string ErrorDescription { get; set; }
+
+    [JsonProperty("DEMO")]
+    public string Demo { get; set; }
 
     public override string ToString()
     {
