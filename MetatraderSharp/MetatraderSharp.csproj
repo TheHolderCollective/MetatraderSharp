@@ -10,8 +10,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="MTsocketAPI.Responses\MT5\Orders\" />
-  </ItemGroup>
-
 </Project>
