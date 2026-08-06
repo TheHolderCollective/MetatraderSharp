@@ -3,7 +3,7 @@ using MetatraderSharp.MTsocketAPI.Responses.MT5;
 using Newtonsoft.Json;
 namespace MetatraderSharp.MetatraderClient;
 
-public class MT5Client: MetatraderClient
+public partial class MT5Client : MetatraderClient
 {
     public MT5Client() : base(MetatraderTerminalType.MT5)
     {
@@ -120,7 +120,7 @@ public class MT5Client: MetatraderClient
         }
     }
 
-    public async Task<Calendar> GetCalendarAsync(string fromDate, string toDate, string countryCode="", string currency="")
+    public async Task<Calendar> GetCalendarAsync(string fromDate, string toDate, string countryCode = "", string currency = "")
     {
         try
         {
@@ -191,5 +191,82 @@ public class MT5Client: MetatraderClient
             };
         }
     }
+
+    public async Task<Indicator> GetATRValues(int period, int shift, string symbol, string timeframe)
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/indicator/atr?symbol={symbol}&timeframe={timeframe}&period={period}&shift={shift}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var atrIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
+
+            SetQueryResult(atrIndicator.ErrorID, atrIndicator.ErrorDescription);
+            return atrIndicator;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new Indicator()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
+    public async Task<Indicator> GetMAValues(string appliedPrice, string ma_Method, int ma_Period, int count, int ma_Shift, string symbol, string timeframe)
+    {
+        try
+        {
+            string parameters = $"symbol={symbol}&timeframe={timeframe}&ma_period={ma_Period}&ma_shift={ma_Shift}&ma_method={ma_Method}&applied_price={appliedPrice}&num={count}";
+
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/indicator/ma?{parameters}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var maIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
+
+            SetQueryResult(maIndicator.ErrorID, maIndicator.ErrorDescription);
+            return maIndicator;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new Indicator()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
+    public async Task<Indicator> GetCustomIndicatorValues(string indicatorName, string symbol, string timeframe, int index, int count, string param1 = "", string param2 = "", string param3 = "", string param4 = "")
+    {
+        try
+        {         
+            string requestUri = BuildGetCustomIndicatorValuesUri(indicatorName, symbol, timeframe, index, count, param1, param2, param3, param4);
+          
+            var response = await Client.GetAsync(requestUri);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var customIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
+
+            SetQueryResult(customIndicator.ErrorID, customIndicator.ErrorDescription);
+            return customIndicator;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new Indicator()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
 
 }
