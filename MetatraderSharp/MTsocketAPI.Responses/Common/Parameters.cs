@@ -78,3 +78,10 @@ public static class TickFlag
     public const string COPY_TICKS_ALL = "COPY_TICKS_ALL";
 }
 
+public static class OrderHistoryMode
+{
+    public const string POSITIONS = "POSITIONS";
+    public const string DEALS = "DEALS";
+    public const string ORDERS = "ORDERS";
+    public const string ORDERS_DEALS = "ORDERS_DEALS";
+}
