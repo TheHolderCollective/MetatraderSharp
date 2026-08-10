@@ -4,7 +4,7 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT4;
 /// <summary>
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/OrderSend
 /// </summary>
-public class OrderSend
+public class OrderSendResponse
 {
     [JsonProperty("MSG")]
     public string Msg { get; set; }

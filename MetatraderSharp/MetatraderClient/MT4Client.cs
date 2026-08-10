@@ -311,7 +311,7 @@ public partial class MT4Client : MetatraderClient
     /// <param name="comment">Order comment</param>
     /// <param name="expiration">Order expiration time</param>
     /// <returns></returns>
-    public async Task<OrderSend> PlaceOrderAsync(string symbol, string orderType, double volume, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0, int magic = 0, string comment = "", string expiration = "")
+    public async Task<OrderSendResponse> PlaceOrderAsync(string symbol, string orderType, double volume, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0, int magic = 0, string comment = "", string expiration = "")
     {
         try
         {
@@ -328,7 +328,7 @@ public partial class MT4Client : MetatraderClient
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderSend>(responseContent) : null;
+            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderSendResponse>(responseContent) : null;
 
             SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
             return orderResponse;
@@ -337,7 +337,7 @@ public partial class MT4Client : MetatraderClient
         catch (Exception ex)
         {
             SetQueryResult(-1, ex.Message);
-            return new OrderSend()
+            return new OrderSendResponse()
             {
                 ErrorID = -1,
                 ErrorDescription = ex.Message
@@ -345,7 +345,7 @@ public partial class MT4Client : MetatraderClient
         }
     }
 
-    public async Task<OrderModify> ModifyOrderAsync(long ticketNumber, double stopLoss, double takeProfit = 0.0, double price = 0.0, string expiration = "")
+    public async Task<OrderModifyResponse> ModifyOrderAsync(long ticketNumber, double stopLoss, double takeProfit = 0.0, double price = 0.0, string expiration = "")
     {
         try
         {
@@ -362,7 +362,7 @@ public partial class MT4Client : MetatraderClient
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderModify>(responseContent) : null;
+            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderModifyResponse>(responseContent) : null;
 
             SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
             return orderResponse;
@@ -370,7 +370,7 @@ public partial class MT4Client : MetatraderClient
         catch (Exception ex)
         {
             SetQueryResult(-1, ex.Message);
-            return new OrderModify()
+            return new OrderModifyResponse()
             {
                 ErrorID = -1,
                 ErrorDescription = ex.Message
@@ -378,7 +378,7 @@ public partial class MT4Client : MetatraderClient
         }
     }
 
-    public async Task<OrderClose> CloseOrderAsync(long ticketNumber, double volume = 0.0)
+    public async Task<OrderCloseResponse> CloseOrderAsync(long ticketNumber, double volume = 0.0)
     {
         try
         {
@@ -400,7 +400,7 @@ public partial class MT4Client : MetatraderClient
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderClose>(responseContent) : null;
+            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderCloseResponse>(responseContent) : null;
 
             SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
             return orderResponse;
@@ -408,7 +408,7 @@ public partial class MT4Client : MetatraderClient
         catch (Exception ex)
         {
             SetQueryResult(-1, ex.Message);
-            return new OrderClose()
+            return new OrderCloseResponse()
             {
                 ErrorID = -1,
                 ErrorDescription = ex.Message
