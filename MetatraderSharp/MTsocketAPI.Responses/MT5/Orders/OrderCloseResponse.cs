@@ -10,7 +10,7 @@ public class OrderCloseResponse
     public string Msg { get; set; }
 
     [JsonProperty("TICKET")]
-    public string Ticket { get; set; }
+    public long Ticket { get; set; }
 
     [JsonProperty("TYPE")]
     public string Type { get; set; }
@@ -19,28 +19,28 @@ public class OrderCloseResponse
     public int RetCode { get; set; }
 
     [JsonProperty("DEAL")]
-    public int Deal { get; set; }
+    public long Deal { get; set; }
 
     [JsonProperty("ORDER")]
-    public int Order { get; set; }
+    public long Order { get; set; }
 
     [JsonProperty("VOLUME")]
-    public int Volume { get; set; }
+    public double Volume { get; set; }
 
     [JsonProperty("PRICE")]
-    public int Price { get; set; }
+    public double Price { get; set; }
 
     [JsonProperty("BID")]
-    public int Bid { get; set; }
+    public double Bid { get; set; }
 
     [JsonProperty("ASK")]
-    public int Ask { get; set; }
+    public double Ask { get; set; }
 
     [JsonProperty("REQUEST_ID")]
-    public int RequestID { get; set; }
+    public long RequestID { get; set; }
 
     [JsonProperty("RETCODE_EXTERNAL")]
-    public int RetCodeExternal { get; set; }
+    public long RetCodeExternal { get; set; }
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }

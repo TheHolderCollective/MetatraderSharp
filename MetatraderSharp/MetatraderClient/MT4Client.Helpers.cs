@@ -71,6 +71,8 @@ public partial class MT4Client : MetatraderClient
         {
             switch (orderType)
             {
+                case OrderType.ORDER_TYPE_BUY:
+                case OrderType.ORDER_TYPE_SELL:
                 case OrderType.ORDER_TYPE_BUY_LIMIT:
                 case OrderType.ORDER_TYPE_SELL_LIMIT:
                 case OrderType.ORDER_TYPE_BUY_STOP:

@@ -71,6 +71,14 @@ public static class OrderType
     public const string ORDER_TYPE_SELL_STOP = "ORDER_TYPE_SELL_STOP";
 }
 
+public static class OrderFillType
+{
+    public const string ORDER_FILLING_FOK = "ORDER_FILLING_FOK";
+    public const string ORDER_FILLING_IOC = "ORDER_FILLING_IOC";
+    public const string ORDER_FILLING_BOC = "ORDER_FILLING_BOC";
+    public const string ORDER_FILLING_RETURN = "ORDER_FILLING_RETURN";
+}
+
 public static class TickFlag
 {
     public const string COPY_TICKS_INFO = "COPY_TICKS_INFO";

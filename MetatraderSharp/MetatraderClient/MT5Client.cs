@@ -245,9 +245,9 @@ public partial class MT5Client : MetatraderClient
     public async Task<Indicator> GetCustomIndicatorValues(string indicatorName, string symbol, string timeframe, int index, int count, string param1 = "", string param2 = "", string param3 = "", string param4 = "")
     {
         try
-        {         
+        {
             string requestUri = BuildGetCustomIndicatorValuesUri(indicatorName, symbol, timeframe, index, count, param1, param2, param3, param4);
-          
+
             var response = await Client.GetAsync(requestUri);
             response.EnsureSuccessStatusCode();
 
@@ -269,4 +269,71 @@ public partial class MT5Client : MetatraderClient
     }
 
 
+    public async Task<OrderSendResponse> PlaceOrderAsync(string symbol, string orderType, double volume, bool async = false, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0, 
+                                                         int magic = 0, string orderFillType = "", string comment = "", string expiration = "")
+    {
+        try
+        {
+            string uri = BuildSendOrderUri(symbol, orderType, volume, async, price, stopLoss, takeProfit, magic, orderFillType, comment, expiration);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(uri),
+                Headers = { { "Accept", "application/json" } }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderSendResponse>(responseContent) : null;
+
+            SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
+            return orderResponse;
+
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new OrderSendResponse()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
+    public async Task<OrderCloseResponse> CloseOrderAsync(long ticketNumber, double volume = 0.0, bool async = false)
+    {
+        try
+        {
+            string uri = BuildCloseOrderUri(ticketNumber, volume, async);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(uri),
+                Headers = { { "Accept", "application/json" } }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderCloseResponse>(responseContent) : null;
+
+            SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
+            return orderResponse;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(-1, ex.Message);
+            return new OrderCloseResponse()
+            {
+                ErrorID = -1,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
 }
