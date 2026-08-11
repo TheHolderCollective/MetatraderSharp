@@ -25,10 +25,10 @@ public partial class MT4Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new Account()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
             };
         }
@@ -49,10 +49,10 @@ public partial class MT4Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new SymbolInformation()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
             };
         }
@@ -85,10 +85,10 @@ public partial class MT4Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new TrackPricesResponse()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
             };
         }
@@ -125,10 +125,10 @@ public partial class MT4Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new TrackOHLCResponse()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
             };
         }
@@ -150,10 +150,10 @@ public partial class MT4Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new Indicator()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
             };
         }
@@ -176,10 +176,10 @@ public partial class MT4Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new Indicator()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
             };
         }
@@ -202,10 +202,10 @@ public partial class MT4Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new Indicator()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
             };
         }
@@ -226,10 +226,10 @@ public partial class MT4Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new OrderHistory()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
             };
         }
@@ -250,10 +250,10 @@ public partial class MT4Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new OrderList()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
             };
         }
@@ -273,11 +273,11 @@ public partial class MT4Client : MetatraderClient
             {
                 string message = "TICKET not found";
 
-                SetQueryResult(-1, message);
+                SetQueryResult(QueryStatus.Error, message);
                 return new OrderInfo()
                 {
                     Msg = "ORDER_INFO",
-                    ErrorID = -1,
+                    ErrorID = QueryStatus.Error,
                     ErrorDescription = message
                 };
             }
@@ -289,10 +289,10 @@ public partial class MT4Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new OrderInfo()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
             };
         }
@@ -336,10 +336,10 @@ public partial class MT4Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new OrderSendResponse()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
             };
         }
@@ -369,10 +369,10 @@ public partial class MT4Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new OrderModifyResponse()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
             };
         }
@@ -407,10 +407,10 @@ public partial class MT4Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new OrderCloseResponse()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
             };
         }
@@ -444,7 +444,7 @@ public partial class MT4Client : MetatraderClient
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return 0;
         }
     }

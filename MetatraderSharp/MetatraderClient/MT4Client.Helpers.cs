@@ -1,5 +1,4 @@
-﻿using MetatraderSharp.MTsocketAPI.Responses;
-namespace MetatraderSharp.MetatraderClient;
+﻿namespace MetatraderSharp.MetatraderClient;
 
 public partial class MT4Client : MetatraderClient
 {

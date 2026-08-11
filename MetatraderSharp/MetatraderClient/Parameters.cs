@@ -1,4 +1,10 @@
-﻿namespace MetatraderSharp.MTsocketAPI.Responses;
+﻿namespace MetatraderSharp.MetatraderClient;
+
+public static class QueryStatus
+{
+    public const int Error = -1;
+    public const int Ok = 0;
+}
 
 public static class MetatraderTerminalType
 {

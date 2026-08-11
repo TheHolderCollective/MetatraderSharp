@@ -15,7 +15,7 @@ public abstract class MetatraderClient
 
     public string TerminalType { get; protected set; }
     public bool StatusIsOK { get; protected set; }
-    public QueryStatus LastQueryStatus { get; protected set; }
+    public int LastQueryStatus { get; protected set; }
     public string LastQueryMessage { get; protected set; }
     public string WebSocketPort { get; set; }
     public HttpClient? Client { get; set; }
@@ -46,7 +46,7 @@ public abstract class MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new TerminalInfo()
             {
                 ErrorID = -1,
@@ -70,7 +70,7 @@ public abstract class MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new Quote()
             {
                 ErrorID = -1,
@@ -94,7 +94,7 @@ public abstract class MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new SymbolList()
             {
                 ErrorID = -1,
@@ -118,7 +118,7 @@ public abstract class MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult((int)QueryStatus.Error, ex.Message);
+            SetQueryResult(QueryStatus.Error, ex.Message);
             return new PriceHistory()
             {
                 ErrorID = -1,
@@ -162,7 +162,7 @@ public abstract class MetatraderClient
         switch (errorID)
         {
             case 0:
-                LastQueryStatus = QueryStatus.OK;
+                LastQueryStatus = QueryStatus.Ok;
                 break;
             default:
                 LastQueryStatus = QueryStatus.Error;
