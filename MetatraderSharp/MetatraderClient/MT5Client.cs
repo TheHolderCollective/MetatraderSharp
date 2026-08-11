@@ -39,7 +39,7 @@ public partial class MT5Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new OrderInfo()
             {
                 ErrorID = -1,
@@ -63,7 +63,7 @@ public partial class MT5Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new OrderList()
             {
                 ErrorID = -1,
@@ -87,7 +87,7 @@ public partial class MT5Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new OrderHistory()
             {
                 ErrorID = -1,
@@ -111,7 +111,7 @@ public partial class MT5Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new TickHistory()
             {
                 ErrorID = -1,
@@ -135,7 +135,7 @@ public partial class MT5Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new Calendar()
             {
                 ErrorID = -1,
@@ -159,7 +159,7 @@ public partial class MT5Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new Account()
             {
                 ErrorID = -1,
@@ -183,7 +183,7 @@ public partial class MT5Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new SymbolInformation()
             {
                 ErrorID = -1,
@@ -207,7 +207,7 @@ public partial class MT5Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new Indicator()
             {
                 ErrorID = -1,
@@ -233,7 +233,7 @@ public partial class MT5Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new Indicator()
             {
                 ErrorID = -1,
@@ -259,7 +259,7 @@ public partial class MT5Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new Indicator()
             {
                 ErrorID = -1,
@@ -269,7 +269,7 @@ public partial class MT5Client : MetatraderClient
     }
 
 
-    public async Task<OrderSendResponse> PlaceOrderAsync(string symbol, string orderType, double volume, bool async = false, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0, 
+    public async Task<OrderSendResponse> PlaceOrderAsync(string symbol, string orderType, double volume, bool async = false, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0,
                                                          int magic = 0, string orderFillType = "", string comment = "", string expiration = "")
     {
         try
@@ -295,7 +295,7 @@ public partial class MT5Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new OrderSendResponse()
             {
                 ErrorID = -1,
@@ -328,7 +328,7 @@ public partial class MT5Client : MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new OrderCloseResponse()
             {
                 ErrorID = -1,

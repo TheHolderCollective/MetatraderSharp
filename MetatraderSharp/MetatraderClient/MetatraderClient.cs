@@ -8,7 +8,7 @@ public abstract class MetatraderClient
     #region Fields
 
     protected string _partialURI;
-    
+
     #endregion
 
     #region Properties
@@ -22,7 +22,7 @@ public abstract class MetatraderClient
 
     #endregion
 
-    public MetatraderClient(string terminalType) 
+    public MetatraderClient(string terminalType)
     {
         TerminalType = terminalType;
 
@@ -46,7 +46,7 @@ public abstract class MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new TerminalInfo()
             {
                 ErrorID = -1,
@@ -70,7 +70,7 @@ public abstract class MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new Quote()
             {
                 ErrorID = -1,
@@ -94,7 +94,7 @@ public abstract class MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new SymbolList()
             {
                 ErrorID = -1,
@@ -118,7 +118,7 @@ public abstract class MetatraderClient
         }
         catch (Exception ex)
         {
-            SetQueryResult(-1, ex.Message);
+            SetQueryResult((int)QueryStatus.Error, ex.Message);
             return new PriceHistory()
             {
                 ErrorID = -1,
