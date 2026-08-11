@@ -2,6 +2,26 @@
 
 public partial class MT5Client : MetatraderClient
 {
+
+    private string BuildModifyOrderUri(long ticketNumber, double stopLoss, double takeProfit, double price, bool async,string expiration)
+    {
+        string uri = $"{_partialURI}:{WebSocketPort}/v1/order/modify?ticket={ticketNumber}&sl={stopLoss}&async={async}";
+
+        if (takeProfit != 0.0)
+        {
+            uri += $"&tp={takeProfit}";
+        }
+        if (price != 0.0)
+        {
+            uri += $"&price={price}";
+        }
+        if (expiration != "")
+        {
+            uri += $"&expiration={expiration}";
+        }
+        return uri;
+    }
+
     private string BuildSendOrderUri(string symbol, string orderType, double volume, bool async = false, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0,
                                     int magic = 0, string orderFillType = "", string comment = "", string expiration = "")
     {

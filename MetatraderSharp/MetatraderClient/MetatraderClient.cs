@@ -1,6 +1,5 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses;
 using Newtonsoft.Json;
-
 namespace MetatraderSharp.MetatraderClient;
 
 public abstract class MetatraderClient
@@ -13,9 +12,9 @@ public abstract class MetatraderClient
 
     #region Properties
 
-    public string TerminalType { get; protected set; }
     public bool StatusIsOK { get; protected set; }
     public int LastQueryStatus { get; protected set; }
+    public string TerminalType { get; protected set; }
     public string LastQueryMessage { get; protected set; }
     public string WebSocketPort { get; set; }
     public HttpClient? Client { get; set; }
@@ -30,6 +29,7 @@ public abstract class MetatraderClient
         SetupHttpClient();
         VerifyHttpStatus();
     }
+
 
     public async Task<TerminalInfo> GetTerminalInfoAsync()
     {

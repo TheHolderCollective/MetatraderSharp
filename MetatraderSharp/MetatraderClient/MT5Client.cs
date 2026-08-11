@@ -335,4 +335,37 @@ public partial class MT5Client : MetatraderClient
             };
         }
     }
+
+    public async Task<OrderModifyResponse> ModifyOrderAsync(long ticketNumber, double stopLoss, double takeProfit = 0.0, double price = 0.0, bool async = false, string expiration = "")
+    {
+        try
+        {
+            string uri = BuildModifyOrderUri(ticketNumber, stopLoss, takeProfit, price, async, expiration);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(uri),
+                Headers = { { "Accept", "application/json" } }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderModifyResponse>(responseContent) : null;
+
+            SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
+            return orderResponse;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new OrderModifyResponse()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
 }
