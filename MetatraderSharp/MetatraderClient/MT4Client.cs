@@ -34,107 +34,6 @@ public partial class MT4Client : MetatraderClient
         }
     }
 
-    public async Task<SymbolInformation> GetSymbolInformationResponseAsync(string symbol)
-    {
-        try
-        {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/symbol/info?symbol={symbol}");
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var symbolInfo = (responseContent != null) ? JsonConvert.DeserializeObject<SymbolInformation>(responseContent) : null;
-
-            SetQueryResult(symbolInfo.ErrorID, symbolInfo.ErrorDescription);
-            return symbolInfo;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new SymbolInformation()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
-    public async Task<TrackPricesResponse> TrackPricesAsync(TrackingCommand trackCommand, params string[] symbols)
-    {
-        try
-        {
-            string uri = BuildTrackPricesUri(trackCommand, symbols);
-
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri(uri),
-                Headers =
-                {
-                    {"Accept","application/json" }
-                }
-            };
-
-            var response = await Client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackPricesResponse>(responseContent) : null;
-
-            SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
-            return requestResponse;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new TrackPricesResponse()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
-    public async Task<TrackOHLCResponse> TrackOHLCsAsync(TrackOHLCRequest ohlcRequest)
-    {
-        try
-        {
-            string requestContent = ohlcRequest.ToString();
-
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri("http://127.0.0.1:81/v1/track/ohlc"),
-                Headers = { { "Accept", "application/json" } },
-                Content = new StringContent(requestContent)
-                {
-                    Headers =
-                      {
-                         ContentType = new MediaTypeHeaderValue("application/json")
-                      }
-                }
-            };
-
-            var response = await Client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackOHLCResponse>(responseContent) : null;
-
-            SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
-            return requestResponse;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new TrackOHLCResponse()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-
-    }
-
     public async Task<Indicator> GetATRValues(int period, int shift, string symbol, string timeframe)
     {
         try
@@ -211,54 +110,6 @@ public partial class MT4Client : MetatraderClient
         }
     }
 
-    public async Task<OrderHistory> GetOrderHistoryAsync(string fromDate, string toDate)
-    {
-        try
-        {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/orders?from_date={fromDate}&to_date={toDate}");
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var orderHistory = (responseContent != null) ? JsonConvert.DeserializeObject<OrderHistory>(responseContent) : null;
-
-            SetQueryResult(orderHistory.ErrorID, orderHistory.ErrorDescription);
-            return orderHistory;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new OrderHistory()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
-    public async Task<OrderList> GetOrderListAsync()
-    {
-        try
-        {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/order/list");
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var orderList = (responseContent != null) ? JsonConvert.DeserializeObject<OrderList>(responseContent) : null;
-
-            SetQueryResult(orderList.ErrorID, orderList.ErrorDescription);
-            return orderList;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new OrderList()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
     public async Task<OrderInfo> GetOrderInfoAsync(long ticketNumber)
     {
         try
@@ -291,6 +142,30 @@ public partial class MT4Client : MetatraderClient
         {
             SetQueryResult(QueryStatus.Error, ex.Message);
             return new OrderInfo()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+    
+    public async Task<OrderList> GetOrderListAsync()
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/order/list");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderList = (responseContent != null) ? JsonConvert.DeserializeObject<OrderList>(responseContent) : null;
+
+            SetQueryResult(orderList.ErrorID, orderList.ErrorDescription);
+            return orderList;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new OrderList()
             {
                 ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
@@ -416,6 +291,131 @@ public partial class MT4Client : MetatraderClient
         }
     }
 
+    public async Task<SymbolInformation> GetSymbolInformationAsync(string symbol)
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/symbol/info?symbol={symbol}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var symbolInfo = (responseContent != null) ? JsonConvert.DeserializeObject<SymbolInformation>(responseContent) : null;
+
+            SetQueryResult(symbolInfo.ErrorID, symbolInfo.ErrorDescription);
+            return symbolInfo;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new SymbolInformation()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+    
+    public async Task<TrackPricesResponse> TrackPricesAsync(TrackingCommand trackCommand, params string[] symbols)
+    {
+        try
+        {
+            string uri = BuildTrackPricesUri(trackCommand, symbols);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(uri),
+                Headers =
+                {
+                    {"Accept","application/json" }
+                }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackPricesResponse>(responseContent) : null;
+
+            SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
+            return requestResponse;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new TrackPricesResponse()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
+    public async Task<OrderHistory> GetOrderHistoryAsync(string fromDate, string toDate)
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/orders?from_date={fromDate}&to_date={toDate}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderHistory = (responseContent != null) ? JsonConvert.DeserializeObject<OrderHistory>(responseContent) : null;
+
+            SetQueryResult(orderHistory.ErrorID, orderHistory.ErrorDescription);
+            return orderHistory;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new OrderHistory()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
+    public async Task<TrackOHLCResponse> TrackOHLCsAsync(TrackOHLCRequest ohlcRequest)
+    {
+        try
+        {
+            string requestContent = ohlcRequest.ToString();
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri("http://127.0.0.1:81/v1/track/ohlc"),
+                Headers = { { "Accept", "application/json" } },
+                Content = new StringContent(requestContent)
+                {
+                    Headers =
+                      {
+                         ContentType = new MediaTypeHeaderValue("application/json")
+                      }
+                }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackOHLCResponse>(responseContent) : null;
+
+            SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
+            return requestResponse;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new TrackOHLCResponse()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+
+    }
+    
     /// <summary>
     /// Searches for new order ticket created when an order with the given ticket number was partially closed
     /// Returns 0 if no match found

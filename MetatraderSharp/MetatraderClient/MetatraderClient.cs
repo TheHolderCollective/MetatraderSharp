@@ -30,7 +30,6 @@ public abstract class MetatraderClient
         VerifyHttpStatus();
     }
 
-
     public async Task<TerminalInfo> GetTerminalInfoAsync()
     {
         try
@@ -79,7 +78,7 @@ public abstract class MetatraderClient
         }
     }
 
-    public async Task<SymbolList> GetSymbolListResponseAsync()
+    public async Task<SymbolList> GetSymbolListAsync()
     {
         try
         {

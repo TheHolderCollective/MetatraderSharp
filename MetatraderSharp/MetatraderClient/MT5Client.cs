@@ -8,6 +8,303 @@ public partial class MT5Client : MetatraderClient
     {
     }
 
+    public async Task<Account> GetAccountInfoAsync()
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/account");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var account = (responseContent != null) ? JsonConvert.DeserializeObject<Account>(responseContent) : null;
+
+            SetQueryResult(account.ErrorID, account.ErrorDescription);
+            return account;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new Account()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+   
+    public async Task<Calendar> GetCalendarAsync(string fromDate, string toDate, string countryCode = "", string currency = "")
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/calendar?from_date={fromDate}&to_date={toDate}&country_code={countryCode}&currency={currency}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var calendar = (responseContent != null) ? JsonConvert.DeserializeObject<Calendar>(responseContent) : null;
+
+            SetQueryResult(calendar.ErrorID, calendar.ErrorDescription);
+            return calendar;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new Calendar()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+   
+    public async Task<TickHistory> GetTickHistoryAsync(string fromDate, string toDate, string symbol, string tickFlag)
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/ticks?symbol={symbol}&flags={tickFlag}&from_date={fromDate}&to_date={toDate}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var tickHistory = (responseContent != null) ? JsonConvert.DeserializeObject<TickHistory>(responseContent) : null;
+
+            SetQueryResult(tickHistory.ErrorID, tickHistory.ErrorDescription);
+            return tickHistory;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new TickHistory()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+    
+    public async Task<OrderHistory> GetOrderHistoryAsync(string fromDate, string toDate, string mode)
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/orders?from_date={fromDate}&to_date={toDate}&mode={mode}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderHistory = (responseContent != null) ? JsonConvert.DeserializeObject<OrderHistory>(responseContent) : null;
+
+            SetQueryResult(orderHistory.ErrorID, orderHistory.ErrorDescription);
+            return orderHistory;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new OrderHistory()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+    
+    public async Task<Indicator> GetATRValues(int period, int shift, string symbol, string timeframe)
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/indicator/atr?symbol={symbol}&timeframe={timeframe}&period={period}&shift={shift}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var atrIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
+
+            SetQueryResult(atrIndicator.ErrorID, atrIndicator.ErrorDescription);
+            return atrIndicator;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new Indicator()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
+    public async Task<Indicator> GetCustomIndicatorValues(string indicatorName, string symbol, string timeframe, int index, int count, string param1 = "", string param2 = "", string param3 = "", string param4 = "")
+    {
+        try
+        {
+            string requestUri = BuildGetCustomIndicatorValuesUri(indicatorName, symbol, timeframe, index, count, param1, param2, param3, param4);
+
+            var response = await Client.GetAsync(requestUri);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var customIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
+
+            SetQueryResult(customIndicator.ErrorID, customIndicator.ErrorDescription);
+            return customIndicator;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new Indicator()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+    
+    public async Task<Indicator> GetMAValues(string appliedPrice, string ma_Method, int ma_Period, int count, int ma_Shift, string symbol, string timeframe)
+    {
+        try
+        {
+            string parameters = $"symbol={symbol}&timeframe={timeframe}&ma_period={ma_Period}&ma_shift={ma_Shift}&ma_method={ma_Method}&applied_price={appliedPrice}&num={count}";
+
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/indicator/ma?{parameters}");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var maIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
+
+            SetQueryResult(maIndicator.ErrorID, maIndicator.ErrorDescription);
+            return maIndicator;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new Indicator()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+    
+    public async Task<OrderSendResponse> PlaceOrderAsync(string symbol, string orderType, double volume, bool async = false, double price = 0.0, double stopLoss = 0.0, 
+                                                         double takeProfit = 0.0, int magic = 0, string orderFillType = "", string comment = "", string expiration = "")
+    {
+        try
+        {
+            string uri = BuildSendOrderUri(symbol, orderType, volume, async, price, stopLoss, takeProfit, magic, orderFillType, comment, expiration);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(uri),
+                Headers = { { "Accept", "application/json" } }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderSendResponse>(responseContent) : null;
+
+            SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
+            return orderResponse;
+
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new OrderSendResponse()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
+    public async Task<OrderModifyResponse> ModifyOrderAsync(long ticketNumber, double stopLoss, double takeProfit = 0.0, double price = 0.0, bool async = false, string expiration = "")
+    {
+        try
+        {
+            string uri = BuildModifyOrderUri(ticketNumber, stopLoss, takeProfit, price, async, expiration);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(uri),
+                Headers = { { "Accept", "application/json" } }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderModifyResponse>(responseContent) : null;
+
+            SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
+            return orderResponse;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new OrderModifyResponse()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+    
+    public async Task<OrderCloseResponse> CloseOrderAsync(long ticketNumber, double volume = 0.0, bool async = false)
+    {
+        try
+        {
+            string uri = BuildCloseOrderUri(ticketNumber, volume, async);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(uri),
+                Headers = { { "Accept", "application/json" } }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderCloseResponse>(responseContent) : null;
+
+            SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
+            return orderResponse;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new OrderCloseResponse()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
+    public async Task<OrderList> GetOrderListAsync()
+    {
+        try
+        {
+            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/order/list");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var orderList = (responseContent != null) ? JsonConvert.DeserializeObject<OrderList>(responseContent) : null;
+
+            SetQueryResult(orderList.ErrorID, orderList.ErrorDescription);
+            return orderList;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new OrderList()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+    
     public async Task<OrderInfo> GetOrderInfoAsync(long ticketNumber)
     {
         try
@@ -46,128 +343,8 @@ public partial class MT5Client : MetatraderClient
             };
         }
     }
-
-    public async Task<OrderList> GetOrderListAsync()
-    {
-        try
-        {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/order/list");
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var orderList = (responseContent != null) ? JsonConvert.DeserializeObject<OrderList>(responseContent) : null;
-
-            SetQueryResult(orderList.ErrorID, orderList.ErrorDescription);
-            return orderList;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new OrderList()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
-    public async Task<OrderHistory> GetOrderHistoryAsync(string fromDate, string toDate, string mode)
-    {
-        try
-        {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/orders?from_date={fromDate}&to_date={toDate}&mode={mode}");
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var orderHistory = (responseContent != null) ? JsonConvert.DeserializeObject<OrderHistory>(responseContent) : null;
-
-            SetQueryResult(orderHistory.ErrorID, orderHistory.ErrorDescription);
-            return orderHistory;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new OrderHistory()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
-    public async Task<TickHistory> GetTickHistoryAsync(string fromDate, string toDate, string symbol, string tickFlag)
-    {
-        try
-        {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/ticks?symbol={symbol}&flags={tickFlag}&from_date={fromDate}&to_date={toDate}");
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var tickHistory = (responseContent != null) ? JsonConvert.DeserializeObject<TickHistory>(responseContent) : null;
-
-            SetQueryResult(tickHistory.ErrorID, tickHistory.ErrorDescription);
-            return tickHistory;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new TickHistory()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
-    public async Task<Calendar> GetCalendarAsync(string fromDate, string toDate, string countryCode = "", string currency = "")
-    {
-        try
-        {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/calendar?from_date={fromDate}&to_date={toDate}&country_code={countryCode}&currency={currency}");
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var calendar = (responseContent != null) ? JsonConvert.DeserializeObject<Calendar>(responseContent) : null;
-
-            SetQueryResult(calendar.ErrorID, calendar.ErrorDescription);
-            return calendar;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new Calendar()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
-    public async Task<Account> GetAccountInfoAsync()
-    {
-        try
-        {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/account");
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var account = (responseContent != null) ? JsonConvert.DeserializeObject<Account>(responseContent) : null;
-
-            SetQueryResult(account.ErrorID, account.ErrorDescription);
-            return account;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new Account()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
-    public async Task<SymbolInformation> GetSymbolInformationResponseAsync(string symbol)
+   
+    public async Task<SymbolInformation> GetSymbolInformationAsync(string symbol)
     {
         try
         {
@@ -187,184 +364,6 @@ public partial class MT5Client : MetatraderClient
             {
                 ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message,
-            };
-        }
-    }
-
-    public async Task<Indicator> GetATRValues(int period, int shift, string symbol, string timeframe)
-    {
-        try
-        {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/indicator/atr?symbol={symbol}&timeframe={timeframe}&period={period}&shift={shift}");
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var atrIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
-
-            SetQueryResult(atrIndicator.ErrorID, atrIndicator.ErrorDescription);
-            return atrIndicator;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new Indicator()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
-    public async Task<Indicator> GetMAValues(string appliedPrice, string ma_Method, int ma_Period, int count, int ma_Shift, string symbol, string timeframe)
-    {
-        try
-        {
-            string parameters = $"symbol={symbol}&timeframe={timeframe}&ma_period={ma_Period}&ma_shift={ma_Shift}&ma_method={ma_Method}&applied_price={appliedPrice}&num={count}";
-
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/indicator/ma?{parameters}");
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var maIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
-
-            SetQueryResult(maIndicator.ErrorID, maIndicator.ErrorDescription);
-            return maIndicator;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new Indicator()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
-    public async Task<Indicator> GetCustomIndicatorValues(string indicatorName, string symbol, string timeframe, int index, int count, string param1 = "", string param2 = "", string param3 = "", string param4 = "")
-    {
-        try
-        {
-            string requestUri = BuildGetCustomIndicatorValuesUri(indicatorName, symbol, timeframe, index, count, param1, param2, param3, param4);
-
-            var response = await Client.GetAsync(requestUri);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var customIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
-
-            SetQueryResult(customIndicator.ErrorID, customIndicator.ErrorDescription);
-            return customIndicator;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new Indicator()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
-
-    public async Task<OrderSendResponse> PlaceOrderAsync(string symbol, string orderType, double volume, bool async = false, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0,
-                                                         int magic = 0, string orderFillType = "", string comment = "", string expiration = "")
-    {
-        try
-        {
-            string uri = BuildSendOrderUri(symbol, orderType, volume, async, price, stopLoss, takeProfit, magic, orderFillType, comment, expiration);
-
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri(uri),
-                Headers = { { "Accept", "application/json" } }
-            };
-
-            var response = await Client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderSendResponse>(responseContent) : null;
-
-            SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
-            return orderResponse;
-
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new OrderSendResponse()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
-    public async Task<OrderCloseResponse> CloseOrderAsync(long ticketNumber, double volume = 0.0, bool async = false)
-    {
-        try
-        {
-            string uri = BuildCloseOrderUri(ticketNumber, volume, async);
-
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri(uri),
-                Headers = { { "Accept", "application/json" } }
-            };
-
-            var response = await Client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderCloseResponse>(responseContent) : null;
-
-            SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
-            return orderResponse;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new OrderCloseResponse()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
-    public async Task<OrderModifyResponse> ModifyOrderAsync(long ticketNumber, double stopLoss, double takeProfit = 0.0, double price = 0.0, bool async = false, string expiration = "")
-    {
-        try
-        {
-            string uri = BuildModifyOrderUri(ticketNumber, stopLoss, takeProfit, price, async, expiration);
-
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri(uri),
-                Headers = { { "Accept", "application/json" } }
-            };
-
-            var response = await Client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderModifyResponse>(responseContent) : null;
-
-            SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
-            return orderResponse;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new OrderModifyResponse()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
             };
         }
     }
