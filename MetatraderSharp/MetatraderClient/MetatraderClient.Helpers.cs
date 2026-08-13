@@ -8,8 +8,8 @@ public abstract partial class MetatraderClient
     {
         try
         {
-            string url = $"{_partialURI}:{WebSocketPort}";
-            var response = Client.GetAsync(url).Result;
+            string uri = $"{_partialURI}:{WebSocketPort}";
+            var response = Client.GetAsync(uri).Result;
             StatusIsOK = response.IsSuccessStatusCode;
         }
         catch (Exception ex)

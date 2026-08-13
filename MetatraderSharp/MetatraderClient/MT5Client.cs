@@ -1,5 +1,7 @@
-﻿using MetatraderSharp.MTsocketAPI.Responses.MT5;
+﻿using MetatraderSharp.MTsocketAPI.Responses;
+using MetatraderSharp.MTsocketAPI.Responses.MT5;
 using Newtonsoft.Json;
+
 namespace MetatraderSharp.MetatraderClient;
 
 public partial class MT5Client : MetatraderClient
@@ -366,5 +368,43 @@ public partial class MT5Client : MetatraderClient
                 ErrorDescription = ex.Message,
             };
         }
+    }
+
+    public async Task<TrackOrderEventsResponse> TrackOrderEventsAsync(bool enabled)
+    {
+        try
+        {
+            RequestedUri = $"{_partialURI}:{WebSocketPort}/v1/track/orders?enabled={enabled}";
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(RequestedUri),
+                Headers =
+                {
+                    {"Accept","application/json" }
+                }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackOrderEventsResponse>(responseContent) : null;
+
+            SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
+            return requestResponse;
+
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new TrackOrderEventsResponse()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message,
+            };
+        }
+
     }
 }

@@ -14,12 +14,18 @@ public abstract partial class MetatraderClient
 
     #region Properties
 
-    public bool StatusIsOK { get; protected set; }
     public int LastQueryStatus { get; protected set; }
     public string TerminalType { get; protected set; }
-    public string LastQueryMessage { get; protected set; }
     public string WebSocketPort { get; set; }
+    public string LastQueryMessage { get; protected set; }
+    public string RequestedUri { get; protected set; }
     public HttpClient Client { get; set; }
+
+    public bool StatusIsOK { get; protected set; }
+    public bool StatusIsError
+    {
+        get { return !StatusIsOK; }
+    }
 
     #endregion
 
@@ -27,8 +33,9 @@ public abstract partial class MetatraderClient
     {
         _partialURI = "http://127.0.0.1";
         TerminalType = terminalType;
-        LastQueryMessage = "";
         WebSocketPort = "81";
+        LastQueryMessage = "";
+        RequestedUri = "";
         Client = new HttpClient();
 
         VerifyHttpStatus();
@@ -130,7 +137,7 @@ public abstract partial class MetatraderClient
         }
     }
 
-    public async Task<TrackPricesResponse> TrackPricesAsync(TrackingCommand trackCommand, params string[] symbols)
+    public async Task<TrackResponse> TrackPricesAsync(TrackingCommand trackCommand, params string[] symbols)
     {
         try
         {
@@ -150,7 +157,7 @@ public abstract partial class MetatraderClient
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackPricesResponse>(responseContent) : null;
+            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackResponse>(responseContent) : null;
 
             SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
             return requestResponse;
@@ -158,7 +165,7 @@ public abstract partial class MetatraderClient
         catch (Exception ex)
         {
             SetQueryResult(QueryStatus.Error, ex.Message);
-            return new TrackPricesResponse()
+            return new TrackResponse()
             {
                 ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
@@ -166,7 +173,7 @@ public abstract partial class MetatraderClient
         }
     }
 
-    public async Task<TrackOHLCResponse> TrackOHLCsAsync(TrackOHLCRequest ohlcRequest)
+    public async Task<TrackResponse> TrackOHLCsAsync(TrackOHLCRequest ohlcRequest)
     {
         try
         {
@@ -190,7 +197,7 @@ public abstract partial class MetatraderClient
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackOHLCResponse>(responseContent) : null;
+            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackResponse>(responseContent) : null;
 
             SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
             return requestResponse;
@@ -198,7 +205,7 @@ public abstract partial class MetatraderClient
         catch (Exception ex)
         {
             SetQueryResult(QueryStatus.Error, ex.Message);
-            return new TrackOHLCResponse()
+            return new TrackResponse()
             {
                 ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message
@@ -206,5 +213,14 @@ public abstract partial class MetatraderClient
         }
 
     }
-   
+
+    public bool LastQuerySuccessful()
+    {
+        return (LastQueryStatus == QueryStatus.Ok);
+    }
+
+    public bool LastQueryFailed()
+    {
+        return (LastQueryStatus == QueryStatus.Error);
+    }
 }
