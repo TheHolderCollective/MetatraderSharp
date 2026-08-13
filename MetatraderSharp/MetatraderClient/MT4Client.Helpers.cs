@@ -2,33 +2,6 @@
 
 public partial class MT4Client : MetatraderClient
 {
-    private string BuildTrackPricesUri(TrackingCommand trackCommand, params string[] symbolList)
-    {
-        string symbolParameters = "";
-
-        if (trackCommand == TrackingCommand.Start)
-        {
-            for (int i = 0; i < symbolList.Length; i++)
-            {
-                ArgumentNullException.ThrowIfNullOrEmpty(symbolList[i], nameof(symbolList));
-
-                if (i == symbolList.Length - 1)
-                {
-                    symbolParameters += $"symbols={symbolList[i]}";
-                }
-                else
-                {
-                    symbolParameters += $"symbols={symbolList[i]}&";
-                }
-            }
-        }
-        else if (trackCommand == TrackingCommand.Stop)
-        {
-            symbolParameters = $"symbols=";
-        }
-
-        return $"{_partialURI}:{WebSocketPort}/v1/track/prices?{symbolParameters}";
-    }
 
     private string BuildModifyOrderUri(long ticketNumber, double stopLoss, double takeProfit, double price, string expiration)
     {

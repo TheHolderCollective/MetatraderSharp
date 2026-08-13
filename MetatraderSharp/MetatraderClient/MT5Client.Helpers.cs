@@ -85,8 +85,26 @@ public partial class MT5Client : MetatraderClient
 
         return uri;
     }
+    
+    private string BuildCloseOrderUri(long ticketNumber, double volume = 0.0, bool async = false)
+    {
+        string uri = $"{_partialURI}:{WebSocketPort}/v1/order/close?ticket={ticketNumber}";
 
-    private string BuildGetCustomIndicatorValuesUri(string indicatorName, string symbol, string timeframe, int index, int count, string param1 = "", string param2 = "", string param3 = "", string param4 = "")
+        if (volume != 0.0)
+        {
+            uri = $"{_partialURI}:{WebSocketPort}/v1/order/close?ticket={ticketNumber}&volume={volume}";
+        }
+
+        if (async == true)
+        {
+            uri += "&async=true";
+        }
+
+        return uri;
+    }
+
+    private string BuildGetCustomIndicatorValuesUri(string indicatorName, string symbol, string timeframe, int index, int count, string param1 = "", string param2 = "", 
+                                                    string param3 = "", string param4 = "")
     {
         string parameters = $"symbol={symbol}&timeframe={timeframe}&indicator_name={indicatorName}&index={index}&num={count}";
 
@@ -110,21 +128,4 @@ public partial class MT5Client : MetatraderClient
         return $"{_partialURI}:{WebSocketPort}/v1/indicator/custom?{parameters}";
     }
 
-
-    private string BuildCloseOrderUri(long ticketNumber, double volume = 0.0, bool async = false)
-    {
-        string uri = $"{_partialURI}:{WebSocketPort}/v1/order/close?ticket={ticketNumber}";
-
-        if (volume != 0.0)
-        {
-            uri = $"{_partialURI}:{WebSocketPort}/v1/order/close?ticket={ticketNumber}&volume={volume}";
-        }
-
-        if (async == true)
-        {
-            uri += "&async=true";
-        }
-
-        return uri;
-    }
 }

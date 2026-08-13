@@ -315,42 +315,6 @@ public partial class MT4Client : MetatraderClient
         }
     }
     
-    public async Task<TrackPricesResponse> TrackPricesAsync(TrackingCommand trackCommand, params string[] symbols)
-    {
-        try
-        {
-            string uri = BuildTrackPricesUri(trackCommand, symbols);
-
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri(uri),
-                Headers =
-                {
-                    {"Accept","application/json" }
-                }
-            };
-
-            var response = await Client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackPricesResponse>(responseContent) : null;
-
-            SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
-            return requestResponse;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new TrackPricesResponse()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-    }
-
     public async Task<OrderHistory> GetOrderHistoryAsync(string fromDate, string toDate)
     {
         try
@@ -373,47 +337,6 @@ public partial class MT4Client : MetatraderClient
                 ErrorDescription = ex.Message
             };
         }
-    }
-
-    public async Task<TrackOHLCResponse> TrackOHLCsAsync(TrackOHLCRequest ohlcRequest)
-    {
-        try
-        {
-            string requestContent = ohlcRequest.ToString();
-
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri("http://127.0.0.1:81/v1/track/ohlc"),
-                Headers = { { "Accept", "application/json" } },
-                Content = new StringContent(requestContent)
-                {
-                    Headers =
-                      {
-                         ContentType = new MediaTypeHeaderValue("application/json")
-                      }
-                }
-            };
-
-            var response = await Client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackOHLCResponse>(responseContent) : null;
-
-            SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
-            return requestResponse;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new TrackOHLCResponse()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-
     }
     
     /// <summary>
