@@ -1,7 +1,6 @@
-﻿using MetatraderSharp.MTsocketAPI.Responses;
-using MetatraderSharp.MTsocketAPI.Responses.MT4;
+﻿using MetatraderSharp.MTsocketAPI.Responses.MT4;
 using Newtonsoft.Json;
-using System.Net.Http.Headers;
+
 namespace MetatraderSharp.MetatraderClient;
 
 public partial class MT4Client : MetatraderClient
