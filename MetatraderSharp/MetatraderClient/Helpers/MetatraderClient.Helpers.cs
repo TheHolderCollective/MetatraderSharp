@@ -10,18 +10,18 @@ public abstract partial class MetatraderClient
         {
             string uri = $"{_partialURI}:{WebSocketPort}";
             var response = Client.GetAsync(uri).Result;
-            StatusIsOK = response.IsSuccessStatusCode;
+            ClientStatusIsOK = response.IsSuccessStatusCode;
         }
         catch (Exception ex)
         {
-            StatusIsOK = false;
+            ClientStatusIsOK = false;
         }
     }
     #endregion
 
     #region Helpers - Error Handling
 
-    protected void SetQueryResult(int errorID, string errorDescription)
+    protected void SetQueryResult(int errorID, string? errorDescription)
     {
         switch (errorID)
         {
@@ -66,7 +66,6 @@ public abstract partial class MetatraderClient
 
         return $"{_partialURI}:{WebSocketPort}/v1/track/prices?{symbolParameters}";
     }
-
     #endregion
 }
 

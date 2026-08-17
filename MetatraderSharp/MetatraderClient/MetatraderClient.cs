@@ -17,14 +17,14 @@ public abstract partial class MetatraderClient
     public int LastQueryStatus { get; protected set; }
     public string TerminalType { get; protected set; }
     public string WebSocketPort { get; set; }
-    public string LastQueryMessage { get; protected set; }
+    public string? LastQueryMessage { get; protected set; }
     public string RequestedUri { get; protected set; }
     public HttpClient Client { get; set; }
 
-    public bool StatusIsOK { get; protected set; }
-    public bool StatusIsError
+    public bool ClientStatusIsOK { get; protected set; }
+    public bool ClientStatusIsError
     {
-        get { return !StatusIsOK; }
+        get { return !ClientStatusIsOK; }
     }
 
     #endregion
@@ -51,6 +51,8 @@ public abstract partial class MetatraderClient
             var responseContent = await response.Content.ReadAsStringAsync();
             var terminalInfo = (responseContent != null) ? JsonConvert.DeserializeObject<TerminalInfo>(responseContent) : null;
 
+            ArgumentNullException.ThrowIfNull(terminalInfo);
+
             SetQueryResult(terminalInfo.ErrorID, terminalInfo.ErrorDescription);
             return terminalInfo;
         }
@@ -59,7 +61,7 @@ public abstract partial class MetatraderClient
             SetQueryResult(QueryStatus.Error, ex.Message);
             return new TerminalInfo()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message,
             };
         }
@@ -75,6 +77,8 @@ public abstract partial class MetatraderClient
             var responseContent = await response.Content.ReadAsStringAsync();
             var quote = (responseContent != null) ? JsonConvert.DeserializeObject<Quote>(responseContent) : null;
 
+            ArgumentNullException.ThrowIfNull(quote);
+
             SetQueryResult(quote.ErrorID, quote.ErrorDescription);
             return quote;
         }
@@ -83,7 +87,7 @@ public abstract partial class MetatraderClient
             SetQueryResult(QueryStatus.Error, ex.Message);
             return new Quote()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message,
             };
         }
@@ -99,6 +103,8 @@ public abstract partial class MetatraderClient
             var responseContent = await response.Content.ReadAsStringAsync();
             var symbolList = (responseContent != null) ? JsonConvert.DeserializeObject<SymbolList>(responseContent) : null;
 
+            ArgumentNullException.ThrowIfNull(symbolList);
+
             SetQueryResult(symbolList.ErrorID, symbolList.ErrorDescription);
             return symbolList;
         }
@@ -107,7 +113,7 @@ public abstract partial class MetatraderClient
             SetQueryResult(QueryStatus.Error, ex.Message);
             return new SymbolList()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message,
             };
         }
@@ -123,6 +129,8 @@ public abstract partial class MetatraderClient
             var responseContent = await response.Content.ReadAsStringAsync();
             var priceHistory = (responseContent != null) ? JsonConvert.DeserializeObject<PriceHistory>(responseContent) : null;
 
+            ArgumentNullException.ThrowIfNull(priceHistory);
+
             SetQueryResult(priceHistory.ErrorID, priceHistory.ErrorDescription);
             return priceHistory;
         }
@@ -131,7 +139,7 @@ public abstract partial class MetatraderClient
             SetQueryResult(QueryStatus.Error, ex.Message);
             return new PriceHistory()
             {
-                ErrorID = -1,
+                ErrorID = QueryStatus.Error,
                 ErrorDescription = ex.Message,
             };
         }
@@ -158,6 +166,8 @@ public abstract partial class MetatraderClient
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackResponse>(responseContent) : null;
+
+            ArgumentNullException.ThrowIfNull(requestResponse);
 
             SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
             return requestResponse;
@@ -198,6 +208,8 @@ public abstract partial class MetatraderClient
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackResponse>(responseContent) : null;
+
+            ArgumentNullException.ThrowIfNull(requestResponse);
 
             SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
             return requestResponse;

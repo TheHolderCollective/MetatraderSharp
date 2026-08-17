@@ -20,6 +20,8 @@ public partial class MT5Client : MetatraderClient
             var responseContent = await response.Content.ReadAsStringAsync();
             var account = (responseContent != null) ? JsonConvert.DeserializeObject<Account>(responseContent) : null;
 
+            ArgumentNullException.ThrowIfNull(account);
+
             SetQueryResult(account.ErrorID, account.ErrorDescription);
             return account;
         }
@@ -43,6 +45,8 @@ public partial class MT5Client : MetatraderClient
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var calendar = (responseContent != null) ? JsonConvert.DeserializeObject<Calendar>(responseContent) : null;
+
+            ArgumentNullException.ThrowIfNull(calendar);
 
             SetQueryResult(calendar.ErrorID, calendar.ErrorDescription);
             return calendar;
@@ -68,6 +72,8 @@ public partial class MT5Client : MetatraderClient
             var responseContent = await response.Content.ReadAsStringAsync();
             var tickHistory = (responseContent != null) ? JsonConvert.DeserializeObject<TickHistory>(responseContent) : null;
 
+            ArgumentNullException.ThrowIfNull(tickHistory);
+
             SetQueryResult(tickHistory.ErrorID, tickHistory.ErrorDescription);
             return tickHistory;
         }
@@ -92,6 +98,8 @@ public partial class MT5Client : MetatraderClient
             var responseContent = await response.Content.ReadAsStringAsync();
             var orderHistory = (responseContent != null) ? JsonConvert.DeserializeObject<OrderHistory>(responseContent) : null;
 
+            ArgumentNullException.ThrowIfNull(orderHistory);
+
             SetQueryResult(orderHistory.ErrorID, orderHistory.ErrorDescription);
             return orderHistory;
         }
@@ -115,6 +123,8 @@ public partial class MT5Client : MetatraderClient
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var atrIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
+
+            ArgumentNullException.ThrowIfNull(atrIndicator);
 
             SetQueryResult(atrIndicator.ErrorID, atrIndicator.ErrorDescription);
             return atrIndicator;
@@ -142,6 +152,8 @@ public partial class MT5Client : MetatraderClient
             var responseContent = await response.Content.ReadAsStringAsync();
             var customIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
 
+            ArgumentNullException.ThrowIfNull(customIndicator);
+
             SetQueryResult(customIndicator.ErrorID, customIndicator.ErrorDescription);
             return customIndicator;
         }
@@ -167,6 +179,8 @@ public partial class MT5Client : MetatraderClient
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var maIndicator = (responseContent != null) ? JsonConvert.DeserializeObject<Indicator>(responseContent) : null;
+
+            ArgumentNullException.ThrowIfNull(maIndicator);
 
             SetQueryResult(maIndicator.ErrorID, maIndicator.ErrorDescription);
             return maIndicator;
@@ -202,6 +216,8 @@ public partial class MT5Client : MetatraderClient
             var responseContent = await response.Content.ReadAsStringAsync();
             var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderSendResponse>(responseContent) : null;
 
+            ArgumentNullException.ThrowIfNull(orderResponse);
+
             SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
             return orderResponse;
 
@@ -236,6 +252,8 @@ public partial class MT5Client : MetatraderClient
             var responseContent = await response.Content.ReadAsStringAsync();
             var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderModifyResponse>(responseContent) : null;
 
+            ArgumentNullException.ThrowIfNull(orderResponse);
+
             SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
             return orderResponse;
         }
@@ -269,6 +287,8 @@ public partial class MT5Client : MetatraderClient
             var responseContent = await response.Content.ReadAsStringAsync();
             var orderResponse = (responseContent != null) ? JsonConvert.DeserializeObject<OrderCloseResponse>(responseContent) : null;
 
+            ArgumentNullException.ThrowIfNull(orderResponse);
+
             SetQueryResult(orderResponse.ErrorID, orderResponse.ErrorDescription);
             return orderResponse;
         }
@@ -292,6 +312,8 @@ public partial class MT5Client : MetatraderClient
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var orderList = (responseContent != null) ? JsonConvert.DeserializeObject<OrderList>(responseContent) : null;
+
+            ArgumentNullException.ThrowIfNull(orderList);
 
             SetQueryResult(orderList.ErrorID, orderList.ErrorDescription);
             return orderList;
@@ -332,6 +354,8 @@ public partial class MT5Client : MetatraderClient
 
             var orderInfo = (responseContent != null) ? JsonConvert.DeserializeObject<OrderInfo>(responseContent) : null;
 
+            ArgumentNullException.ThrowIfNull(orderInfo);
+
             SetQueryResult(orderInfo.ErrorID, orderInfo.ErrorDescription);
             return orderInfo;
         }
@@ -355,6 +379,8 @@ public partial class MT5Client : MetatraderClient
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var symbolInfo = (responseContent != null) ? JsonConvert.DeserializeObject<SymbolInformation>(responseContent) : null;
+
+            ArgumentNullException.ThrowIfNull(symbolInfo);
 
             SetQueryResult(symbolInfo.ErrorID, symbolInfo.ErrorDescription);
             return symbolInfo;
@@ -392,6 +418,8 @@ public partial class MT5Client : MetatraderClient
             var responseContent = await response.Content.ReadAsStringAsync();
             var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackOrderEventsResponse>(responseContent) : null;
 
+            ArgumentNullException.ThrowIfNull(requestResponse);
+
             SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
             return requestResponse;
 
@@ -406,5 +434,43 @@ public partial class MT5Client : MetatraderClient
             };
         }
 
+    }
+
+    public async Task<TrackResponse> TrackMarketBookAsync(params string[] symbolList)
+    {
+        try
+        {
+            RequestedUri = BuildTrackMarketBookUri(symbolList);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(RequestedUri),
+                Headers =
+                {
+                    {"Accept","application/json" }
+                }
+            };
+
+            var response = await Client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackResponse>(responseContent) : null;
+
+            ArgumentNullException.ThrowIfNull(requestResponse);
+
+            SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
+            return requestResponse;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new TrackResponse()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message,
+            };
+        }
     }
 }

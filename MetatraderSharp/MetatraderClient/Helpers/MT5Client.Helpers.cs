@@ -128,4 +128,31 @@ public partial class MT5Client : MetatraderClient
         return $"{_partialURI}:{WebSocketPort}/v1/indicator/custom?{parameters}";
     }
 
+    private string BuildTrackMarketBookUri(params string[] symbolList)
+    {
+        string symbolParameters = "";
+
+        if (symbolList.Length == 1 && symbolList[0] == "")
+        {
+            symbolParameters += $"symbols=";
+        }
+        else
+        {
+            for (int i = 0; i < symbolList.Length; i++)
+            {
+
+                if (i == symbolList.Length - 1)
+                {
+                    symbolParameters += $"symbols={symbolList[i]}";
+                }
+                else
+                {
+                    symbolParameters += $"symbols={symbolList[i]}&";
+                }
+            }
+        }
+
+        return $"{_partialURI}:{WebSocketPort}/v1/track/mbook?{symbolParameters}";
+    }
+
 }

@@ -8,7 +8,7 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 public class TrackResponse
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("SUCCESS")]
     public List<string> Success { get; set; }
@@ -17,7 +17,7 @@ public class TrackResponse
     public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
-    public string ErrorDescription { get; set; }
+    public string? ErrorDescription { get; set; }
 
     public override string ToString()
     {
