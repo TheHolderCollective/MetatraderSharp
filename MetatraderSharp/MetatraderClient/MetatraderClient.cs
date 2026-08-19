@@ -33,19 +33,32 @@ public abstract partial class MetatraderClient
     public MetatraderClient()
     {
         _partialURI = "http://127.0.0.1";
+        _webSocketPort = "81";
         _lastQueryMessage = "";
         _requestedUri = "";
-        _webSocketPort = "";
         _clientType = "";
         _clientStatusMessage = "";
         _client = new HttpClient();
     }
 
-    public MetatraderClient(string clientType, HttpClient? client = null, string webSocketPort = "") : this()
+    public MetatraderClient(string clientType): this()
     {
         _clientType = clientType;
-        _webSocketPort = (webSocketPort == "") ? "81" : webSocketPort;
-        _client = (client == null) ? new HttpClient() : client;
+        VerifyHttpStatus(_client);
+    }
+
+    public MetatraderClient(string clientType, HttpClient client, string webSocketPort) : this()
+    {
+        _clientType = clientType;
+        _webSocketPort = webSocketPort;
+        _client = client;
+        VerifyHttpStatus(_client);
+    }
+
+    public MetatraderClient(string clientType, string webSocketPort): this()
+    {
+        _clientType = clientType;
+        _webSocketPort = webSocketPort;
         VerifyHttpStatus(_client);
     }
 

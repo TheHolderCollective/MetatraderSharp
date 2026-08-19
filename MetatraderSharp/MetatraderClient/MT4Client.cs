@@ -9,6 +9,14 @@ public partial class MT4Client : MetatraderClient
     {
     }
 
+    public MT4Client(HttpClient client,string webSocketPort) : base(MetatraderClientType.MT4, client, webSocketPort)
+    {
+    }
+
+    public MT4Client(string webSocketPort): base(MetatraderClientType.MT4, webSocketPort)
+    {
+    }
+
     public async Task<Account> GetAccountInfoAsync()
     {
         try

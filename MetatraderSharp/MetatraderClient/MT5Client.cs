@@ -10,6 +10,14 @@ public partial class MT5Client : MetatraderClient
     {
     }
 
+    public MT5Client(HttpClient client, string webSocketPort) : base(MetatraderClientType.MT5, client, webSocketPort)
+    {
+    }
+
+    public MT5Client(string webSocketPort) : base(MetatraderClientType.MT5, webSocketPort)
+    {
+    }
+
     public async Task<Account> GetAccountInfoAsync()
     {
         try
