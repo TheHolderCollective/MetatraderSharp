@@ -6,7 +6,7 @@ namespace MetatraderSharp.MetatraderClient;
 
 public partial class MT5Client : MetatraderClient
 {
-    public MT5Client() : base(MetatraderTerminalType.MT5)
+    public MT5Client() : base(MetatraderClientType.MT5)
     {
     }
 
@@ -14,7 +14,9 @@ public partial class MT5Client : MetatraderClient
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/account");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/account";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -35,12 +37,14 @@ public partial class MT5Client : MetatraderClient
             };
         }
     }
-   
+
     public async Task<Calendar> GetCalendarAsync(string fromDate, string toDate, string countryCode = "", string currency = "")
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/calendar?from_date={fromDate}&to_date={toDate}&country_code={countryCode}&currency={currency}");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/calendar?from_date={fromDate}&to_date={toDate}&country_code={countryCode}&currency={currency}";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -61,12 +65,14 @@ public partial class MT5Client : MetatraderClient
             };
         }
     }
-   
+
     public async Task<TickHistory> GetTickHistoryAsync(string fromDate, string toDate, string symbol, string tickFlag)
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/ticks?symbol={symbol}&flags={tickFlag}&from_date={fromDate}&to_date={toDate}");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/history/ticks?symbol={symbol}&flags={tickFlag}&from_date={fromDate}&to_date={toDate}";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -87,12 +93,14 @@ public partial class MT5Client : MetatraderClient
             };
         }
     }
-    
+
     public async Task<OrderHistory> GetOrderHistoryAsync(string fromDate, string toDate, string mode)
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/orders?from_date={fromDate}&to_date={toDate}&mode={mode}");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/history/orders?from_date={fromDate}&to_date={toDate}&mode={mode}";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -113,12 +121,14 @@ public partial class MT5Client : MetatraderClient
             };
         }
     }
-    
+
     public async Task<Indicator> GetATRValues(int period, int shift, string symbol, string timeframe)
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/indicator/atr?symbol={symbol}&timeframe={timeframe}&period={period}&shift={shift}");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/indicator/atr?symbol={symbol}&timeframe={timeframe}&period={period}&shift={shift}";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -144,9 +154,9 @@ public partial class MT5Client : MetatraderClient
     {
         try
         {
-            string requestUri = BuildGetCustomIndicatorValuesUri(indicatorName, symbol, timeframe, index, count, param1, param2, param3, param4);
+            _requestedUri = BuildGetCustomIndicatorValuesUri(indicatorName, symbol, timeframe, index, count, param1, param2, param3, param4);
 
-            var response = await Client.GetAsync(requestUri);
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -167,14 +177,15 @@ public partial class MT5Client : MetatraderClient
             };
         }
     }
-    
+
     public async Task<Indicator> GetMAValues(string appliedPrice, string ma_Method, int ma_Period, int count, int ma_Shift, string symbol, string timeframe)
     {
         try
         {
             string parameters = $"symbol={symbol}&timeframe={timeframe}&ma_period={ma_Period}&ma_shift={ma_Shift}&ma_method={ma_Method}&applied_price={appliedPrice}&num={count}";
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/indicator/ma?{parameters}";
 
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/indicator/ma?{parameters}");
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -195,22 +206,22 @@ public partial class MT5Client : MetatraderClient
             };
         }
     }
-    
-    public async Task<OrderSendResponse> PlaceOrderAsync(string symbol, string orderType, double volume, bool async = false, double price = 0.0, double stopLoss = 0.0, 
+
+    public async Task<OrderSendResponse> PlaceOrderAsync(string symbol, string orderType, double volume, bool async = false, double price = 0.0, double stopLoss = 0.0,
                                                          double takeProfit = 0.0, int magic = 0, string orderFillType = "", string comment = "", string expiration = "")
     {
         try
         {
-            string uri = BuildSendOrderUri(symbol, orderType, volume, async, price, stopLoss, takeProfit, magic, orderFillType, comment, expiration);
+            _requestedUri = BuildSendOrderUri(symbol, orderType, volume, async, price, stopLoss, takeProfit, magic, orderFillType, comment, expiration);
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(uri),
+                RequestUri = new Uri(_requestedUri),
                 Headers = { { "Accept", "application/json" } }
             };
 
-            var response = await Client.SendAsync(request);
+            var response = await _client.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -237,16 +248,16 @@ public partial class MT5Client : MetatraderClient
     {
         try
         {
-            string uri = BuildModifyOrderUri(ticketNumber, stopLoss, takeProfit, price, async, expiration);
+            _requestedUri = BuildModifyOrderUri(ticketNumber, stopLoss, takeProfit, price, async, expiration);
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(uri),
+                RequestUri = new Uri(_requestedUri),
                 Headers = { { "Accept", "application/json" } }
             };
 
-            var response = await Client.SendAsync(request);
+            var response = await _client.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -267,21 +278,21 @@ public partial class MT5Client : MetatraderClient
             };
         }
     }
-    
+
     public async Task<OrderCloseResponse> CloseOrderAsync(long ticketNumber, double volume = 0.0, bool async = false)
     {
         try
         {
-            string uri = BuildCloseOrderUri(ticketNumber, volume, async);
+            _requestedUri = BuildCloseOrderUri(ticketNumber, volume, async);
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(uri),
+                RequestUri = new Uri(_requestedUri),
                 Headers = { { "Accept", "application/json" } }
             };
 
-            var response = await Client.SendAsync(request);
+            var response = await _client.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -307,7 +318,9 @@ public partial class MT5Client : MetatraderClient
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/order/list");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/list";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -328,30 +341,17 @@ public partial class MT5Client : MetatraderClient
             };
         }
     }
-    
+
     public async Task<OrderInfo> GetOrderInfoAsync(long ticketNumber)
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/order/info?ticket={ticketNumber}");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/info?ticket={ticketNumber}";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            bool ticketNotFound = responseContent.Contains("\"ERROR_ID\":-1"); // this check needs to be done because exception isn't thrown when ticket isn't found
-
-            if (ticketNotFound)
-            {
-                string message = "TICKET not found";
-
-                SetQueryResult(QueryStatus.Error, message);
-                return new OrderInfo()
-                {
-                    Msg = "ORDER_INFO",
-                    ErrorID = QueryStatus.Error,
-                    ErrorDescription = message
-                };
-            }
-
             var orderInfo = (responseContent != null) ? JsonConvert.DeserializeObject<OrderInfo>(responseContent) : null;
 
             ArgumentNullException.ThrowIfNull(orderInfo);
@@ -369,12 +369,14 @@ public partial class MT5Client : MetatraderClient
             };
         }
     }
-   
+
     public async Task<SymbolInformation> GetSymbolInformationAsync(string symbol)
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/symbol/info?symbol={symbol}");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/symbol/info?symbol={symbol}";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -400,19 +402,19 @@ public partial class MT5Client : MetatraderClient
     {
         try
         {
-            RequestedUri = $"{_partialURI}:{WebSocketPort}/v1/track/orders?enabled={enabled}";
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/track/orders?enabled={enabled}";
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(RequestedUri),
+                RequestUri = new Uri(_requestedUri),
                 Headers =
                 {
                     {"Accept","application/json" }
                 }
             };
 
-            var response = await Client.SendAsync(request);
+            var response = await _client.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -440,19 +442,19 @@ public partial class MT5Client : MetatraderClient
     {
         try
         {
-            RequestedUri = BuildTrackMarketBookUri(symbolList);
+            _requestedUri = BuildTrackMarketBookUri(symbolList);
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(RequestedUri),
+                RequestUri = new Uri(_requestedUri),
                 Headers =
                 {
                     {"Accept","application/json" }
                 }
             };
 
-            var response = await Client.SendAsync(request);
+            var response = await _client.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();

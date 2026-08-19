@@ -9,43 +9,55 @@ public abstract partial class MetatraderClient
     #region Fields
 
     protected string _partialURI;
+    protected string _webSocketPort;
+    protected string _requestedUri;
+    protected string _clientType;
+    protected string _clientStatusMessage;
+    protected string? _lastQueryMessage;
+    protected int _lastQueryStatus;
+    protected int _lastErrorCode;
+    protected HttpClient _client;
+    protected bool _clientStatusIsOK;
 
     #endregion
 
     #region Properties
 
-    public int LastQueryStatus { get; protected set; }
-    public string TerminalType { get; protected set; }
-    public string WebSocketPort { get; set; }
-    public string? LastQueryMessage { get; protected set; }
-    public string RequestedUri { get; protected set; }
-    public HttpClient Client { get; set; }
-
-    public bool ClientStatusIsOK { get; protected set; }
-    public bool ClientStatusIsError
-    {
-        get { return !ClientStatusIsOK; }
-    }
+    public string ClientType { get { return _clientType; } }
+    public string ClientStatusMessage { get { return _clientStatusMessage; } }
+    public string WebSocketPort { get { return _webSocketPort; } }
+    public string LastRequestedUri { get { return _requestedUri; } }
 
     #endregion
 
-    public MetatraderClient(string terminalType)
+    public MetatraderClient()
     {
         _partialURI = "http://127.0.0.1";
-        TerminalType = terminalType;
-        WebSocketPort = "81";
-        LastQueryMessage = "";
-        RequestedUri = "";
-        Client = new HttpClient();
-
-        VerifyHttpStatus();
+        _lastQueryMessage = "";
+        _requestedUri = "";
+        _webSocketPort = "";
+        _clientType = "";
+        _clientStatusMessage = "";
+        _client = new HttpClient();
     }
+
+    public MetatraderClient(string clientType, HttpClient? client = null, string webSocketPort = "") : this()
+    {
+        _clientType = clientType;
+        _webSocketPort = (webSocketPort == "") ? "81" : webSocketPort;
+        _client = (client == null) ? new HttpClient() : client;
+        VerifyHttpStatus(_client);
+    }
+
+    #region Async methods common to both terminal types
 
     public async Task<TerminalInfo> GetTerminalInfoAsync()
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/terminal");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/terminal";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -71,7 +83,9 @@ public abstract partial class MetatraderClient
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/quote?symbol={symbol}");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/quote?symbol={symbol}";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -97,7 +111,9 @@ public abstract partial class MetatraderClient
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/symbol/list");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/symbol/list";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -123,7 +139,9 @@ public abstract partial class MetatraderClient
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/prices?symbol={symbol}&timeframe={timeFrame}&from_date={fromDate}&to_date={toDate}");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/history/prices?symbol={symbol}&timeframe={timeFrame}&from_date={fromDate}&to_date={toDate}";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -149,19 +167,19 @@ public abstract partial class MetatraderClient
     {
         try
         {
-            string uri = BuildTrackPricesUri(trackCommand, symbols);
+            _requestedUri = BuildTrackPricesUri(trackCommand, symbols);
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(uri),
+                RequestUri = new Uri(_requestedUri),
                 Headers =
                 {
                     {"Accept","application/json" }
                 }
             };
 
-            var response = await Client.SendAsync(request);
+            var response = await _client.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -188,11 +206,12 @@ public abstract partial class MetatraderClient
         try
         {
             string requestContent = ohlcRequest.ToString();
+            _requestedUri = "http://127.0.0.1:81/v1/track/ohlc";
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri("http://127.0.0.1:81/v1/track/ohlc"),
+                RequestUri = new Uri(_requestedUri),
                 Headers = { { "Accept", "application/json" } },
                 Content = new StringContent(requestContent)
                 {
@@ -203,7 +222,7 @@ public abstract partial class MetatraderClient
                 }
             };
 
-            var response = await Client.SendAsync(request);
+            var response = await _client.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -226,13 +245,44 @@ public abstract partial class MetatraderClient
 
     }
 
+    #endregion
+
+    #region Methods for getting statuses
+
+    public bool ClientStatusIsOK()
+    {
+        return _clientStatusIsOK;
+    }
+
+    public bool ClientStatusIsError()
+    {
+        return !_clientStatusIsOK;
+    }
+
     public bool LastQuerySuccessful()
     {
-        return (LastQueryStatus == QueryStatus.Ok);
+        return (_lastQueryStatus == QueryStatus.Ok);
     }
 
     public bool LastQueryFailed()
     {
-        return (LastQueryStatus == QueryStatus.Error);
+        return (_lastQueryStatus == QueryStatus.Error);
     }
+
+    public string? LastQueryMessage()
+    {
+        return _lastQueryMessage;
+    }
+
+    public int LastQueryStatus()
+    {
+        return _lastQueryStatus;
+    }
+
+    public int LastErrorCode()
+    {
+        return _lastErrorCode;
+    }
+
+    #endregion
 }

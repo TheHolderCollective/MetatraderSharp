@@ -5,7 +5,7 @@ public partial class MT4Client : MetatraderClient
 
     private string BuildModifyOrderUri(long ticketNumber, double stopLoss, double takeProfit, double price, string expiration)
     {
-        string uri = $"{_partialURI}:{WebSocketPort}/v1/order/modify?ticket={ticketNumber}&sl={stopLoss}";
+        string uri = $"{_partialURI}:{_webSocketPort}/v1/order/modify?ticket={ticketNumber}&sl={stopLoss}";
 
         if (takeProfit != 0.0)
         {
@@ -25,7 +25,7 @@ public partial class MT4Client : MetatraderClient
     private string BuildSendOrderUri(string symbol, string orderType, double volume, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0,
                                      int magic = 0, string comment = "", string expiration = "")
     {
-        string uri = $"{_partialURI}:{WebSocketPort}/v1/order?symbol={symbol}&volume={volume}&type={orderType}";
+        string uri = $"{_partialURI}:{_webSocketPort}/v1/order?symbol={symbol}&volume={volume}&type={orderType}";
 
         if (takeProfit != 0.0)
         {
@@ -65,5 +65,10 @@ public partial class MT4Client : MetatraderClient
         }
 
         return uri;
+    }
+
+    private bool ContainsNoTicket(string jsonResponse)
+    {
+        return jsonResponse.Contains("\"TRADES\":[]");
     }
 }

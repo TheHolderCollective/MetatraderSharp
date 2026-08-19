@@ -4,17 +4,19 @@ public abstract partial class MetatraderClient
 {
     #region Helpers - Constructor
 
-    private void VerifyHttpStatus()
+    private void VerifyHttpStatus(HttpClient client)
     {
         try
         {
-            string uri = $"{_partialURI}:{WebSocketPort}";
-            var response = Client.GetAsync(uri).Result;
-            ClientStatusIsOK = response.IsSuccessStatusCode;
+            _requestedUri = $"{_partialURI}:{_webSocketPort}";
+            var response = client.GetAsync(_requestedUri).Result;
+            _clientStatusIsOK = response.IsSuccessStatusCode;
+            _clientStatusMessage = response.StatusCode.ToString();
         }
         catch (Exception ex)
         {
-            ClientStatusIsOK = false;
+            _clientStatusMessage = ex.Message;
+            _clientStatusIsOK = false;
         }
     }
     #endregion
@@ -26,13 +28,14 @@ public abstract partial class MetatraderClient
         switch (errorID)
         {
             case 0:
-                LastQueryStatus = QueryStatus.Ok;
+                _lastQueryStatus = QueryStatus.Ok;
                 break;
             default:
-                LastQueryStatus = QueryStatus.Error;
+                _lastQueryStatus = QueryStatus.Error;
+                _lastErrorCode = errorID;
                 break;
         }
-        LastQueryMessage = errorDescription;
+        _lastQueryMessage = errorDescription;
     }
 
     #endregion
@@ -64,7 +67,7 @@ public abstract partial class MetatraderClient
             symbolParameters = $"symbols=";
         }
 
-        return $"{_partialURI}:{WebSocketPort}/v1/track/prices?{symbolParameters}";
+        return $"{_partialURI}:{_webSocketPort}/v1/track/prices?{symbolParameters}";
     }
     #endregion
 }

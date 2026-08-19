@@ -6,7 +6,7 @@ public static class QueryStatus
     public const int Ok = 0;
 }
 
-public static class MetatraderTerminalType
+public static class MetatraderClientType
 {
     public const string MT4 = "MT4";
     public const string MT5 = "MT5";

@@ -5,7 +5,7 @@ namespace MetatraderSharp.MetatraderClient;
 
 public partial class MT4Client : MetatraderClient
 {
-    public MT4Client() : base(MetatraderTerminalType.MT4)
+    public MT4Client() : base(MetatraderClientType.MT4)
     {
     }
 
@@ -13,7 +13,9 @@ public partial class MT4Client : MetatraderClient
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/account");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/account";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -39,7 +41,9 @@ public partial class MT4Client : MetatraderClient
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/indicator/atr?symbol={symbol}&timeframe={timeframe}&period={period}&shift={shift}");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/indicator/atr?symbol={symbol}&timeframe={timeframe}&period={period}&shift={shift}";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -66,8 +70,9 @@ public partial class MT4Client : MetatraderClient
         try
         {
             string parameters = $"symbol={symbol}&timeframe={timeframe}&ma_period={ma_Period}&ma_shift={ma_Shift}&ma_method={ma_Method}&applied_price={appliedPrice}";
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/indicator/ma?{parameters}";
 
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/indicator/ma?{parameters}");
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -94,8 +99,9 @@ public partial class MT4Client : MetatraderClient
         try
         {
             string parameters = $"symbol={symbol}&timeframe={timeframe}&indicator_name={indicatorName}&param1={param1}&param2={param2}&param3={param3}&param4={param4}&mode={mode}&shift={shift}";
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/indicator/custom?{parameters}";
 
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/indicator/custom?{parameters}");
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -121,23 +127,16 @@ public partial class MT4Client : MetatraderClient
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/order/info?ticket={ticketNumber}");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/info?ticket={ticketNumber}";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            bool ticketNotFound = responseContent.Contains("\"ERROR_ID\":-1"); // this check needs to be done because exception isn't thrown when ticket isn't found
 
-            if (ticketNotFound)
+            if (ContainsNoTicket(responseContent))
             {
-                string message = "TICKET not found";
-
-                SetQueryResult(QueryStatus.Error, message);
-                return new OrderInfo()
-                {
-                    Msg = "ORDER_INFO",
-                    ErrorID = QueryStatus.Error,
-                    ErrorDescription = message
-                };
+                throw new InvalidOperationException("Ticket not found");
             }
 
             var orderInfo = (responseContent != null) ? JsonConvert.DeserializeObject<OrderInfo>(responseContent) : null;
@@ -157,12 +156,14 @@ public partial class MT4Client : MetatraderClient
             };
         }
     }
-    
+
     public async Task<OrderList> GetOrderListAsync()
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/order/list");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/list";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -184,33 +185,20 @@ public partial class MT4Client : MetatraderClient
         }
     }
 
-    /// <summary>
-    /// Used to send market, limit or stop orders to the market.
-    /// </summary>
-    /// <param name="symbol">Symbol name (Check your broker's symbol name format)</param>
-    /// <param name="orderType">Order type</param>
-    /// <param name="volume">Order volume</param>
-    /// <param name="price">Price for limit or stop orders</param>
-    /// <param name="stopLoss">Stop loss</param>
-    /// <param name="takeProfit">Take profit</param>
-    /// <param name="magic">Order magic number</param>
-    /// <param name="comment">Order comment</param>
-    /// <param name="expiration">Order expiration time</param>
-    /// <returns></returns>
     public async Task<OrderSendResponse> PlaceOrderAsync(string symbol, string orderType, double volume, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0, int magic = 0, string comment = "", string expiration = "")
     {
         try
         {
-            string uri = BuildSendOrderUri(symbol, orderType, volume, price, stopLoss, takeProfit, magic, comment, expiration);
+            _requestedUri = BuildSendOrderUri(symbol, orderType, volume, price, stopLoss, takeProfit, magic, comment, expiration);
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(uri),
+                RequestUri = new Uri(_requestedUri),
                 Headers = { { "Accept", "application/json" } }
             };
 
-            var response = await Client.SendAsync(request);
+            var response = await _client.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -237,16 +225,16 @@ public partial class MT4Client : MetatraderClient
     {
         try
         {
-            string uri = BuildModifyOrderUri(ticketNumber, stopLoss, takeProfit, price, expiration);
+            _requestedUri = BuildModifyOrderUri(ticketNumber, stopLoss, takeProfit, price, expiration);
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(uri),
+                RequestUri = new Uri(_requestedUri),
                 Headers = { { "Accept", "application/json" } }
             };
 
-            var response = await Client.SendAsync(request);
+            var response = await _client.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -272,21 +260,21 @@ public partial class MT4Client : MetatraderClient
     {
         try
         {
-            string uri = $"{_partialURI}:{WebSocketPort}/v1/order/close?ticket={ticketNumber}";
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/close?ticket={ticketNumber}";
 
             if (volume != 0.0)
             {
-                uri = $"{_partialURI}:{WebSocketPort}/v1/order/close?ticket={ticketNumber}&volume={volume}";
+                _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/close?ticket={ticketNumber}&volume={volume}";
             }
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(uri),
+                RequestUri = new Uri(_requestedUri),
                 Headers = { { "Accept", "application/json" } }
             };
 
-            var response = await Client.SendAsync(request);
+            var response = await _client.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -312,7 +300,9 @@ public partial class MT4Client : MetatraderClient
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/symbol/info?symbol={symbol}");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/symbol/info?symbol={symbol}";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -333,12 +323,14 @@ public partial class MT4Client : MetatraderClient
             };
         }
     }
-    
+
     public async Task<OrderHistory> GetOrderHistoryAsync(string fromDate, string toDate)
     {
         try
         {
-            var response = await Client.GetAsync($"{_partialURI}:{WebSocketPort}/v1/history/orders?from_date={fromDate}&to_date={toDate}");
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/history/orders?from_date={fromDate}&to_date={toDate}";
+
+            var response = await _client.GetAsync(_requestedUri);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -359,12 +351,11 @@ public partial class MT4Client : MetatraderClient
             };
         }
     }
-    
+
     /// <summary>
     /// Searches for new order ticket created when an order with the given ticket number was partially closed
     /// Returns 0 if no match found
     /// </summary>
-    /// <returns></returns>
     public async Task<long> FindNewTicketNumber(long ticketNumber)
     {
         try

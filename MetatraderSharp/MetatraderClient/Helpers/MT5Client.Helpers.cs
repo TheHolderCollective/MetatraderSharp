@@ -5,7 +5,7 @@ public partial class MT5Client : MetatraderClient
 
     private string BuildModifyOrderUri(long ticketNumber, double stopLoss, double takeProfit, double price, bool async,string expiration)
     {
-        string uri = $"{_partialURI}:{WebSocketPort}/v1/order/modify?ticket={ticketNumber}&sl={stopLoss}&async={async}";
+        string uri = $"{_partialURI}:{_webSocketPort}/v1/order/modify?ticket={ticketNumber}&sl={stopLoss}&async={async}";
 
         if (takeProfit != 0.0)
         {
@@ -25,7 +25,7 @@ public partial class MT5Client : MetatraderClient
     private string BuildSendOrderUri(string symbol, string orderType, double volume, bool async = false, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0,
                                     int magic = 0, string orderFillType = "", string comment = "", string expiration = "")
     {
-        string uri = $"{_partialURI}:{WebSocketPort}/v1/order?symbol={symbol}&volume={volume}&type={orderType}";
+        string uri = $"{_partialURI}:{_webSocketPort}/v1/order?symbol={symbol}&volume={volume}&type={orderType}";
 
         if (takeProfit != 0.0)
         {
@@ -88,11 +88,11 @@ public partial class MT5Client : MetatraderClient
     
     private string BuildCloseOrderUri(long ticketNumber, double volume = 0.0, bool async = false)
     {
-        string uri = $"{_partialURI}:{WebSocketPort}/v1/order/close?ticket={ticketNumber}";
+        string uri = $"{_partialURI}:{_webSocketPort}/v1/order/close?ticket={ticketNumber}";
 
         if (volume != 0.0)
         {
-            uri = $"{_partialURI}:{WebSocketPort}/v1/order/close?ticket={ticketNumber}&volume={volume}";
+            uri = $"{_partialURI}:{_webSocketPort}/v1/order/close?ticket={ticketNumber}&volume={volume}";
         }
 
         if (async == true)
@@ -125,7 +125,7 @@ public partial class MT5Client : MetatraderClient
             parameters += $"&param4={param4}";
         }
 
-        return $"{_partialURI}:{WebSocketPort}/v1/indicator/custom?{parameters}";
+        return $"{_partialURI}:{_webSocketPort}/v1/indicator/custom?{parameters}";
     }
 
     private string BuildTrackMarketBookUri(params string[] symbolList)
@@ -152,7 +152,6 @@ public partial class MT5Client : MetatraderClient
             }
         }
 
-        return $"{_partialURI}:{WebSocketPort}/v1/track/mbook?{symbolParameters}";
+        return $"{_partialURI}:{_webSocketPort}/v1/track/mbook?{symbolParameters}";
     }
-
 }

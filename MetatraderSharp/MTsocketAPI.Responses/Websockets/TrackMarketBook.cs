@@ -9,7 +9,7 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 public class MarketDepth
 {
     [JsonProperty("MSG")]
-    public object Msg { get; set; }
+    public string Msg { get; set; }
 
     [JsonProperty("SYMBOL")]
     public string Symbol { get; set; }
@@ -21,9 +21,9 @@ public class MarketDepth
     {
         return JsonConvert.SerializeObject(this, Formatting.Indented);
     }
+
 }
  
-
 public class MarketBook
 {
     [JsonProperty("PRICE")]
