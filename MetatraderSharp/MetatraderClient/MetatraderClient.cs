@@ -206,7 +206,7 @@ public abstract partial class MetatraderClient
         try
         {
             string requestContent = ohlcRequest.ToString();
-            _requestedUri = "http://127.0.0.1:81/v1/track/ohlc";
+            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/track/ohlc";
 
             var request = new HttpRequestMessage
             {
