@@ -10,6 +10,10 @@ public partial class MT5Client : MetatraderClient
     {
     }
 
+    public MT5Client(HttpClient client) : base(MetatraderClientType.MT5, client)
+    {
+    }
+
     public MT5Client(HttpClient client, string webSocketPort) : base(MetatraderClientType.MT5, client, webSocketPort)
     {
     }

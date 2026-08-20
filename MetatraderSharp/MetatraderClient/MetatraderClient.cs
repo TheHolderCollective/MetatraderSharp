@@ -47,6 +47,13 @@ public abstract partial class MetatraderClient
         VerifyHttpStatus(_client);
     }
 
+    public MetatraderClient(string clientType, HttpClient client): this()
+    {
+        _clientType = clientType;
+        _client = client;
+        VerifyHttpStatus(_client);
+    }
+
     public MetatraderClient(string clientType, HttpClient client, string webSocketPort) : this()
     {
         _clientType = clientType;
