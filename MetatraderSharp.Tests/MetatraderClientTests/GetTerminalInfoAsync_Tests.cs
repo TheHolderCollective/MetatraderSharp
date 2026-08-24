@@ -1,4 +1,5 @@
 ﻿using RichardSzalay.MockHttp;
+using FluentAssertions;
 using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
 using MT4Responses = MetatraderSharp.MTsocketAPI.Responses.MT4;
@@ -35,36 +36,36 @@ public class GetTerminalInfoAsync_Tests
         TerminalInfo terminalInfo = await mtClient.GetTerminalInfoAsync();
 
         // Assert
-        Assert.Equal("TERMINAL_INFO", terminalInfo.Msg);
-        Assert.Equal("English", terminalInfo.Language);
-        Assert.Equal("Testing Corporation Ltd", terminalInfo.Company);
-        Assert.Equal("MetaTrader 4 Test Terminal", terminalInfo.Name);
-        Assert.Equal(@"C:\Program Files (x86)\MetaTrader 4 Test Terminal", terminalInfo.Path);
-        Assert.Equal(@"C:\Users\User\AppData\Roaming\MetaQuotes\Terminal\ABCDEFG0000000000012345678910111", terminalInfo.DataPath);
-        Assert.Equal(@"C:\Users\User\AppData\Roaming\MetaQuotes\Terminal\Common", terminalInfo.CommonDataPath);
-        Assert.Equal(1473, terminalInfo.Build);
-        Assert.Equal(0, terminalInfo.CommunityAccount);
-        Assert.Equal(0, terminalInfo.CommunityConnection);
-        Assert.Equal(1, terminalInfo.Connected);
-        Assert.Equal(0, terminalInfo.DLLsAllowed);
-        Assert.Equal(1, terminalInfo.TradeAllowed);
-        Assert.Equal(0, terminalInfo.EmailEnabled);
-        Assert.Equal(0, terminalInfo.FtpEnabled);
-        Assert.Equal(1, terminalInfo.NotificationsEnabled);
-        Assert.Equal(65000, terminalInfo.MaxBars);
-        Assert.Equal(1, terminalInfo.MQID);
-        Assert.Equal(0, terminalInfo.CodePage);
-        Assert.Equal(4, terminalInfo.CpuCores);
-        Assert.Equal(132584, terminalInfo.DiskSpace);
-        Assert.Equal(16272, terminalInfo.MemoryPhysical);
-        Assert.Equal(4095, terminalInfo.MemoryTotal);
-        Assert.Equal(3751, terminalInfo.MemoryAvailable);
-        Assert.Equal(344, terminalInfo.MemoryUsed);
-        Assert.Equal(96, terminalInfo.ScreenDPI);
-        Assert.Equal(68077, terminalInfo.PingLast);
-        Assert.Equal(0, terminalInfo.ErrorID);
-        Assert.Equal("no error", terminalInfo.ErrorDescription);
-        Assert.Equal("MTsocketAPI running in DEMO mode (www.mtsocketapi.com)", terminalInfo.Demo);
+        terminalInfo.Msg.Should().Be("TERMINAL_INFO");
+        terminalInfo.Language.Should().Be("English");
+        terminalInfo.Company.Should().Be("Testing Corporation Ltd");
+        terminalInfo.Name.Should().Be("MetaTrader 4 Test Terminal");
+        terminalInfo.Path.Should().Be(@"C:\Program Files (x86)\MetaTrader 4 Test Terminal");
+        terminalInfo.DataPath.Should().Be(@"C:\Users\User\AppData\Roaming\MetaQuotes\Terminal\ABCDEFG0000000000012345678910111");
+        terminalInfo.CommonDataPath.Should().Be(@"C:\Users\User\AppData\Roaming\MetaQuotes\Terminal\Common");
+        terminalInfo.Build.Should().Be(1473);
+        terminalInfo.CommunityAccount.Should().Be(0);
+        terminalInfo.CommunityConnection.Should().Be(0);
+        terminalInfo.Connected.Should().Be(1);
+        terminalInfo.DLLsAllowed.Should().Be(0);
+        terminalInfo.TradeAllowed.Should().Be(1);
+        terminalInfo.EmailEnabled.Should().Be(0);
+        terminalInfo.FtpEnabled.Should().Be(0);
+        terminalInfo.NotificationsEnabled.Should().Be(1);
+        terminalInfo.MaxBars.Should().Be(65000);
+        terminalInfo.MQID.Should().Be(1);
+        terminalInfo.CodePage.Should().Be(0);
+        terminalInfo.CpuCores.Should().Be(4);
+        terminalInfo.DiskSpace.Should().Be(132584);
+        terminalInfo.MemoryPhysical.Should().Be(16272);
+        terminalInfo.MemoryTotal.Should().Be(4095);
+        terminalInfo.MemoryAvailable.Should().Be(3751);
+        terminalInfo.MemoryUsed.Should().Be(344);
+        terminalInfo.ScreenDPI.Should().Be(96);
+        terminalInfo.PingLast.Should().Be(68077);
+        terminalInfo.ErrorID.Should().Be(0);
+        terminalInfo.ErrorDescription.Should().Be("no error");
+        terminalInfo.Demo.Should().Be("MTsocketAPI running in DEMO mode (www.mtsocketapi.com)");
     }
 }
 

@@ -1,6 +1,7 @@
-﻿using RichardSzalay.MockHttp;
+﻿using FluentAssertions;
 using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
+using RichardSzalay.MockHttp;
 
 namespace MetatraderSharp.Tests.MT4ClientTests;
 
@@ -28,30 +29,30 @@ public class GetAccountInfoAsync_Tests
         Account accountInfo = await mtClient.GetAccountInfoAsync();
 
         // Assert
-        Assert.Equal("ACCOUNT_STATUS", accountInfo.Msg);
-        Assert.Equal("MetaQuotes Software Corp.", accountInfo.Company);
-        Assert.Equal("USD", accountInfo.Currency);
-        Assert.Equal("User Demo", accountInfo.Name);
-        Assert.Equal("MetaQuotes-Demo", accountInfo.Server);
-        Assert.Equal(123456789, accountInfo.Login);
-        Assert.Equal(0, accountInfo.TradeMode);
-        Assert.Equal(200, accountInfo.Leverage);
-        Assert.Equal(100, accountInfo.LimitOrders);
-        Assert.Equal(0, accountInfo.MarginSoMode);
-        Assert.Equal(1, accountInfo.TradeAllowed);
-        Assert.Equal(1, accountInfo.TradeExpert);
-        Assert.Equal(10, 02, accountInfo.Balance);
-        Assert.Equal(0, accountInfo.Credit);
-        Assert.Equal(0, accountInfo.Profit);
-        Assert.Equal(10, 02, accountInfo.Equity);
-        Assert.Equal(0, accountInfo.Margin);
-        Assert.Equal(10, 02, accountInfo.MarginFree);
-        Assert.Equal(0, accountInfo.MarginLevel);
-        Assert.Equal(75, accountInfo.MarginSoCal);
-        Assert.Equal(30, accountInfo.MarginSoSo);
-        Assert.Equal(0, accountInfo.ErrorID);
-        Assert.Equal("no error", accountInfo.ErrorDescription);
-        Assert.Null(accountInfo.Demo);
+        accountInfo.Msg.Should().Be("ACCOUNT_STATUS");
+        accountInfo.Company.Should().Be("MetaQuotes Software Corp.");
+        accountInfo.Currency.Should().Be("USD");
+        accountInfo.Name.Should().Be("User Demo");
+        accountInfo.Server.Should().Be("MetaQuotes-Demo");
+        accountInfo.Login.Should().Be(123456789);
+        accountInfo.TradeMode.Should().Be(0);
+        accountInfo.Leverage.Should().Be(200);
+        accountInfo.LimitOrders.Should().Be(100);
+        accountInfo.MarginSoMode.Should().Be(0);
+        accountInfo.TradeAllowed.Should().Be(1);
+        accountInfo.TradeExpert.Should().Be(1);
+        accountInfo.Balance.Should().Be(10.02);
+        accountInfo.Credit.Should().Be(0);
+        accountInfo.Profit.Should().Be(0);
+        accountInfo.Equity.Should().Be(10.02);
+        accountInfo.Margin.Should().Be(0);
+        accountInfo.MarginFree.Should().Be(10.02);
+        accountInfo.MarginLevel.Should().Be(0);
+        accountInfo.MarginSoCal.Should().Be(75);
+        accountInfo.MarginSoSo.Should().Be(30);
+        accountInfo.ErrorID.Should().Be(0);
+        accountInfo.ErrorDescription.Should().Be("no error");
+        accountInfo.Demo.Should().BeNull();
     }
 }
 
