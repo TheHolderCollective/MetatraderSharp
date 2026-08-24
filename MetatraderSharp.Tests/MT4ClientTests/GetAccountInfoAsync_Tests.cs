@@ -15,7 +15,7 @@ public class GetAccountInfoAsync_Tests
         mockHttp.When("http://127.0.0.1:81/v1/account")
                 .Respond("application/json", "{\r\n  \"MSG\": \"ACCOUNT_STATUS\",\r\n  " +
                                              "\"COMPANY\": \"MetaQuotes Software Corp.\",\r\n  \"CURRENCY\": \"USD\",\r\n " +
-                                             " \"NAME\": \"User Demo\",\r\n  \"SERVER\": \"MetaQuotes-Demo\",\r\n  \"LOGIN\": 169477868,\r\n  " +
+                                             " \"NAME\": \"User Demo\",\r\n  \"SERVER\": \"MetaQuotes-Demo\",\r\n  \"LOGIN\": 123456789,\r\n  " +
                                              "\"TRADE_MODE\": 0,\r\n  \"LEVERAGE\": 200,\r\n  \"LIMIT_ORDERS\": 100,\r\n  " +
                                              "\"MARGIN_SO_MODE\": 0,\r\n  \"TRADE_ALLOWED\": 1,\r\n  \"TRADE_EXPERT\": 1,\r\n  " +
                                              "\"BALANCE\": 10.02,\r\n  \"CREDIT\": 0,\r\n  \"PROFIT\": 0,\r\n  \"EQUITY\": 10.02,\r\n  " +
@@ -28,12 +28,12 @@ public class GetAccountInfoAsync_Tests
         Account accountInfo = await mtClient.GetAccountInfoAsync();
 
         // Assert
-        Assert.Equal(@"ACCOUNT_STATUS", accountInfo.Msg);
-        Assert.Equal(@"MetaQuotes Software Corp.", accountInfo.Company);
-        Assert.Equal(@"USD", accountInfo.Currency);
-        Assert.Equal(@"User Demo", accountInfo.Name);
-        Assert.Equal(@"MetaQuotes-Demo", accountInfo.Server);
-        Assert.Equal(169477868, accountInfo.Login);
+        Assert.Equal("ACCOUNT_STATUS", accountInfo.Msg);
+        Assert.Equal("MetaQuotes Software Corp.", accountInfo.Company);
+        Assert.Equal("USD", accountInfo.Currency);
+        Assert.Equal("User Demo", accountInfo.Name);
+        Assert.Equal("MetaQuotes-Demo", accountInfo.Server);
+        Assert.Equal(123456789, accountInfo.Login);
         Assert.Equal(0, accountInfo.TradeMode);
         Assert.Equal(200, accountInfo.Leverage);
         Assert.Equal(100, accountInfo.LimitOrders);
@@ -50,7 +50,7 @@ public class GetAccountInfoAsync_Tests
         Assert.Equal(75, accountInfo.MarginSoCal);
         Assert.Equal(30, accountInfo.MarginSoSo);
         Assert.Equal(0, accountInfo.ErrorID);
-        Assert.Equal(@"no error", accountInfo.ErrorDescription);
+        Assert.Equal("no error", accountInfo.ErrorDescription);
         Assert.Null(accountInfo.Demo);
     }
 }

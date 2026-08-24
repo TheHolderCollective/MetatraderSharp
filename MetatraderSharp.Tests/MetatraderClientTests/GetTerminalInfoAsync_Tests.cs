@@ -16,9 +16,9 @@ public class GetTerminalInfoAsync_Tests
 
         mockHttp.When("http://127.0.0.1:81/v1/terminal")
                 .Respond("application/json", "{\r\n  \"MSG\": \"TERMINAL_INFO\",\r\n  \"LANGUAGE\": \"English\",\r\n  " +
-                                             "\"COMPANY\": \"AxiCorp Financial Services Pty Ltd\",\r\n  \"NAME\": \"MetaTrader 4 Axi Terminal\",\r\n " +
-                                             " \"PATH\": \"C:\\\\Program Files (x86)\\\\MetaTrader 4 Axi Terminal\",\r\n " +
-                                             " \"DATA_PATH\": \"C:\\\\Users\\\\User\\\\AppData\\\\Roaming\\\\MetaQuotes\\\\Terminal\\\\17B5FF217FE004B792EFA9D824B75EEC\",\r\n  " +
+                                             "\"COMPANY\": \"Testing Corporation Ltd\",\r\n  \"NAME\": \"MetaTrader 4 Test Terminal\",\r\n " +
+                                             " \"PATH\": \"C:\\\\Program Files (x86)\\\\MetaTrader 4 Test Terminal\",\r\n " +
+                                             " \"DATA_PATH\": \"C:\\\\Users\\\\User\\\\AppData\\\\Roaming\\\\MetaQuotes\\\\Terminal\\\\ABCDEFG0000000000012345678910111\",\r\n  " +
                                              "\"COMMONDATA_PATH\": \"C:\\\\Users\\\\User\\\\AppData\\\\Roaming\\\\MetaQuotes\\\\Terminal\\\\Common\",\r\n  " +
                                              "\"BUILD\": 1473,\r\n  \"COMMUNITY_ACCOUNT\": 0,\r\n  \"COMMUNITY_CONNECTION\": 0,\r\n  " +
                                              "\"CONNECTED\": 1,\r\n  \"DLLS_ALLOWED\": 0,\r\n  \"TRADE_ALLOWED\": 1,\r\n  \"EMAIL_ENABLED\": 0,\r\n " +
@@ -35,12 +35,12 @@ public class GetTerminalInfoAsync_Tests
         TerminalInfo terminalInfo = await mtClient.GetTerminalInfoAsync();
 
         // Assert
-        Assert.Equal(@"TERMINAL_INFO", terminalInfo.Msg);
-        Assert.Equal(@"English", terminalInfo.Language);
-        Assert.Equal(@"AxiCorp Financial Services Pty Ltd", terminalInfo.Company);
-        Assert.Equal(@"MetaTrader 4 Axi Terminal", terminalInfo.Name);
-        Assert.Equal(@"C:\Program Files (x86)\MetaTrader 4 Axi Terminal", terminalInfo.Path);
-        Assert.Equal(@"C:\Users\User\AppData\Roaming\MetaQuotes\Terminal\17B5FF217FE004B792EFA9D824B75EEC", terminalInfo.DataPath);
+        Assert.Equal("TERMINAL_INFO", terminalInfo.Msg);
+        Assert.Equal("English", terminalInfo.Language);
+        Assert.Equal("Testing Corporation Ltd", terminalInfo.Company);
+        Assert.Equal("MetaTrader 4 Test Terminal", terminalInfo.Name);
+        Assert.Equal(@"C:\Program Files (x86)\MetaTrader 4 Test Terminal", terminalInfo.Path);
+        Assert.Equal(@"C:\Users\User\AppData\Roaming\MetaQuotes\Terminal\ABCDEFG0000000000012345678910111", terminalInfo.DataPath);
         Assert.Equal(@"C:\Users\User\AppData\Roaming\MetaQuotes\Terminal\Common", terminalInfo.CommonDataPath);
         Assert.Equal(1473, terminalInfo.Build);
         Assert.Equal(0, terminalInfo.CommunityAccount);
@@ -63,8 +63,8 @@ public class GetTerminalInfoAsync_Tests
         Assert.Equal(96, terminalInfo.ScreenDPI);
         Assert.Equal(68077, terminalInfo.PingLast);
         Assert.Equal(0, terminalInfo.ErrorID);
-        Assert.Equal(@"no error", terminalInfo.ErrorDescription);
-        Assert.Equal(@"MTsocketAPI running in DEMO mode (www.mtsocketapi.com)", terminalInfo.Demo);
+        Assert.Equal("no error", terminalInfo.ErrorDescription);
+        Assert.Equal("MTsocketAPI running in DEMO mode (www.mtsocketapi.com)", terminalInfo.Demo);
     }
 }
 

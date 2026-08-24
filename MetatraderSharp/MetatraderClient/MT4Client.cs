@@ -11,7 +11,6 @@ public partial class MT4Client : MetatraderClient
 
     public MT4Client(HttpClient client) : base(MetatraderClientType.MT4, client)
     {
-
     }
 
     public MT4Client(HttpClient client,string webSocketPort) : base(MetatraderClientType.MT4, client, webSocketPort)
