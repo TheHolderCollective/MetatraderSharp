@@ -10,7 +10,7 @@ namespace MetatraderSharp.Tests.MetatraderClient;
 public class GetTerminalInfoAsync_Tests
 {
     [Fact]
-    public async Task GetTerminalInfoAsync_Success_Test()
+    public async Task GetTerminalInfoAsync_SuccessfulDeserialization_Test()
     {
         // Arrange
         var mockHttp = new MockHttpMessageHandler();
@@ -33,7 +33,7 @@ public class GetTerminalInfoAsync_Tests
         var mtClient = new MT4Client(client);
 
         // Act
-        TerminalInfo terminalInfo = await mtClient.GetTerminalInfoAsync();
+        var terminalInfo = await mtClient.GetTerminalInfoAsync();
 
         // Assert
         terminalInfo.Msg.Should().Be("TERMINAL_INFO");
@@ -67,5 +67,22 @@ public class GetTerminalInfoAsync_Tests
         terminalInfo.ErrorDescription.Should().Be("no error");
         terminalInfo.Demo.Should().Be("MTsocketAPI running in DEMO mode (www.mtsocketapi.com)");
     }
-}
 
+    [Fact]
+    public async Task GetTerminalInfoAsync_UnsuccessfulDeserialization_Test()
+    {
+        // Arrange
+        var mockHttp = new MockHttpMessageHandler();
+
+        mockHttp.When("http://127.0.0.1:81/v1/terminal").Respond("application/json", "");
+
+        var client = mockHttp.ToHttpClient();
+        var mtClient = new MT4Client(client);
+
+        // Act
+        var terminalInfo = await mtClient.GetTerminalInfoAsync();
+
+        // Assert
+        terminalInfo.ErrorID.Should().Be(QueryStatus.Error);
+    }
+}

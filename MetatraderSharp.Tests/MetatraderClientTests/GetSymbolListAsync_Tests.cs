@@ -8,7 +8,7 @@ namespace MetatraderSharp.Tests.MetatraderClientTests;
 public class GetSymbolListAsync_Tests
 {
     [Fact]
-    public async Task GetSymbolListAsync_Success_Test()
+    public async Task GetSymbolListAsync_SuccessfulDeserialization_Test()
     {
         // Arrange
         var mockHttp = new MockHttpMessageHandler();

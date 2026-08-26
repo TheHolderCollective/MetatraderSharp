@@ -9,7 +9,7 @@ public class GetQuoteAsync_Tests
 {
 
     [Fact]
-    public async Task GetQuoteAsync_Success_Test()
+    public async Task GetQuoteAsync_SuccessfulDeserialization_Test()
     {
         // Arrange
         var mockHttp = new MockHttpMessageHandler();
@@ -23,7 +23,7 @@ public class GetQuoteAsync_Tests
         var mtClient = new MT4Client(client);
 
         // Act
-        Quote quote =await mtClient.GetQuoteAsync("EURUSD");
+        Quote quote = await mtClient.GetQuoteAsync("EURUSD");
 
         // Assert
         quote.Msg.Should().Be("QUOTE");

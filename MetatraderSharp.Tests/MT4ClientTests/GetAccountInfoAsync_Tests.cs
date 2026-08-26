@@ -8,7 +8,7 @@ namespace MetatraderSharp.Tests.MT4ClientTests;
 public class GetAccountInfoAsync_Tests
 {
     [Fact]
-    public async Task GetAccountInfoAsync_Success_Test()
+    public async Task GetAccountInfoAsync_SuccessfulDeserialization_Test()
     {
         // Arrange
         var mockHttp = new MockHttpMessageHandler();

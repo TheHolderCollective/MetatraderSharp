@@ -41,13 +41,13 @@ public abstract partial class MetatraderClient
         _client = new HttpClient();
     }
 
-    public MetatraderClient(string clientType): this()
+    public MetatraderClient(string clientType) : this()
     {
         _clientType = clientType;
         VerifyHttpStatus(_client);
     }
 
-    public MetatraderClient(string clientType, HttpClient client): this()
+    public MetatraderClient(string clientType, HttpClient client) : this()
     {
         _clientType = clientType;
         _client = client;
@@ -62,7 +62,7 @@ public abstract partial class MetatraderClient
         VerifyHttpStatus(_client);
     }
 
-    public MetatraderClient(string clientType, string webSocketPort): this()
+    public MetatraderClient(string clientType, string webSocketPort) : this()
     {
         _clientType = clientType;
         _webSocketPort = webSocketPort;
@@ -87,6 +87,7 @@ public abstract partial class MetatraderClient
 
             SetQueryResult(terminalInfo.ErrorID, terminalInfo.ErrorDescription);
             return terminalInfo;
+
         }
         catch (Exception ex)
         {
