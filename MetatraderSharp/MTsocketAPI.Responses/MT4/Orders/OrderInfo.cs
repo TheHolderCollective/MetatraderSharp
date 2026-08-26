@@ -10,7 +10,7 @@ public class OrderInfo
     public string? Msg { get; set; }
 
     [JsonProperty("TRADES")]
-    public Trade? Trade { get; set; }
+    public Trade Trade { get; set; } = new();
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }
