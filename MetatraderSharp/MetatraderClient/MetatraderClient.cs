@@ -34,10 +34,10 @@ public abstract partial class MetatraderClient
     {
         _partialURI = "http://127.0.0.1";
         _webSocketPort = "81";
-        _lastQueryMessage = "";
-        _requestedUri = "";
-        _clientType = "";
-        _clientStatusMessage = "";
+        _lastQueryMessage = string.Empty;
+        _requestedUri = string.Empty;
+        _clientType = string.Empty;
+        _clientStatusMessage = string.Empty;
         _client = new HttpClient();
     }
 
