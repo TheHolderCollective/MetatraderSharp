@@ -7,19 +7,19 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 public class Account
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("COMPANY")]
-    public string Company { get; set; }
+    public string? Company { get; set; }
 
     [JsonProperty("CURRENCY")]
-    public string Currency { get; set; }
+    public string? Currency { get; set; }
 
     [JsonProperty("NAME")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [JsonProperty("SERVER")]
-    public string Server { get; set; }
+    public string? Server { get; set; }
 
     [JsonProperty("LOGIN")]
     public int Login { get; set; }
@@ -85,10 +85,10 @@ public class Account
     public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
-    public string ErrorDescription { get; set; }
+    public string? ErrorDescription { get; set; }
 
     [JsonProperty("DEMO")]
-    public string Demo { get; set; }
+    public string? Demo { get; set; }
 
     public override string ToString()
     {

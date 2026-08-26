@@ -28,10 +28,10 @@ public class TrackOHLCRequest
 public class SymbolRequest
 {
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("TIMEFRAME")]
-    public string TimeFrame { get; set; }
+    public string? TimeFrame { get; set; }
 
     [JsonProperty("DEPTH")]
     public int Depth { get; set; }

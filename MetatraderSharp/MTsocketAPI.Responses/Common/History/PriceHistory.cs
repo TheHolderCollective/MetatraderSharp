@@ -7,22 +7,22 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 public class PriceHistory
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("TIMEFRAME")]
-    public string TimeFrame { get; set; }
+    public string? TimeFrame { get; set; }
 
     [JsonProperty("RATES")]
-    public List<Rate> Rates { get; set; }
+    public List<Rate> Rates { get; set; } = new();
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
-    public string ErrorDescription { get; set; }
+    public string? ErrorDescription { get; set; }
 
     public override string ToString()
     {

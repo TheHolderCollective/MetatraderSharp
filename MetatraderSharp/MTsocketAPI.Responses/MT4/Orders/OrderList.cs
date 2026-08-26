@@ -7,16 +7,16 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT4;
 public class OrderList
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("TRADES")]
-    public List<Trade> Trades { get; set; }
+    public List<Trade> Trades { get; set; } = new();
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
-    public string ErrorDescription { get; set; }
+    public string? ErrorDescription { get; set; }
 
     public override string ToString()
     {

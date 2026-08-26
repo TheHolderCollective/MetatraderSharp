@@ -4,7 +4,7 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 public class Event
 {
     [JsonProperty("TIME")]
-    public string Time { get; set; }
+    public string? Time { get; set; }
 
     [JsonProperty("EVENT_COUNTRY_ID")]
     public int EventCountryID { get; set; }
@@ -13,37 +13,37 @@ public class Event
     public int EventDigits { get; set; }
 
     [JsonProperty("EVENT_CODE")]
-    public string EventCode { get; set; }
+    public string? EventCode { get; set; }
 
     [JsonProperty("EVENT_FREQUENCY")]
-    public string EventFrequency { get; set; }
+    public string? EventFrequency { get; set; }
 
     [JsonProperty("EVENT_ID")]
     public int EventID { get; set; }
 
     [JsonProperty("EVENT_IMPORTANCE")]
-    public string EventImportance { get; set; }
+    public string? EventImportance { get; set; }
 
     [JsonProperty("EVENT_MULTIPLIER")]
-    public string EventMultiplier { get; set; }
+    public string? EventMultiplier { get; set; }
 
     [JsonProperty("EVENT_NAME")]
-    public string EventName { get; set; }
+    public string? EventName { get; set; }
 
     [JsonProperty("EVENT_SECTOR")]
-    public string EventSector { get; set; }
+    public string? EventSector { get; set; }
 
     [JsonProperty("EVENT_SOURCE_URL")]
-    public string EventSourceUrl { get; set; }
+    public string? EventSourceUrl { get; set; }
 
     [JsonProperty("EVENT_TIME_MODE")]
-    public string EventTimeMode { get; set; }
+    public string? EventTimeMode { get; set; }
 
     [JsonProperty("EVENT_TYPE")]
-    public string EventType { get; set; }
+    public string? EventType { get; set; }
 
     [JsonProperty("EVENT_UNIT")]
-    public string EventUnit { get; set; }
+    public string? EventUnit { get; set; }
 
     [JsonProperty("ACTUAL_VALUE")]
     public double ActualValue { get; set; }
@@ -58,13 +58,13 @@ public class Event
     public double RevisedValue { get; set; }
 
     [JsonProperty("IMPACT_TYPE")]
-    public string ImpactType { get; set; }
+    public string? ImpactType { get; set; }
 
     [JsonProperty("REVISION")]
     public double Revision { get; set; }
 
     [JsonProperty("PERIOD")]
-    public string Period { get; set; }
+    public string? Period { get; set; }
 
     public override string ToString()
     {

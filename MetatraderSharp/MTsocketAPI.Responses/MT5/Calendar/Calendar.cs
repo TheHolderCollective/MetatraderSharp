@@ -4,16 +4,16 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 public class Calendar
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("EVENTS")]
-    public List<Event> Events { get; set; }
+    public List<Event> Events { get; set; } = new();
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
-    public string ErrorDescription { get; set; }
+    public string? ErrorDescription { get; set; }
      
     public override string ToString()
     {

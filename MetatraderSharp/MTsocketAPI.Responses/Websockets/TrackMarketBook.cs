@@ -9,13 +9,13 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 public class MarketDepth
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("MARKET_BOOK")]
-    public List<MarketBook> MarketBook { get; set; }
+    public List<MarketBook> MarketBook { get; set; } = new();
 
     public override string ToString()
     {
@@ -36,7 +36,7 @@ public class MarketBook
     public double VolumeReal { get; set; }
 
     [JsonProperty("TYPE")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     public override string ToString()
     {

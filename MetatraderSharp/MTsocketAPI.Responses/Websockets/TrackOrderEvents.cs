@@ -5,19 +5,19 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 public class TrackOrderEvents
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("TRADE_TRANSACTION")]
-    public TradeTransaction TradeTransaction { get; set; }
+    public TradeTransaction TradeTransaction { get; set; } = new();
 
     [JsonProperty("TRADE_REQUEST")]
-    public TradeRequest TradeRequest { get; set; }
+    public TradeRequest TradeRequest { get; set; } = new();
 
     [JsonProperty("TRADE_RESULT")]
-    public TradeResult TradeResult { get; set; }
+    public TradeResult TradeResult { get; set; } = new();
 
     [JsonProperty("DEMO")]
-    public string Demo { get; set; }
+    public string? Demo { get; set; }
 
     public override string ToString()
     {
@@ -28,16 +28,16 @@ public class TrackOrderEvents
 public class TradeRequest
 {
     [JsonProperty("ACTION")]
-    public string Action { get; set; }
+    public string? Action { get; set; }
 
     [JsonProperty("COMMENT")]
-    public string Comment { get; set; }
+    public string? Comment { get; set; }
 
     [JsonProperty("DEVIATION")]
     public double Deviation { get; set; }
 
     [JsonProperty("EXPIRATION")]
-    public string Expiration { get; set; }
+    public string? Expiration { get; set; }
 
     [JsonProperty("MAGIC")]
     public int Magic { get; set; }
@@ -61,19 +61,19 @@ public class TradeRequest
     public double StopLimit { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("TP")]
     public double TakeProfit { get; set; }
 
     [JsonProperty("TYPE")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonProperty("TYPE_FILLING")]
-    public string TypeFilling { get; set; }
+    public string? TypeFilling { get; set; }
 
     [JsonProperty("TYPE_TIME")]
-    public string TypeTime { get; set; }
+    public string? TypeTime { get; set; }
 
     [JsonProperty("VOLUME")]
     public double Volume { get; set; }
@@ -93,7 +93,7 @@ public class TradeResult
     public double Bid { get; set; }
 
     [JsonProperty("COMMENT")]
-    public string Comment { get; set; }
+    public string? Comment { get; set; }
 
     [JsonProperty("DEAL")]
     public long Deal { get; set; }
@@ -128,16 +128,16 @@ public class TradeTransaction
     public long Deal { get; set; }
 
     [JsonProperty("DEAL_TYPE")]
-    public string DealType { get; set; }
+    public string? DealType { get; set; }
 
     [JsonProperty("ORDER")]
     public long Order { get; set; }
 
     [JsonProperty("ORDER_STATE")]
-    public string OrderState { get; set; }
+    public string? OrderState { get; set; }
 
     [JsonProperty("ORDER_TYPE")]
-    public string OrderType { get; set; }
+    public string? OrderType { get; set; }
 
     [JsonProperty("POSITION")]
     public int Position { get; set; }
@@ -158,16 +158,16 @@ public class TradeTransaction
     public double PriceTrigger { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("TIME_EXPIRATION")]
-    public string TimeExpiration { get; set; }
+    public string? TimeExpiration { get; set; }
 
     [JsonProperty("TIME_TYPE")]
-    public string TimeType { get; set; }
+    public string? TimeType { get; set; }
 
     [JsonProperty("TYPE")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonProperty("VOLUME")]
     public double Volume { get; set; }

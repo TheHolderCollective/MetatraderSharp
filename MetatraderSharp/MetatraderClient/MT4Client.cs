@@ -379,7 +379,7 @@ public partial class MT4Client : MetatraderClient
 
             foreach (var trade in orderList.Trades)
             {
-                if (trade.Comment.Contains(matchTicket))
+                if (trade.Comment is not null &&  trade.Comment.Contains(matchTicket))
                 {
                     newTicketNumber = trade.Ticket;
                     break;

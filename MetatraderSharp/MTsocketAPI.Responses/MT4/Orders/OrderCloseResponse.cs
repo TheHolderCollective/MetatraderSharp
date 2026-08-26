@@ -7,19 +7,19 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT4;
 public class OrderCloseResponse
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("TICKET")]
     public long Ticket { get; set; }
 
     [JsonProperty("TYPE")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
-    public string ErrorDescription { get; set; }
+    public string? ErrorDescription { get; set; }
 
     public override string ToString()
     {

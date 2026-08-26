@@ -8,16 +8,16 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 public class SymbolList
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("SYMBOLS")]
-    public List<Symbol> Symbols { get; set; }
+    public List<Symbol> Symbols { get; set; } = new();
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
-    public string ErrorDescription { get; set; }
+    public string? ErrorDescription { get; set; }
 
     public override string ToString()
     {

@@ -4,7 +4,7 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 public class Tick
 {
     [JsonProperty("TIME")]
-    public string Time { get; set; }
+    public string? Time { get; set; }
 
     [JsonProperty("ASK")]
     public double Ask { get; set; }
@@ -19,7 +19,7 @@ public class Tick
     public double Last { get; set; }
 
     [JsonProperty("TIME_MSC")]
-    public string TimeMsc { get; set; }
+    public string? TimeMsc { get; set; }
 
     [JsonProperty("VOLUME")]
     public long Volume { get; set; }

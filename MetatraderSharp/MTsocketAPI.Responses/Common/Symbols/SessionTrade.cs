@@ -4,17 +4,17 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 public class SessionTrade
 {
     [JsonProperty("MONDAY")]
-    public string Monday { get; set; }
+    public string? Monday { get; set; }
 
     [JsonProperty("TUESDAY")]
-    public string Tuesday { get; set; }
+    public string? Tuesday { get; set; }
 
     [JsonProperty("WEDNESDAY")]
-    public string Wednesday { get; set; }
+    public string? Wednesday { get; set; }
 
     [JsonProperty("THURSDAY")]
-    public string Thursday { get; set; }
+    public string? Thursday { get; set; }
 
     [JsonProperty("FRIDAY")]
-    public string Friday { get; set; }
+    public string? Friday { get; set; }
 }

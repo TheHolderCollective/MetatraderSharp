@@ -9,13 +9,13 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 public class TrackPrices
 {
     [JsonProperty("MSG")]
-    public string? Msg { get; set; }
+    public string? Msg { get; set; } 
 
     [JsonProperty("TIME")]
-    public string Time { get; set; }
+    public string? Time { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("ASK")]
     public double Ask { get; set; }

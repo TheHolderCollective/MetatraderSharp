@@ -4,31 +4,31 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 public class OrderHistory
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("MODE")]
-    public string Mode { get; set; }
+    public string? Mode { get; set; }
 
     [JsonProperty("ORDERS")]
-    public List<Order> Orders { get; set; }
+    public List<Order> Orders { get; set; } = new();
 
     [JsonProperty("DEALS")]
-    public List<Deal> Deals { get; set; }
+    public List<Deal> Deals { get; set; } = new();
 
     [JsonProperty("POSITIONS")]
-    public List<Position> Positions { get; set; }
-    
+    public List<Position> Positions { get; set; } = new();
+
     [JsonProperty("ORDERS_DEALS")]
-    public List<OrdersDeals> OrdersDeals { get; set; }
+    public List<OrdersDeals> OrdersDeals { get; set; } = new();
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
-    public string ErrorDescription { get; set; }
+    public string? ErrorDescription { get; set; }
 
     [JsonProperty("DEMO")]
-    public string Demo { get; set; }
+    public string? Demo { get; set; }
 
     public override string ToString()
     {
@@ -39,16 +39,16 @@ public class OrderHistory
 public class Order
 {
     [JsonProperty("TIME_SETUP")]
-    public string TimeSetup { get; set; }
+    public string? TimeSetup { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("TICKET")]
     public long Ticket { get; set; }
 
     [JsonProperty("TYPE")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonProperty("VOLUME_INITIAL")]
     public double VolumeInitial { get; set; }
@@ -66,16 +66,16 @@ public class Order
     public double TakeProfit { get; set; }
 
     [JsonProperty("STATE")]
-    public string State { get; set; }
+    public string? State { get; set; }
 
     [JsonProperty("MAGIC")]
     public int Magic { get; set; }
 
     [JsonProperty("COMMENT")]
-    public string Comment { get; set; }
+    public string? Comment { get; set; }
 
     [JsonProperty("TIME_DONE")]
-    public string TimeDone { get; set; }
+    public string? TimeDone { get; set; }
 
     [JsonProperty("POSITION")]
     public long Position { get; set; }
@@ -89,13 +89,13 @@ public class Order
 public class Deal
 {
     [JsonProperty("TIME")]
-    public string Time { get; set; }
+    public string? Time { get; set; }
 
     [JsonProperty("DEAL")]
     public long DealNumber { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("ORDER")]
     public long Order { get; set; }
@@ -104,13 +104,13 @@ public class Deal
     public long Position { get; set; }
 
     [JsonProperty("TYPE")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonProperty("REASON")]
-    public string Reason { get; set; }
+    public string? Reason { get; set; }
 
     [JsonProperty("DIRECTION")]
-    public string Direction { get; set; }
+    public string? Direction { get; set; }
 
     [JsonProperty("PRICE")]
     public double Price { get; set; }
@@ -137,7 +137,7 @@ public class Deal
     public int Magic { get; set; }
 
     [JsonProperty("COMMENT")]
-    public string Comment { get; set; }
+    public string? Comment { get; set; }
 
     public override string ToString()
     {
@@ -148,16 +148,16 @@ public class Deal
 public class Position
 {
     [JsonProperty("OPEN_TIME")]
-    public string OpenTime { get; set; }
+    public string? OpenTime { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("TICKET")]
     public long Ticket { get; set; }
 
     [JsonProperty("TYPE")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonProperty("VOLUME")]
     public double Volume { get; set; }
@@ -169,7 +169,7 @@ public class Position
     public int Magic { get; set; }
 
     [JsonProperty("CLOSE_TIME")]
-    public string CloseTime { get; set; }
+    public string? CloseTime { get; set; }
 
     [JsonProperty("PRICE_CLOSE")]
     public double PriceClose { get; set; }
@@ -201,16 +201,16 @@ public class Position
 public class OrdersDeals
 {
     [JsonProperty("TIME")]
-    public string Time { get; set; }
+    public string? Time { get; set; }
 
     [JsonProperty("TICKET")]
     public long Ticket { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("TYPE")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonProperty("VOLUME")]
     public double Volume { get; set; }
@@ -222,10 +222,10 @@ public class OrdersDeals
     public int Magic { get; set; }
 
     [JsonProperty("COMMENT")]
-    public string Comment { get; set; }
+    public string? Comment { get; set; }
 
     [JsonProperty("DEALS")]
-    public List<OrderDeal> Deals { get; set; }
+    public List<OrderDeal> Deals { get; set; } = new();
 
     public override string ToString()
     {
@@ -236,16 +236,16 @@ public class OrdersDeals
 public class OrderDeal 
 {
     [JsonProperty("TIME")]
-    public string Time { get; set; }
+    public string? Time { get; set; }
 
     [JsonProperty("TICKET")]
     public long Ticket { get; set; }
 
     [JsonProperty("TYPE")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonProperty("REASON")]
-    public string Reason { get; set; }
+    public string? Reason { get; set; }
 
     [JsonProperty("VOLUME")]
     public double Volume { get; set; }
@@ -266,7 +266,7 @@ public class OrderDeal
     public int Magic { get; set; }
 
     [JsonProperty("COMMENT")]
-    public string Comment { get; set; }
+    public string? Comment { get; set; }
 
     public override string ToString()
     {

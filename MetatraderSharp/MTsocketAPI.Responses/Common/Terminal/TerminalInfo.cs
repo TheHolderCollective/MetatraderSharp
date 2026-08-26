@@ -7,25 +7,25 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 public class TerminalInfo
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("LANGUAGE")]
-    public string Language { get; set; }
+    public string? Language { get; set; }
 
     [JsonProperty("COMPANY")]
-    public string Company { get; set; }
+    public string? Company { get; set; }
 
     [JsonProperty("NAME")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [JsonProperty("PATH")]
-    public string Path { get; set; }
+    public string? Path { get; set; }
 
     [JsonProperty("DATA_PATH")]
-    public string DataPath { get; set; }
+    public string? DataPath { get; set; }
 
     [JsonProperty("COMMONDATA_PATH")]
-    public string CommonDataPath { get; set; }
+    public string? CommonDataPath { get; set; }
 
     [JsonProperty("BUILD")]
     public double Build { get; set; }
@@ -91,10 +91,10 @@ public class TerminalInfo
     public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
-    public string ErrorDescription { get; set; }
+    public string? ErrorDescription { get; set; }
 
     [JsonProperty("DEMO")]
-    public string Demo { get; set; }
+    public string? Demo { get; set; }
 
     public override string ToString()
     {

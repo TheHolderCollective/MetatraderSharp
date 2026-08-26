@@ -7,14 +7,19 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT4;
 public class Symbol
 {
     [JsonProperty("NAME")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [JsonProperty("TRADE_MODE")]
     public int TradeMode { get; set; }
 
     [JsonProperty("DESCRIPTION")]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     [JsonProperty("PATH")]
-    public string Path { get; set; }
+    public string? Path { get; set; }
+
+    public override string ToString()
+    {
+        return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
 }

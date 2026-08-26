@@ -7,13 +7,13 @@ public class PendingOrder
     public long Ticket { get; set; }
 
     [JsonProperty("OPEN_TIME")]
-    public string OpenTime { get; set; }
+    public string? OpenTime { get; set; }
 
     [JsonProperty("TIME_UPDATE")]
-    public string TimeUpdate { get; set; }
+    public string? TimeUpdate { get; set; }
 
     [JsonProperty("TYPE")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonProperty("MAGIC")]
     public int Magic { get; set; }
@@ -46,22 +46,22 @@ public class PendingOrder
     public double PROFIT { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string SYMBOL { get; set; }
+    public string? SYMBOL { get; set; }
 
     [JsonProperty("COMMENT")]
-    public List<object> COMMENT { get; set; }
+    public string? COMMENT { get; set; }
 
     [JsonProperty("EXTERNAL_ID")]
-    public string ExternalID { get; set; }
+    public string? ExternalID { get; set; }
 
     [JsonProperty("CHANGE")]
     public double Change { get; set; }
 
     [JsonProperty("TIME_DONE")]
-    public string TimeDone { get; set; }
+    public string? TimeDone { get; set; }
 
     [JsonProperty("TIME_SETUP")]
-    public string TimeSetup { get; set; }
+    public string? TimeSetup { get; set; }
 
     [JsonProperty("ORDER_REASON")]
     public int OrderReason { get; set; }

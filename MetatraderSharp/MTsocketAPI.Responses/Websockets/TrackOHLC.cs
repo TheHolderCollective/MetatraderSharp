@@ -8,19 +8,19 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 public class TrackOHLC
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("PERIOD")]
-    public string Period { get; set; }
+    public string? Period { get; set; }
 
     [JsonProperty("OHLC")]
-    public List<OHLC> OHLCs { get; set; }
+    public List<OHLC> OHLCs { get; set; } = new();
 
     [JsonProperty("DEMO")]
-    public string Demo { get; set; }
+    public string? Demo { get; set; }
 
     public override string ToString()
     {
@@ -31,7 +31,7 @@ public class TrackOHLC
 public class OHLC
 {
     [JsonProperty("TIME")]
-    public string Time { get; set; }
+    public string? Time { get; set; }
 
     [JsonProperty("OPEN")]
     public double Open { get; set; }

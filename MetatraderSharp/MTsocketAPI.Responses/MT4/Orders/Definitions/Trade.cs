@@ -7,7 +7,7 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT4;
 public class Trade
 {
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("MAGIC")]
     public int Magic { get; set; }
@@ -16,10 +16,10 @@ public class Trade
     public long Ticket { get; set; }
 
     [JsonProperty("OPEN_TIME")]
-    public string OpenTime { get; set; }
+    public string? OpenTime { get; set; }
 
     [JsonProperty("CLOSE_TIME")]
-    public string CloseTime { get; set; }
+    public string? CloseTime { get; set; }
 
     [JsonProperty("PRICE_OPEN")]
     public double PriceOpen { get; set; }
@@ -28,7 +28,7 @@ public class Trade
     public double PriceClose { get; set; }
 
     [JsonProperty("TYPE")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonProperty("LOTS")]
     public double Lots { get; set; }
@@ -46,13 +46,13 @@ public class Trade
     public double Commission { get; set; }
 
     [JsonProperty("COMMENT")]
-    public string Comment { get; set; }
+    public string? Comment { get; set; }
 
     [JsonProperty("PROFIT")]
     public double Profit { get; set; }
 
     [JsonProperty("EXPIRATION")]
-    public string Expiration { get; set; }
+    public string? Expiration { get; set; }
 
     public override string ToString()
     {

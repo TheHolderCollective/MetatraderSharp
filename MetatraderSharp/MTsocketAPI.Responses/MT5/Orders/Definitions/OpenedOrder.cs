@@ -7,13 +7,13 @@ public class OpenedOrder
     public long Ticket { get; set; }
 
     [JsonProperty("OPEN_TIME")]
-    public string OpenTime { get; set; }
+    public string? OpenTime { get; set; }
 
     [JsonProperty("TIME_UPDATE")]
-    public string TimeUpdate { get; set; }
+    public string? TimeUpdate { get; set; }
 
     [JsonProperty("TYPE")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonProperty("MAGIC")]
     public int Magic { get; set; }
@@ -46,13 +46,13 @@ public class OpenedOrder
     public double Profit { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("COMMENT")]
-    public string Comment { get; set; }
+    public string? Comment { get; set; }
 
     [JsonProperty("EXTERNAL_ID")]
-    public string ExternalID { get; set; }
+    public string? ExternalID { get; set; }
 
     [JsonProperty("CHANGE")]
     public double Change { get; set; }

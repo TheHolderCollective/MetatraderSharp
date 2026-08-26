@@ -4,22 +4,22 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 public class OrderList
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("COUNT")]
     public int Count { get; set; }
 
     [JsonProperty("OPENED")]
-    public List<OpenedOrder> OpenedOrders { get; set; }
+    public List<OpenedOrder> OpenedOrders { get; set; } = new();
 
     [JsonProperty("PENDING")]
-    public List<PendingOrder> PendingOrders { get; set; }
+    public List<PendingOrder> PendingOrders { get; set; } = new();
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
-    public string ErrorDescription { get; set; }
+    public string? ErrorDescription { get; set; }
 
     public override string ToString()
     {

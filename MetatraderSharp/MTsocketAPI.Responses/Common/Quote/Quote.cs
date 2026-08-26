@@ -7,10 +7,10 @@ namespace MetatraderSharp.MTsocketAPI.Responses;
 public class Quote
 {
     [JsonProperty("MSG")]
-    public string Msg { get; set; }
+    public string? Msg { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("ASK")]
     public double Ask { get; set; }
@@ -22,7 +22,7 @@ public class Quote
     public int Flags { get; set; }
 
     [JsonProperty("TIME")]
-    public string Time { get; set; }
+    public string? Time { get; set; }
 
     [JsonProperty("VOLUME")]
     public double Volume { get; set; }
@@ -31,7 +31,7 @@ public class Quote
     public int ErrorID { get; set; }
 
     [JsonProperty("ERROR_DESCRIPTION")]
-    public string ErrorDescription { get; set; }
+    public string? ErrorDescription { get; set; }
 
     public override string ToString()
     {
