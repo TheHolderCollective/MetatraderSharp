@@ -32,5 +32,23 @@ public class GetSymbolListAsync_Tests
         symbolList.ErrorID.Should().Be(0);
         symbolList.ErrorDescription.Should().Be("no error");
     }
+
+    [Fact]
+    public async Task GetSymbolListAsync_UnsuccessfulDeserialization_Test()
+    {
+        // Arrange
+        var mockHttp = new MockHttpMessageHandler();
+
+        mockHttp.When("http://127.0.0.1:81/v1/symbol/list").Respond("application/json", "");
+
+        var client = mockHttp.ToHttpClient();
+        var mtClient = new MT4Client(client);
+
+        // Act
+        var symbolList = await mtClient.GetSymbolListAsync();
+
+        // Assert
+        symbolList.ErrorID.Should().Be(QueryStatus.Error);
+    }
 }
 

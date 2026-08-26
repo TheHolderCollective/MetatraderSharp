@@ -54,5 +54,22 @@ public class GetAccountInfoAsync_Tests
         accountInfo.ErrorDescription.Should().Be("no error");
         accountInfo.Demo.Should().BeNull();
     }
+    [Fact]
+    public async Task GetAccountInfoAsync_UnsuccessfulDeserialization_Test()
+    {
+        // Arrange
+        var mockHttp = new MockHttpMessageHandler();
+
+        mockHttp.When("http://127.0.0.1:81/v1/account").Respond("application/json", "");
+
+        var client = mockHttp.ToHttpClient();
+        var mtClient = new MT4Client(client);
+
+        // Act
+        var accountInfo = await mtClient.GetAccountInfoAsync();
+
+        // Assert
+        accountInfo.ErrorID.Should().Be(QueryStatus.Error);
+    }
 }
 
