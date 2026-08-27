@@ -14,11 +14,15 @@ public abstract partial class MetatraderClient
             var response = client.GetAsync(_requestedUri).Result;
             _clientStatusIsOK = response.IsSuccessStatusCode;
             _clientStatusMessage = response.StatusCode.ToString();
+
+            SetQueryResult(QueryStatus.Ok, _clientStatusMessage);
         }
         catch (Exception ex)
         {
             _clientStatusMessage = ex.Message;
             _clientStatusIsOK = false;
+
+            SetQueryResult(QueryStatus.Error, _clientStatusMessage);
         }
     }
     #endregion
@@ -34,9 +38,10 @@ public abstract partial class MetatraderClient
                 break;
             default:
                 _lastQueryStatus = QueryStatus.Error;
-                _lastErrorCode = errorID;
                 break;
         }
+
+        _lastErrorCode = errorID;
         _lastQueryMessage = errorDescription;
     }
 
