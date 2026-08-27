@@ -1,5 +1,4 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses;
-using System.Text;
 
 namespace MetatraderSharp.Extensions;
 
