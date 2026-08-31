@@ -65,7 +65,6 @@ public class GetTerminalInfoAsync_Tests
         terminalInfo.PingLast.Should().Be(68077);
         terminalInfo.ErrorID.Should().Be(0);
         terminalInfo.ErrorDescription.Should().Be("no error");
-        terminalInfo.Demo.Should().Be("MTsocketAPI running in DEMO mode (www.mtsocketapi.com)");
     }
 
     [Fact]

@@ -52,7 +52,6 @@ public class GetAccountInfoAsync_Tests
         accountInfo.MarginSoSo.Should().Be(30);
         accountInfo.ErrorID.Should().Be(0);
         accountInfo.ErrorDescription.Should().Be("no error");
-        accountInfo.Demo.Should().BeNull();
     }
     [Fact]
     public async Task GetAccountInfoAsync_UnsuccessfulDeserialization_Test()

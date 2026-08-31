@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+
 namespace MetatraderSharp.MTsocketAPI.Responses;
 
 /// <summary>
