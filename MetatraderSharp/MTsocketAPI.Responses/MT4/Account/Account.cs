@@ -75,9 +75,6 @@ public class Account
     [JsonProperty("ERROR_DESCRIPTION")]
     public string? ErrorDescription { get; set; }
 
-    [JsonProperty("DEMO")]
-    public string? Demo { get; set; }
-
     public override string ToString()
     {
         return JsonConvert.SerializeObject(this, Formatting.Indented);
