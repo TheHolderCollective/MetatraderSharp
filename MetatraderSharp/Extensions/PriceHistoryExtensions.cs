@@ -39,6 +39,5 @@ public static class PriceHistoryExtensions
         }
         return null;
     }
-
 }
 
