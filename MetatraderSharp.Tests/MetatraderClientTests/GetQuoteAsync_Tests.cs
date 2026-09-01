@@ -7,7 +7,6 @@ namespace MetatraderSharp.Tests.MetatraderClientTests;
 
 public class GetQuoteAsync_Tests
 {
-
     [Fact]
     public async Task GetQuoteAsync_SuccessfulDeserialization_Test()
     {
