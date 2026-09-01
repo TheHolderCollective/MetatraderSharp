@@ -2,6 +2,7 @@
 using FluentAssertions;
 using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
+using MetatraderSharp.Tests.Builders;
 
 namespace MetatraderSharp.Tests.MetatraderClientTests;
 
@@ -11,12 +12,10 @@ public class GetQuoteAsync_Tests
     public async Task GetQuoteAsync_SuccessfulDeserialization_Test()
     {
         // Arrange
+        var stubQuote = new QuoteBuilder().Build();
+       
         var mockHttp = new MockHttpMessageHandler();
-
-        mockHttp.When("http://127.0.0.1:81/v1/quote")
-                .Respond("application/json", "{\r\n  \"MSG\": \"QUOTE\",\r\n  \"SYMBOL\": \"EURUSD\",\r\n  \"ASK\": 1.16627,\r\n  \"BID\": 1.1662,\r\n  " +
-                                             " \"FLAGS\": 6,\r\n  \"TIME\": \"2026.08.24 22:45:29.0\",\r\n  \"VOLUME\": 0,\r\n  \"ERROR_ID\": 0,\r\n  " +
-                                             "\"ERROR_DESCRIPTION\": \"no error\"\r\n}");
+        mockHttp.When("http://127.0.0.1:81/v1/quote").Respond("application/json", stubQuote.ToString());
 
         var client = mockHttp.ToHttpClient();
         var mtClient = new MT4Client(client);
@@ -57,11 +56,15 @@ public class GetQuoteAsync_Tests
     [Fact]
     public async Task GetQuoteAsync_BadSymbol_Test()
     {
-        var mockHttp = new MockHttpMessageHandler();
+        // Arrange
+        var stubQuote = new QuoteBuilder().WithAllExceptMessageNull()
+                                          .WithSymbol("EURUSDw")
+                                          .WithErrorID(4220)
+                                          .WithErrorDescription("symbol select error")
+                                          .Build();
 
-        mockHttp.When("http://127.0.0.1:81/v1/quote")
-                .Respond("application/json", "{\r\n  \"MSG\": \"QUOTE\",\r\n  \"SYMBOL\": \"EURUSDw\",\r\n  " +
-                                             "\"ERROR_ID\": 4220,\r\n  \"ERROR_DESCRIPTION\": \"symbol select error\"\r\n}");
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.When("http://127.0.0.1:81/v1/quote").Respond("application/json", stubQuote.ToString());
 
         var client = mockHttp.ToHttpClient();
         var mtClient = new MT4Client(client);

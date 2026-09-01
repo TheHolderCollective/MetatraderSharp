@@ -9,10 +9,10 @@ public class QuoteBuilder
     private double _ask;
     private double _bid;
     private int _flags;
-    private string _time;
+    private string? _time;
     private double _volume;
     private int _errorID;
-    private string _errorDescription;
+    private string? _errorDescription;
 
     public QuoteBuilder()
     {
@@ -81,6 +81,20 @@ public class QuoteBuilder
         return this;
     }
 
+    public QuoteBuilder WithAllExceptMessageNull()
+    {
+        _msg = "QUOTE";
+        _symbol = string.Empty;
+        _ask = 0;
+        _bid = 0;
+        _flags = 0;
+        _time = null;
+        _volume = 0;
+        _errorID = 0;
+        _errorDescription = null;
+
+        return this;
+    }
 
     public Quote Build()
     {
