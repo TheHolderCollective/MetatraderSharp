@@ -2,6 +2,9 @@
 
 namespace MetatraderSharp.Tests.Builders;
 
+/// <summary>
+/// Used to generate a Quote object populated with data
+/// </summary>
 public class QuoteBuilder
 {
     private string _msg;
