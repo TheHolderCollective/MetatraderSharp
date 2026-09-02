@@ -3,6 +3,9 @@ using MetatraderSharp.MTsocketAPI.Responses.MT4;
 
 namespace MetatraderSharp.Tests.Builders;
 
+/// <summary>
+/// Used to generate a SymbolInformation object populated with data
+/// </summary>
 public class SymbolInformationBuilder
 {
     private string _msg;

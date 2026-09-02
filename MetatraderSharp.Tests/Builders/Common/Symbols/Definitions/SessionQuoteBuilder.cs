@@ -2,6 +2,9 @@
 
 namespace MetatraderSharp.Tests.Builders;
 
+/// <summary>
+/// Used to generate a SessionQuote object populated with data
+/// </summary>
 public class SessionQuoteBuilder
 {
     private string _monday;

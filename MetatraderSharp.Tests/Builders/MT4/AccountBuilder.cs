@@ -2,6 +2,9 @@
 
 namespace MetatraderSharp.Tests.Builders.MT4;
 
+/// <summary>
+/// Used to generate an Account object populated with data
+/// </summary>
 public class AccountBuilder
 {
     private string _msg;

@@ -2,6 +2,9 @@
 
 namespace MetatraderSharp.Tests.Builders;
 
+/// <summary>
+/// Used to generate Symbol objects for SymbolList class
+/// </summary>
 public class SymbolBuilder
 {
     private string _name;

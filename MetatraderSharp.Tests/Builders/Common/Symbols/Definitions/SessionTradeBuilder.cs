@@ -2,6 +2,9 @@
 
 namespace MetatraderSharp.Tests.Builders;
 
+/// <summary>
+/// Used to generate a SessionTrade object populated with data
+/// </summary>
 public class SessionTradeBuilder
 {
     private string _monday;

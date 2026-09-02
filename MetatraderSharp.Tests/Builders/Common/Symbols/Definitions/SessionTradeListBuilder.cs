@@ -2,6 +2,9 @@
 
 namespace MetatraderSharp.Tests.Builders;
 
+/// <summary>
+/// Used to generate a list of SessionTrade objects
+/// </summary>
 public class SessionTradeListBuilder
 {
     private List<SessionTrade> _sessionTrade;
