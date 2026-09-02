@@ -1,6 +1,6 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses.MT4;
 
-namespace MetatraderSharp.Tests.Builders;
+namespace MetatraderSharp.Tests.Builders.MT4;
 
 public class AccountBuilder
 {

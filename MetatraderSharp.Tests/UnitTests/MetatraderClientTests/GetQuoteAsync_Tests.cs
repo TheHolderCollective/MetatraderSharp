@@ -1,7 +1,6 @@
 ﻿using RichardSzalay.MockHttp;
 using FluentAssertions;
 using MetatraderSharp.MetatraderClient;
-using MetatraderSharp.MTsocketAPI.Responses;
 using MetatraderSharp.Tests.Builders;
 
 namespace MetatraderSharp.Tests.MetatraderClientTests;
@@ -12,10 +11,9 @@ public class GetQuoteAsync_Tests
     public async Task GetQuoteAsync_SuccessfulDeserialization_Test()
     {
         // Arrange
-        var stubQuote = new QuoteBuilder().Build();
-       
+        var mockQuote = new QuoteBuilder().Build();
         var mockHttp = new MockHttpMessageHandler();
-        mockHttp.When("http://127.0.0.1:81/v1/quote").Respond("application/json", stubQuote.ToString());
+        mockHttp.When("http://127.0.0.1:81/v1/quote").Respond("application/json", mockQuote.ToString());
 
         var client = mockHttp.ToHttpClient();
         var mtClient = new MT4Client(client);
@@ -40,7 +38,6 @@ public class GetQuoteAsync_Tests
     {
         // Arrange
         var mockHttp = new MockHttpMessageHandler();
-
         mockHttp.When("http://127.0.0.1:81/v1/quote").Respond("application/json", "");
 
         var client = mockHttp.ToHttpClient();
@@ -57,14 +54,13 @@ public class GetQuoteAsync_Tests
     public async Task GetQuoteAsync_BadSymbol_Test()
     {
         // Arrange
-        var stubQuote = new QuoteBuilder().WithAllExceptMessageNull()
+        var mockQuote = new QuoteBuilder().WithAllExceptMessageNull()
                                           .WithSymbol("EURUSDw")
                                           .WithErrorID(4220)
                                           .WithErrorDescription("symbol select error")
                                           .Build();
-
         var mockHttp = new MockHttpMessageHandler();
-        mockHttp.When("http://127.0.0.1:81/v1/quote").Respond("application/json", stubQuote.ToString());
+        mockHttp.When("http://127.0.0.1:81/v1/quote").Respond("application/json", mockQuote.ToString());
 
         var client = mockHttp.ToHttpClient();
         var mtClient = new MT4Client(client);
