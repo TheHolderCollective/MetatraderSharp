@@ -159,5 +159,4 @@ public class TradeBuilder
             Expiration = _expiration,
         };
     }
-
 }
