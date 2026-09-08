@@ -4,7 +4,7 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT4;
 /// <summary>
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/OrderClose
 /// </summary>
-public class OrderCloseResponse
+public class OrderCloseResponse : IOrderResponse
 {
     [JsonProperty("MSG")]
     public string? Msg { get; set; }
