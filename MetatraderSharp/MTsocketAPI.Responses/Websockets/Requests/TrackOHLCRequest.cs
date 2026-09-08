@@ -29,12 +29,24 @@ public class SymbolRequest
 {
     [JsonProperty("SYMBOL")]
     public string? Symbol { get; set; }
-
+    
     [JsonProperty("TIMEFRAME")]
     public string? TimeFrame { get; set; }
 
     [JsonProperty("DEPTH")]
     public int Depth { get; set; }
+
+    public SymbolRequest()
+    {
+
+    }
+
+    public SymbolRequest(string requestedSymbol, string requestedTimeFrame, int requestedDepth)
+    {
+        Symbol = requestedSymbol;
+        TimeFrame = requestedTimeFrame;
+        Depth = requestedDepth;
+    }
 
     public override string ToString()
     {
