@@ -24,8 +24,14 @@ public class Trade
     [JsonProperty("PRICE_OPEN")]
     public double PriceOpen { get; set; }
 
+    [JsonProperty("PRICE_CLOSE")]
+    public double PriceClose { get; set; }
+
     [JsonProperty("OPEN_TIME")]
     public string? OpenTime { get; set; }
+
+    [JsonProperty("CLOSE_TIME")]
+    public string? CloseTime { get; set; }
 
     [JsonProperty("STOP_LOSS")]
     public double StopLoss { get; set; }

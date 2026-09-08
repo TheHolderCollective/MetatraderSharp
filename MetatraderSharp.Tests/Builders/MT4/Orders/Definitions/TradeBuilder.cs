@@ -8,7 +8,9 @@ public class TradeBuilder
     private int _magic;
     private long _ticket;
     private string _openTime;
+    private string _closeTime;
     private double _priceOpen;
+    private double _priceClose;
     private string _type;
     private double _lots;
     private double _stopLoss;
@@ -25,7 +27,9 @@ public class TradeBuilder
         _magic = 0;
         _ticket = 296629269;
         _openTime = "2026.09.08 22:51:20";
+        _closeTime = "";
         _priceOpen = 1.37842;
+        _priceClose = 0;
         _type = "sell";
         _lots = 0.01;
         _stopLoss = 0;
@@ -61,9 +65,21 @@ public class TradeBuilder
         return this;
     }
 
+    public TradeBuilder WithCloseTime(string newCloseTime)
+    {
+        this._closeTime = newCloseTime;
+        return this;
+    }
+
     public TradeBuilder WithPriceOpen(double newPriceOpen)
     {
         this._priceOpen = newPriceOpen;
+        return this;
+    }
+
+    public TradeBuilder WithPriceClose(double newPriceClose)
+    {
+        this._priceClose = newPriceClose;
         return this;
     }
 
@@ -129,7 +145,9 @@ public class TradeBuilder
             Magic = _magic,
             Ticket = _ticket,
             OpenTime = _openTime,
+            CloseTime = _closeTime,
             PriceOpen = _priceOpen,
+            PriceClose = _priceClose,
             Type = _type,
             Lots = _lots,
             StopLoss = _stopLoss,
@@ -141,5 +159,5 @@ public class TradeBuilder
             Expiration = _expiration,
         };
     }
-}
 
+}
