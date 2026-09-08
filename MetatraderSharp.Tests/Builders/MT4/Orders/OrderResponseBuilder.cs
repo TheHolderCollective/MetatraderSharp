@@ -2,7 +2,10 @@
 
 namespace MetatraderSharp.Tests.Builders.MT4;
 
-public class OrderResponseBuilder<T> where T: IOrderResponse, new()
+/// <summary>
+/// Used to generate OrderSendResponse and OrderModifyResponse objects
+/// </summary>
+public class OrderResponseBuilder<T> where T : IOrderResponse, new()
 {
     protected string _msg;
     protected long _ticket;
@@ -51,5 +54,4 @@ public class OrderResponseBuilder<T> where T: IOrderResponse, new()
             ErrorDescription = _errorDescription,
         };
     }
-
 }

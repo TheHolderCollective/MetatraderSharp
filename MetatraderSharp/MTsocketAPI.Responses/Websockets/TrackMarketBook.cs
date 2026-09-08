@@ -21,7 +21,6 @@ public class MarketDepth
     {
         return JsonConvert.SerializeObject(this, Formatting.Indented);
     }
-
 }
  
 public class MarketBook

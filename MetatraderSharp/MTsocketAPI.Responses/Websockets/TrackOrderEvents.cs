@@ -16,9 +16,6 @@ public class TrackOrderEvents
     [JsonProperty("TRADE_RESULT")]
     public TradeResult TradeResult { get; set; } = new();
 
-    [JsonProperty("DEMO")]
-    public string? Demo { get; set; }
-
     public override string ToString()
     {
         return JsonConvert.SerializeObject(this, Formatting.Indented);
