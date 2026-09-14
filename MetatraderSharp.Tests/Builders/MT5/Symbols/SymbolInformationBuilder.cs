@@ -1,7 +1,7 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses;
-using MetatraderSharp.MTsocketAPI.Responses.MT4;
+using MetatraderSharp.MTsocketAPI.Responses.MT5;
 
-namespace MetatraderSharp.Tests.Builders.MT4;
+namespace MetatraderSharp.Tests.Builders.MT5;
 
 public class SymbolInformationBuilder
 {
@@ -21,15 +21,15 @@ public class SymbolInformationBuilder
     private int _swapMode;
     private int _swapRollOver3Days;
     private double _point;
-    private double _symbolTradeTickValue;
-    private double _symbolTradeTickValueProfit;
-    private double _symbolTradeTickValueLoss;
+    private double _tradeTickValue;
+    private double _tradeTickValueProfit;
+    private double _tradeTickValueLoss;
     private double _tradeTickSize;
     private double _tradeContractSize;
     private double _volumeMin;
     private double _volumeMax;
     private double _volumeStep;
-    private double _symbolVolumeLimit;
+    private double _volumeLimit;
     private double _swapLong;
     private double _swapShort;
     private double _marginInitial;
@@ -39,7 +39,7 @@ public class SymbolInformationBuilder
     private string _currencyMargin;
     private string _description;
     private string _path;
-    private List<SessionQuote> _sessionQuote; 
+    private List<SessionQuote> _sessionQuote;
     private List<SessionTrade> _sessionTrade;
     private int _errorID;
     private string _errorDescription;
@@ -47,43 +47,43 @@ public class SymbolInformationBuilder
     public SymbolInformationBuilder()
     {
         _msg = "SYMBOL_INFO";
-        _name = "EURUSD";
-        _time = "2026.09.02 20:56:00";
-        _digits = 5;
+        _name = "CADJPY";
+        _time = "2026.09.14 23:40:25";
+        _digits = 3;
         _spreadFloat = 1;
-        _spread = 7;
+        _spread = 12;
         _tradeCalcMode = 0;
-        _tradeMode = 2;
+        _tradeMode = 4;
         _startTime = 0;
         _expirationTime = 0;
         _tradesTopsLevel = 1;
         _tradeFreezeLevel = 0;
         _tradeExeMode = 2;
-        _swapMode = 0;
+        _swapMode = 1;
         _swapRollOver3Days = 3;
-        _point = 1E-05;
-        _symbolTradeTickValue = 1;
-        _symbolTradeTickValueProfit = 0;
-        _symbolTradeTickValueLoss = 0;
-        _tradeTickSize = 1E-05;
+        _point = 0.001;
+        _tradeTickValue = 0.64758451;
+        _tradeTickValueProfit = 0.64758451;
+        _tradeTickValueLoss = 0.64761387;
+        _tradeTickSize = 0.001;
         _tradeContractSize = 100000;
         _volumeMin = 0.01;
         _volumeMax = 100;
         _volumeStep = 0.01;
-        _symbolVolumeLimit = 0;
-        _swapLong = -6.71;
-        _swapShort = 3.69;
+        _volumeLimit = 0;
+        _swapLong = 2.96;
+        _swapShort = -7.04;
         _marginInitial = 0;
         _marginMaintenance = 0;
-        _currencyBase = "EUR";
-        _currencyProfit = "USD";
-        _currencyMargin = "EUR";
-        _description = "Euro vs US Dollar";
-        _path = @"FX STAN DEMO\EURUSD";
-        _sessionQuote = new SessionDataListBuilder<SessionQuote>().Build();
+        _currencyBase = "CAD";
+        _currencyProfit = "JPY";
+        _currencyMargin = "CAD";
+        _description = "Canadian Dollar vs Japanese Yen";
+        _path = "ROW_STANDARD_FX\\ROW_STD_FX2\\CADJPY";
+        _sessionQuote =  new SessionDataListBuilder<SessionQuote>().Build();
         _sessionTrade = new SessionDataListBuilder<SessionTrade>().Build();
         _errorID = 0;
-        _errorDescription = "no error";
+        _errorDescription = "The operation completed successfully";
     }
 
     public SymbolInformationBuilder WithMsg(string newMsg)
@@ -182,21 +182,21 @@ public class SymbolInformationBuilder
         return this;
     }
 
-    public SymbolInformationBuilder WithSymbolTradeTickValue(double newSymbolTradeTickValue)
+    public SymbolInformationBuilder WithTradeTickValue(double newTradeTickValue)
     {
-        this._symbolTradeTickValue = newSymbolTradeTickValue;
+        this._tradeTickValue = newTradeTickValue;
         return this;
     }
 
-    public SymbolInformationBuilder WithSymbolTradeTickValueProfit(double newSymbolTradeTickValueProfit)
+    public SymbolInformationBuilder WithTradeTickValueProfit(double newTradeTickValueProfit)
     {
-        this._symbolTradeTickValueProfit = newSymbolTradeTickValueProfit;
+        this._tradeTickValueProfit = newTradeTickValueProfit;
         return this;
     }
 
-    public SymbolInformationBuilder WithSymbolTradeTickValueLoss(double newSymbolTradeTickValueLoss)
+    public SymbolInformationBuilder WithTradeTickValueLoss(double newTradeTickValueLoss)
     {
-        this._symbolTradeTickValueLoss = newSymbolTradeTickValueLoss;
+        this._tradeTickValueLoss = newTradeTickValueLoss;
         return this;
     }
 
@@ -230,9 +230,9 @@ public class SymbolInformationBuilder
         return this;
     }
 
-    public SymbolInformationBuilder WithSymbolVolumeLimit(double newSymbolVolumeLimit)
+    public SymbolInformationBuilder WithVolumeLimit(double newVolumeLimit)
     {
-        this._symbolVolumeLimit = newSymbolVolumeLimit;
+        this._volumeLimit = newVolumeLimit;
         return this;
     }
 
@@ -335,15 +335,15 @@ public class SymbolInformationBuilder
             SwapMode = _swapMode,
             SwapRollOver3Days = _swapRollOver3Days,
             Point = _point,
-            SymbolTradeTickValue = _symbolTradeTickValue,
-            SymbolTradeTickValueProfit = _symbolTradeTickValueProfit,
-            SymbolTradeTickValueLoss = _symbolTradeTickValueLoss,
+            TradeTickValue = _tradeTickValue,
+            TradeTickValueProfit = _tradeTickValueProfit,
+            TradeTickValueLoss = _tradeTickValueLoss,
             TradeTickSize = _tradeTickSize,
             TradeContractSize = _tradeContractSize,
             VolumeMin = _volumeMin,
             VolumeMax = _volumeMax,
             VolumeStep = _volumeStep,
-            SymbolVolumeLimit = _symbolVolumeLimit,
+            VolumeLimit = _volumeLimit,
             SwapLong = _swapLong,
             SwapShort = _swapShort,
             MarginInitial = _marginInitial,
@@ -359,5 +359,4 @@ public class SymbolInformationBuilder
             ErrorDescription = _errorDescription,
         };
     }
-
 }
