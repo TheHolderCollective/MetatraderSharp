@@ -11,10 +11,10 @@ public class TrackResponse
     public string? Msg { get; set; }
 
     [JsonProperty("SUCCESS")]
-    public List<string> Success { get; set; } = new();
+    public List<string>? Success { get; set; } = new();
 
     [JsonProperty("FAILED")]
-    public List<string> Fail { get; set; } = new();
+    public List<string>? Fail { get; set; } = new();
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }
