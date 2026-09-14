@@ -37,9 +37,9 @@ public class AccountBuilder
         _msg = "ACCOUNT_STATUS";
         _company = "Test Company";
         _currency = "USD";
-        _name = "Account Uder";
+        _name = "Account User";
         _server = "Test-Demo";
-        _login = 50060862;
+        _login = 123456789;
         _tradeMode = 0;
         _leverage = 500;
         _limitOrders = 0;
@@ -259,6 +259,5 @@ public class AccountBuilder
             ErrorDescription = _errorDescription,
         };
     }
-
 }
 
