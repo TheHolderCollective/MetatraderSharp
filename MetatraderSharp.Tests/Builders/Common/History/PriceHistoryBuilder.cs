@@ -2,9 +2,6 @@
 
 namespace MetatraderSharp.Tests.Builders;
 
-/// <summary>
-/// Used to generate a PriceHistory object populated with data
-/// </summary>
 public class PriceHistoryBuilder
 {
     private string _msg;

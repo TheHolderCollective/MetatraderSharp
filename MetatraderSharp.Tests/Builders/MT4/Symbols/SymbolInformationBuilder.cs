@@ -3,9 +3,6 @@ using MetatraderSharp.MTsocketAPI.Responses.MT4;
 
 namespace MetatraderSharp.Tests.Builders;
 
-/// <summary>
-/// Used to generate a SymbolInformation object populated with data
-/// </summary>
 public class SymbolInformationBuilder
 {
     private string _msg;
@@ -83,8 +80,8 @@ public class SymbolInformationBuilder
         _currencyMargin = "EUR";
         _description = "Euro vs US Dollar";
         _path = @"FX STAN DEMO\EURUSD";
-        _sessionQuote = new SessionQuoteListBuilder().Build();
-        _sessionTrade = new SessionTradeListBuilder().Build();
+        _sessionQuote = new SessionDataListBuilder<SessionQuote>().Build();
+        _sessionTrade = new SessionDataListBuilder<SessionTrade>().Build();
         _errorID = 0;
         _errorDescription = "no error";
     }

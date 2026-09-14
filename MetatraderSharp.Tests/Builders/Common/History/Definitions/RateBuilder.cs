@@ -2,9 +2,6 @@
 
 namespace MetatraderSharp.Tests.Builders;
 
-/// <summary>
-/// Used to generate a Rate object populated with data
-/// </summary>
 public class RateBuilder
 {
     private string _time;

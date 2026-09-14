@@ -2,9 +2,6 @@
 
 namespace MetatraderSharp.Tests.Builders.MT4;
 
-/// <summary>
-/// Used to generate OrderSendResponse and OrderModifyResponse objects
-/// </summary>
 public class OrderResponseBuilder<T> where T : IOrderResponse, new()
 {
     protected string _msg;

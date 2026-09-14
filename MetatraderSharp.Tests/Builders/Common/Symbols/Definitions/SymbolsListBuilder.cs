@@ -2,9 +2,6 @@
 
 namespace MetatraderSharp.Tests.Builders;
 
-/// <summary>
-/// Used to generates list of Symbols (List<Symbol>) for use in SymbolList class
-/// </summary>
 public class SymbolsListBuilder
 {
     private List<Symbol> _symbols;

@@ -2,18 +2,15 @@
 
 namespace MetatraderSharp.Tests.Builders;
 
-/// <summary>
-/// Used to generate a SessionTrade object populated with data
-/// </summary>
-public class SessionTradeBuilder
+public class SessionDataBuilder<T> where T : ISessionData, new()
 {
-    private string _monday;
-    private string _tuesday;
-    private string _wednesday;
-    private string _thursday;
-    private string _friday;
+    private string? _monday;
+    private string? _tuesday;
+    private string? _wednesday;
+    private string? _thursday;
+    private string? _friday;
 
-    public SessionTradeBuilder()
+    public SessionDataBuilder()
     {
         _monday = "00:00-23:59";
         _tuesday = "";
@@ -22,37 +19,37 @@ public class SessionTradeBuilder
         _friday = "";
     }
 
-    public SessionTradeBuilder WithMonday(string newMonday)
+    public SessionDataBuilder<T> WithMonday(string newMonday)
     {
         this._monday = newMonday;
         return this;
     }
 
-    public SessionTradeBuilder WithTuesday(string newTuesday)
+    public SessionDataBuilder<T> WithTuesday(string newTuesday)
     {
         this._tuesday = newTuesday;
         return this;
     }
 
-    public SessionTradeBuilder WithWednesday(string newWednesday)
+    public SessionDataBuilder<T> WithWednesday(string newWednesday)
     {
         this._wednesday = newWednesday;
         return this;
     }
 
-    public SessionTradeBuilder WithThursday(string newThursday)
+    public SessionDataBuilder<T> WithThursday(string newThursday)
     {
         this._thursday = newThursday;
         return this;
     }
 
-    public SessionTradeBuilder WithFriday(string newFriday)
+    public SessionDataBuilder<T> WithFriday(string newFriday)
     {
         this._friday = newFriday;
         return this;
     }
 
-    public SessionTradeBuilder WithAllEmpty()
+    public SessionDataBuilder<T> WithAllEmpty()
     {
         _monday = "";
         _tuesday = "";
@@ -63,9 +60,9 @@ public class SessionTradeBuilder
         return this;
     }
 
-    public SessionTrade Build()
+    public T Build()
     {
-        return new SessionTrade()
+        return new T()
         {
             Monday = _monday,
             Tuesday = _tuesday,

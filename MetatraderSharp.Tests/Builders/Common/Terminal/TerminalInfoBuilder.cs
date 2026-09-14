@@ -2,9 +2,6 @@
 
 namespace MetatraderSharp.Tests.Builders;
 
-/// <summary>
-/// Used to generate a TerminalInfo object populated with data
-/// </summary>
 public class TerminalInfoBuilder
 {
     private string _msg;

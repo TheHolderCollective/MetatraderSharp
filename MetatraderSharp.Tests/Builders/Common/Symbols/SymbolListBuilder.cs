@@ -2,9 +2,6 @@
 
 namespace MetatraderSharp.Tests.Builders;
 
-/// <summary>
-/// Used to generate a SymbolList object populated with data
-/// </summary>
 public class SymbolListBuilder
 {
     private string _msg;

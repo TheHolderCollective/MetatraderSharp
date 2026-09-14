@@ -2,9 +2,6 @@
 
 namespace MetatraderSharp.Tests.Builders;
 
-/// <summary>
-/// Used to generate a list of Rate objects populated with data
-/// </summary>
 public class RatesListBuilder
 {
     private List<Rate> _rates;
