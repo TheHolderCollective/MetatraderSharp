@@ -2,7 +2,6 @@
 
 namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
-
 public class Indicator
 {
     [JsonProperty("MSG")]
