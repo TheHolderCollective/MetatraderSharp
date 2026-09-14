@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+
 namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
 public class PendingOrder
@@ -43,13 +44,13 @@ public class PendingOrder
     public double Swap { get; set; }
 
     [JsonProperty("PROFIT")]
-    public double PROFIT { get; set; }
+    public double Profit { get; set; }
 
     [JsonProperty("SYMBOL")]
-    public string? SYMBOL { get; set; }
+    public string? Symbol { get; set; }
 
     [JsonProperty("COMMENT")]
-    public string? COMMENT { get; set; }
+    public string? Comment { get; set; }
 
     [JsonProperty("EXTERNAL_ID")]
     public string? ExternalID { get; set; }
