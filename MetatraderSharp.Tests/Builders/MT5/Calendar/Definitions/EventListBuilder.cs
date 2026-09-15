@@ -4,11 +4,10 @@ namespace MetatraderSharp.Tests.Builders.MT5;
 
 public class EventListBuilder
 {
-    private List<Event> _events;
+    private List<Event> _events = [];
 
     public EventListBuilder()
     {
-        _events = new();
         _events.Add(new EventBuilder().Build());
     }
 
