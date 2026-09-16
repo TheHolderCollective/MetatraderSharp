@@ -5,7 +5,7 @@ namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 /// <summary>
 /// https://www.mtsocketapi.com/restapi.html#/operations/OrderModify
 /// </summary>
-public class OrderModifyResponse
+public class OrderModifyResponse: IOrderResponse
 {
     [JsonProperty("MSG")]
     public string? Msg { get; set; }
@@ -41,7 +41,7 @@ public class OrderModifyResponse
     public long RequestID { get; set; }
 
     [JsonProperty("RETCODE_EXTERNAL")]
-    public int RetCodeExternal { get; set; }
+    public long RetCodeExternal { get; set; }
 
     [JsonProperty("ERROR_ID")]
     public int ErrorID { get; set; }
