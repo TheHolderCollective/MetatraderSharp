@@ -2,6 +2,9 @@
 
 namespace MetatraderSharp.Tests.Builders.MT4;
 
+/// <summary>
+/// Builder class for OrderCloseResponse and OrderModifyResponse
+/// </summary>
 public class OrderResponseBuilder<T> where T : IOrderResponse, new()
 {
     protected string _msg;

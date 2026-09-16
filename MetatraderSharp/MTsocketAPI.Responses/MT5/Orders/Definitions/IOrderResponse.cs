@@ -1,6 +1,6 @@
 ﻿namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
-internal interface IOrderResponse
+public interface IOrderResponse
 {
     public string? Msg { get; set; }
     public long Ticket { get; set; }
