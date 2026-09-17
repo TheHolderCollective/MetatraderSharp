@@ -3,7 +3,7 @@
 namespace MetatraderSharp.Tests.Builders.MT4;
 
 /// <summary>
-/// Builder class for OrderCloseResponse and OrderModifyResponse
+/// Builder class for OrderSendResponse and OrderModifyResponse
 /// </summary>
 public class OrderResponseBuilder<T> where T : IOrderResponse, new()
 {

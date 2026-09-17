@@ -2,6 +2,9 @@
 
 namespace MetatraderSharp.Tests.Builders.MT5;
 
+/// <summary>
+/// Builder class for OrderCloseResponse and OrderModifyResponse
+/// </summary>
 public class OrderResponseBuilder<T> where T : IOrderResponse, new()
 {
     private string _msg;
@@ -142,4 +145,6 @@ public class OrderResponseBuilder<T> where T : IOrderResponse, new()
         };
     }
 }
+
+
 

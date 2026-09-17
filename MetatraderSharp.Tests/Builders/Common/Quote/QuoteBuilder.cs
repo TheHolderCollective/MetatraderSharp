@@ -111,5 +111,4 @@ public class QuoteBuilder
             ErrorDescription = _errorDescription,
         };
     }
-
 }
