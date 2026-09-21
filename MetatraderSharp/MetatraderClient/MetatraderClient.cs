@@ -78,7 +78,7 @@ public abstract partial class MetatraderClient
 
     #region Generic method for getting api responses
 
-    public async Task<T> GetMTsocketApiResponse<T>(HttpRequestMessage request) where T : MTsocketApiResponse, new()
+    protected async Task<T> GetMTsocketApiResponse<T>(HttpRequestMessage request) where T : MTsocketApiResponse, new()
     {
         try
         {
@@ -199,9 +199,9 @@ public abstract partial class MetatraderClient
 
     #endregion
 
-    #region Helpers
+    #region Helper methods for building HttpRequestMessages
 
-    private HttpRequestMessage BuildHttpGetRequest(string uri)
+    protected HttpRequestMessage BuildHttpGetRequest(string uri)
     {
         return new HttpRequestMessage
         {
@@ -211,7 +211,7 @@ public abstract partial class MetatraderClient
         };
     }
 
-    private HttpRequestMessage BuildHttpPostRequest(string uri)
+    protected HttpRequestMessage BuildHttpPostRequest(string uri)
     {
         return new HttpRequestMessage
         {
@@ -221,7 +221,7 @@ public abstract partial class MetatraderClient
         };
     }
 
-    private HttpRequestMessage BuildHttpPostRequest(string uri, string requestContent)
+    protected HttpRequestMessage BuildHttpPostRequest(string uri, string requestContent)
     {
         return new HttpRequestMessage
         {

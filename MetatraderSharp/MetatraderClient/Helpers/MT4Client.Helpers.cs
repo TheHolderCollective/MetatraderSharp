@@ -67,6 +67,17 @@ public partial class MT4Client : MetatraderClient
         return uri;
     }
 
+    private string BuildCloseOrderUri(long ticketNumber, double volume = 0.0)
+    {
+        if (volume != 0.0)
+        {
+           return _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/close?ticket={ticketNumber}&volume={volume}";
+        }
+
+        return _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/close?ticket={ticketNumber}";
+    }
+
+
     private bool ContainsNoTicket(string jsonResponse)
     {
         return jsonResponse.Contains("\"TRADES\":[]");
