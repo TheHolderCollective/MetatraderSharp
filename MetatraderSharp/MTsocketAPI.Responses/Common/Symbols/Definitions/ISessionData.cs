@@ -1,4 +1,4 @@
-﻿namespace MetatraderSharp.MTsocketAPI.Responses;
+﻿namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 
 public interface ISessionData
 {

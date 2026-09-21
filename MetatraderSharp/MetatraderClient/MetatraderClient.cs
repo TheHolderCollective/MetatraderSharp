@@ -1,4 +1,4 @@
-﻿using MetatraderSharp.MTsocketAPI.Responses;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Common;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 

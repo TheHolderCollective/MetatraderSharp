@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MetatraderSharp.MTsocketAPI.Responses;
+namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 
 /// <summary>
 ///  Response class for track prices, track ohlc, and track mbook

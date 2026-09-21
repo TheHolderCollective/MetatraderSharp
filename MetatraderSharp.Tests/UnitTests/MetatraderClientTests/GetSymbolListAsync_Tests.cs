@@ -1,7 +1,7 @@
 ﻿using RichardSzalay.MockHttp;
 using FluentAssertions;
 using MetatraderSharp.MetatraderClient;
-using MetatraderSharp.MTsocketAPI.Responses;
+using MetatraderSharp.MTsocketAPI.Responses.Common;
 
 namespace MetatraderSharp.Tests.MetatraderClientTests;
 

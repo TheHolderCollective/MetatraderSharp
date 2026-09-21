@@ -1,4 +1,4 @@
-﻿using MetatraderSharp.MTsocketAPI.Responses;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Common;
 
 namespace MetatraderSharp.Extensions;
 

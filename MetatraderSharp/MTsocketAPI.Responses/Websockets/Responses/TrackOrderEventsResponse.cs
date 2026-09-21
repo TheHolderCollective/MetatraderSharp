@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MetatraderSharp.MTsocketAPI.Responses;
+namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 
 /// <summary>
 /// https://www.mtsocketapi.com/restapi.html#/operations/TrackOrderEvents
