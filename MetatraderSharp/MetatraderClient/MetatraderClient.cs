@@ -1,4 +1,5 @@
-﻿using MetatraderSharp.MTsocketAPI.Responses.Common;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using MetatraderSharp.MTsocketAPI.Responses.Common;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
@@ -29,6 +30,8 @@ public abstract partial class MetatraderClient
     public string LastRequestedUri { get { return _requestedUri; } }
 
     #endregion
+
+    #region Constructors
 
     public MetatraderClient()
     {
@@ -68,6 +71,39 @@ public abstract partial class MetatraderClient
         _webSocketPort = webSocketPort;
         VerifyHttpStatus(_client);
     }
+
+    #endregion
+
+    #region Methods for getting api responses
+
+    public async Task<T> GetMTsocketApiResponse<T>(HttpRequestMessage request) where T : MTsocketApiResponse, new()
+    {
+        try
+        {
+            var response = await _client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var deserializedObject = (responseContent != null) ? JsonConvert.DeserializeObject<T>(responseContent) : null;
+
+            ArgumentNullException.ThrowIfNull(deserializedObject);
+
+            SetQueryResult(deserializedObject.ErrorID, deserializedObject.ErrorDescription);
+            return deserializedObject;
+        }
+        catch (Exception ex)
+        {
+            SetQueryResult(QueryStatus.Error, ex.Message);
+            return new T()
+            {
+                ErrorID = QueryStatus.Error,
+                ErrorDescription = ex.Message
+            };
+        }
+    }
+
+    #endregion
+
 
     #region Async methods common to both terminal types
 
