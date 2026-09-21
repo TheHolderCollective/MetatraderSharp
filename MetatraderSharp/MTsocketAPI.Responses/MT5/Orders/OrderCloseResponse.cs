@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
 /// <summary>
 /// https://www.mtsocketapi.com/restapi.html#/operations/OrderClose
 /// </summary>
-public class OrderCloseResponse : IOrderResponse
+public class OrderCloseResponse : MTsocketApiResponse, IOrderResponse
 {
     [JsonProperty("MSG")]
     public string? Msg { get; set; }
@@ -42,17 +43,6 @@ public class OrderCloseResponse : IOrderResponse
 
     [JsonProperty("RETCODE_EXTERNAL")]
     public long RetCodeExternal { get; set; }
-
-    [JsonProperty("ERROR_ID")]
-    public int ErrorID { get; set; }
-
-    [JsonProperty("ERROR_DESCRIPTION")]
-    public string? ErrorDescription { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
 
 

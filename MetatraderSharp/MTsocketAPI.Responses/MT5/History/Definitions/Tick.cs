@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
-public class Tick
+public class Tick : MTsocketApiResponseBase
 {
     [JsonProperty("TIME")]
     public string? Time { get; set; }
@@ -27,10 +28,5 @@ public class Tick
 
     [JsonProperty("VOLUME_REAL")]
     public double VolumeReal { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
 

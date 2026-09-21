@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 
 /// <summary>
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/SymbolList
 /// </summary>
-public class Symbol
+public class Symbol : MTsocketApiResponseBase
 {
     [JsonProperty("NAME")]
     public string? Name { get; set; }
@@ -18,9 +19,4 @@ public class Symbol
 
     [JsonProperty("PATH")]
     public string? Path { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }

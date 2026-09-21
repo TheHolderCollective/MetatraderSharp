@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 
 /// <summary>
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/HistoryPrices
 /// </summary>
-public class Rate
+public class Rate : MTsocketApiResponseBase
 {
     [JsonProperty("TIME")]
     public string? Time { get; set; }
@@ -30,9 +31,4 @@ public class Rate
 
     [JsonProperty("SPREAD")]
     public double Spread { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }

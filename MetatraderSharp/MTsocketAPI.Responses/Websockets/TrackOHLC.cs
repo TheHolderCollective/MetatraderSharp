@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 
@@ -6,7 +7,7 @@ namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/TrackOHLC
 /// </summary>
 
-public class TrackOHLC
+public class TrackOHLC : MTsocketApiResponseBase
 {
     [JsonProperty("MSG")]
     public string? Msg { get; set; }
@@ -19,14 +20,9 @@ public class TrackOHLC
 
     [JsonProperty("OHLC")]
     public List<OHLC> OHLCs { get; set; } = new();
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
 
-public class OHLC
+public class OHLC : MTsocketApiResponseBase
 {
     [JsonProperty("TIME")]
     public string? Time { get; set; }
@@ -45,11 +41,6 @@ public class OHLC
 
     [JsonProperty("TICK_VOLUME")]
     public int TickVolume { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
 
 

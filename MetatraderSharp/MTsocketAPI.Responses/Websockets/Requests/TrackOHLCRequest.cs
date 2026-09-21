@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 
-public class TrackOHLCRequest
+public class TrackOHLCRequest : MTsocketApiResponseBase
 {
     [JsonProperty("OHLC")]
     public List<SymbolRequest> OHLCRequests { get; set; }
@@ -19,14 +20,9 @@ public class TrackOHLCRequest
             OHLCRequests.Add(requests[i]);
         }
     }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
 
-public class SymbolRequest
+public class SymbolRequest : MTsocketApiResponseBase
 {
     [JsonProperty("SYMBOL")]
     public string? Symbol { get; set; }
@@ -47,10 +43,5 @@ public class SymbolRequest
         Symbol = requestedSymbol;
         TimeFrame = requestedTimeFrame;
         Depth = requestedDepth;
-    }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
     }
 }

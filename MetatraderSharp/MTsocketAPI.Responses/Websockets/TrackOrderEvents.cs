@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 
-public class TrackOrderEvents
+public class TrackOrderEvents : MTsocketApiResponseBase
 {
     [JsonProperty("MSG")]
     public string? Msg { get; set; }
@@ -15,14 +16,9 @@ public class TrackOrderEvents
 
     [JsonProperty("TRADE_RESULT")]
     public TradeResult TradeResult { get; set; } = new();
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
 
-public class TradeRequest
+public class TradeRequest : MTsocketApiResponseBase
 {
     [JsonProperty("ACTION")]
     public string? Action { get; set; }
@@ -74,14 +70,9 @@ public class TradeRequest
 
     [JsonProperty("VOLUME")]
     public double Volume { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
 
-public class TradeResult
+public class TradeResult : MTsocketApiResponseBase
 {
     [JsonProperty("ASK")]
     public double Ask { get; set; }
@@ -112,14 +103,9 @@ public class TradeResult
 
     [JsonProperty("VOLUME")]
     public double Volume { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
 
-public class TradeTransaction
+public class TradeTransaction : MTsocketApiResponseBase
 {
     [JsonProperty("DEAL")]
     public long Deal { get; set; }
@@ -168,10 +154,5 @@ public class TradeTransaction
 
     [JsonProperty("VOLUME")]
     public double Volume { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
 

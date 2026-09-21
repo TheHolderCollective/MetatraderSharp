@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 
 /// <summary>
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/TerminalInfo
 /// </summary>
-public class TerminalInfo
+public class TerminalInfo : MTsocketApiResponse
 {
     [JsonProperty("MSG")]
     public string? Msg { get; set; }
@@ -87,15 +88,4 @@ public class TerminalInfo
 
     [JsonProperty("PING_LAST")]
     public double PingLast { get; set; }
-
-    [JsonProperty("ERROR_ID")]
-    public int ErrorID { get; set; }
-
-    [JsonProperty("ERROR_DESCRIPTION")]
-    public string? ErrorDescription { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }

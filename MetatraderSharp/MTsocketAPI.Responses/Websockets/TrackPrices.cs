@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 
@@ -6,7 +7,7 @@ namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/TrackPrices
 /// </summary>
 
-public class TrackPrices
+public class TrackPrices : MTsocketApiResponseBase
 {
     [JsonProperty("MSG")]
     public string? Msg { get; set; } 
@@ -25,9 +26,4 @@ public class TrackPrices
 
     [JsonProperty("VOLUME")]
     public double Volume { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }

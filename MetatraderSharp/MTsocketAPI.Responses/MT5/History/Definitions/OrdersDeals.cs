@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
-public class OrdersDeals
+public class OrdersDeals : MTsocketApiResponseBase
 {
     [JsonProperty("TIME")]
     public string? Time { get; set; }
@@ -30,9 +31,4 @@ public class OrdersDeals
 
     [JsonProperty("DEALS")]
     public List<OrderDeal> Deals { get; set; } = new();
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }

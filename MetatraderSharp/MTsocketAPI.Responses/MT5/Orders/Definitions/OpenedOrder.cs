@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
-public class OpenedOrder
+public class OpenedOrder : MTsocketApiResponseBase
 {
     [JsonProperty("TICKET")]
     public long Ticket { get; set; }
@@ -57,11 +58,6 @@ public class OpenedOrder
 
     [JsonProperty("CHANGE")]
     public double Change { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
 
 

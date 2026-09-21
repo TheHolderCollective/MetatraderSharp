@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
-public class Position
+public class Position : MTsocketApiResponseBase
 {
     [JsonProperty("OPEN_TIME")]
     public string? OpenTime { get; set; }
@@ -48,9 +49,4 @@ public class Position
 
     [JsonProperty("CHANGE")]
     public double Change { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }

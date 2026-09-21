@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
-public class Event
+public class Event : MTsocketApiResponseBase
 {
     [JsonProperty("TIME")]
     public string? Time { get; set; }
@@ -66,9 +67,4 @@ public class Event
 
     [JsonProperty("PERIOD")]
     public string? Period { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }

@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.MT5;
 
-public class PendingOrder
+public class PendingOrder : MTsocketApiResponseBase
 {
     [JsonProperty("TICKET")]
     public long Ticket { get; set; }
@@ -81,10 +82,5 @@ public class PendingOrder
 
     [JsonProperty("PRICE_STOPLIMIT")]
     public double PriceStopLimit { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
 

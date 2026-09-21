@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 
-public class SessionQuote : ISessionData
+public class SessionQuote : MTsocketApiResponseBase, ISessionData
 {
     [JsonProperty("MONDAY")]
     public string? Monday { get; set; }

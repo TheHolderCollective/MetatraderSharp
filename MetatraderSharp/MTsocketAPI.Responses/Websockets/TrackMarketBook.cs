@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 
@@ -6,7 +7,7 @@ namespace MetatraderSharp.MTsocketAPI.Responses.Common;
 /// https://www.mtsocketapi.com/restapi.html#/operations/TrackMBOOK
 /// </summary>
 
-public class MarketDepth
+public class MarketDepth : MTsocketApiResponseBase
 {
     [JsonProperty("MSG")]
     public string? Msg { get; set; }
@@ -16,14 +17,9 @@ public class MarketDepth
 
     [JsonProperty("MARKET_BOOK")]
     public List<MarketBook> MarketBook { get; set; } = new();
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
  
-public class MarketBook
+public class MarketBook : MTsocketApiResponseBase
 {
     [JsonProperty("PRICE")]
     public double Price { get; set; }
@@ -36,10 +32,5 @@ public class MarketBook
 
     [JsonProperty("TYPE")]
     public string? Type { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
 

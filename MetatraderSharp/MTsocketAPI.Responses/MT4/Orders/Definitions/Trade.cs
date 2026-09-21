@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.Base;
+using Newtonsoft.Json;
 
 namespace MetatraderSharp.MTsocketAPI.Responses.MT4;
 
 /// <summary>
 /// https://www.mtsocketapi.com/restapi_mt4.html#/operations/OrderList
 /// </summary>
-public class Trade
+public class Trade : MTsocketApiResponseBase
 {
     [JsonProperty("TICKET")]
     public long Ticket { get; set; }
@@ -54,9 +55,4 @@ public class Trade
 
     [JsonProperty("EXPIRATION")]
     public string? Expiration { get; set; }
-
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
 }
