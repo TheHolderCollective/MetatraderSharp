@@ -18,6 +18,7 @@ public abstract partial class MetatraderClient
     protected int _lastQueryStatus;
     protected int _lastErrorCode;
     protected HttpClient _client;
+    protected HttpRequestMessage _request;
     protected bool _clientStatusIsOK;
 
     #endregion
@@ -42,6 +43,7 @@ public abstract partial class MetatraderClient
         _clientType = string.Empty;
         _clientStatusMessage = string.Empty;
         _client = new HttpClient();
+        _request = new HttpRequestMessage();
     }
 
     public MetatraderClient(string clientType) : this()
@@ -74,7 +76,7 @@ public abstract partial class MetatraderClient
 
     #endregion
 
-    #region Methods for getting api responses
+    #region Generic method for getting api responses
 
     public async Task<T> GetMTsocketApiResponse<T>(HttpRequestMessage request) where T : MTsocketApiResponse, new()
     {
@@ -109,197 +111,51 @@ public abstract partial class MetatraderClient
 
     public async Task<TerminalInfo> GetTerminalInfoAsync()
     {
-        try
-        {
-            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/terminal";
+        _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/terminal";
+        _request = BuildHttpGetRequest(_requestedUri);
 
-            var response = await _client.GetAsync(_requestedUri);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var terminalInfo = (responseContent != null) ? JsonConvert.DeserializeObject<TerminalInfo>(responseContent) : null;
-
-            ArgumentNullException.ThrowIfNull(terminalInfo);
-
-            SetQueryResult(terminalInfo.ErrorID, terminalInfo.ErrorDescription);
-            return terminalInfo;
-
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new TerminalInfo()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message,
-            };
-        }
+        return await GetMTsocketApiResponse<TerminalInfo>(_request);
     }
 
     public async Task<Quote> GetQuoteAsync(string symbol)
     {
-        try
-        {
-            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/quote?symbol={symbol}";
+        _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/quote?symbol={symbol}";
+        _request = BuildHttpGetRequest(_requestedUri);
 
-            var response = await _client.GetAsync(_requestedUri);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var quote = (responseContent != null) ? JsonConvert.DeserializeObject<Quote>(responseContent) : null;
-
-            ArgumentNullException.ThrowIfNull(quote);
-
-            SetQueryResult(quote.ErrorID, quote.ErrorDescription);
-            return quote;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new Quote()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message,
-            };
-        }
+        return await GetMTsocketApiResponse<Quote>(_request);
     }
 
     public async Task<SymbolList> GetSymbolListAsync()
     {
-        try
-        {
-            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/symbol/list";
+        _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/symbol/list";
+        _request = BuildHttpGetRequest(_requestedUri);
 
-            var response = await _client.GetAsync(_requestedUri);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var symbolList = (responseContent != null) ? JsonConvert.DeserializeObject<SymbolList>(responseContent) : null;
-
-            ArgumentNullException.ThrowIfNull(symbolList);
-
-            SetQueryResult(symbolList.ErrorID, symbolList.ErrorDescription);
-            return symbolList;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new SymbolList()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message,
-            };
-        }
+        return await GetMTsocketApiResponse<SymbolList>(_request);
     }
 
     public async Task<PriceHistory> GetPriceHistoryAsync(string symbol, string timeFrame, string fromDate, string toDate)
     {
-        try
-        {
-            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/history/prices?symbol={symbol}&timeframe={timeFrame}&from_date={fromDate}&to_date={toDate}";
+        _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/history/prices?symbol={symbol}&timeframe={timeFrame}&from_date={fromDate}&to_date={toDate}";
+        _request = BuildHttpGetRequest(_requestedUri);
 
-            var response = await _client.GetAsync(_requestedUri);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var priceHistory = (responseContent != null) ? JsonConvert.DeserializeObject<PriceHistory>(responseContent) : null;
-
-            ArgumentNullException.ThrowIfNull(priceHistory);
-
-            SetQueryResult(priceHistory.ErrorID, priceHistory.ErrorDescription);
-            return priceHistory;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new PriceHistory()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message,
-            };
-        }
+        return await GetMTsocketApiResponse<PriceHistory>(_request);
     }
 
     public async Task<TrackResponse> TrackPricesAsync(TrackingCommand trackCommand, params string[] symbols)
     {
-        try
-        {
-            _requestedUri = BuildTrackPricesUri(trackCommand, symbols);
+        _requestedUri = BuildTrackPricesUri(trackCommand, symbols);
+        _request = BuildHttpPostRequest(_requestedUri);
 
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri(_requestedUri),
-                Headers =
-                {
-                    {"Accept","application/json" }
-                }
-            };
-
-            var response = await _client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackResponse>(responseContent) : null;
-
-            ArgumentNullException.ThrowIfNull(requestResponse);
-
-            SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
-            return requestResponse;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new TrackResponse()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
+        return await GetMTsocketApiResponse<TrackResponse>(_request);
     }
 
     public async Task<TrackResponse> TrackOHLCsAsync(TrackOHLCRequest ohlcRequest)
     {
-        try
-        {
-            string requestContent = ohlcRequest.ToString();
-            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/track/ohlc";
+        string requestContent = ohlcRequest.ToString();
+        _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/track/ohlc";
+        _request = BuildHttpPostRequest(_requestedUri, requestContent);
 
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri(_requestedUri),
-                Headers = { { "Accept", "application/json" } },
-                Content = new StringContent(requestContent)
-                {
-                    Headers =
-                      {
-                         ContentType = new MediaTypeHeaderValue("application/json")
-                      }
-                }
-            };
-
-            var response = await _client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var requestResponse = (responseContent != null) ? JsonConvert.DeserializeObject<TrackResponse>(responseContent) : null;
-
-            ArgumentNullException.ThrowIfNull(requestResponse);
-
-            SetQueryResult(requestResponse.ErrorID, requestResponse.ErrorDescription);
-            return requestResponse;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new TrackResponse()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
-
+        return await GetMTsocketApiResponse<TrackResponse>(_request);
     }
 
     #endregion
@@ -339,6 +195,44 @@ public abstract partial class MetatraderClient
     public int LastErrorCode()
     {
         return _lastErrorCode;
+    }
+
+    #endregion
+
+    #region Helpers
+
+    private HttpRequestMessage BuildHttpGetRequest(string uri)
+    {
+        return new HttpRequestMessage
+        {
+            Method = HttpMethod.Get,
+            RequestUri = new Uri(uri),
+            Headers = { { "Accept", "application/json" } }
+        };
+    }
+
+    private HttpRequestMessage BuildHttpPostRequest(string uri)
+    {
+        return new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            RequestUri = new Uri(_requestedUri),
+            Headers = { { "Accept", "application/json" } }
+        };
+    }
+
+    private HttpRequestMessage BuildHttpPostRequest(string uri, string requestContent)
+    {
+        return new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            RequestUri = new Uri(uri),
+            Headers = { { "Accept", "application/json" } },
+            Content = new StringContent(requestContent)
+            {
+                Headers = { ContentType = new MediaTypeHeaderValue("application/json") }
+            }
+        };
     }
 
     #endregion
