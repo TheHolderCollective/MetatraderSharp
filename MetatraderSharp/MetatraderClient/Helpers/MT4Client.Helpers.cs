@@ -87,9 +87,4 @@ public partial class MT4Client : MetatraderClient
         }
         return orderInfo;
     }
-
-    private bool ContainsNoTicket(string jsonResponse)
-    {
-        return jsonResponse.Contains("\"TRADES\":[]");
-    }
 }

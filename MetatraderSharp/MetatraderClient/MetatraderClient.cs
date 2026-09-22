@@ -78,7 +78,7 @@ public abstract partial class MetatraderClient
 
     #region Generic method for getting api responses
 
-    protected async Task<T> GetMTsocketApiResponse<T>(HttpRequestMessage request) where T : MTsocketApiResponse, new()
+    protected async Task<T> GetMTsocketApiResponseAsync<T>(HttpRequestMessage request) where T : MTsocketApiResponse, new()
     {
         try
         {
@@ -106,7 +106,6 @@ public abstract partial class MetatraderClient
 
     #endregion
 
-
     #region Async methods common to both terminal types
 
     public async Task<TerminalInfo> GetTerminalInfoAsync()
@@ -114,7 +113,7 @@ public abstract partial class MetatraderClient
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/terminal";
         _request = BuildHttpGetRequest(_requestedUri);
 
-        return await GetMTsocketApiResponse<TerminalInfo>(_request);
+        return await GetMTsocketApiResponseAsync<TerminalInfo>(_request);
     }
 
     public async Task<Quote> GetQuoteAsync(string symbol)
@@ -122,7 +121,7 @@ public abstract partial class MetatraderClient
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/quote?symbol={symbol}";
         _request = BuildHttpGetRequest(_requestedUri);
 
-        return await GetMTsocketApiResponse<Quote>(_request);
+        return await GetMTsocketApiResponseAsync<Quote>(_request);
     }
 
     public async Task<SymbolList> GetSymbolListAsync()
@@ -130,7 +129,7 @@ public abstract partial class MetatraderClient
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/symbol/list";
         _request = BuildHttpGetRequest(_requestedUri);
 
-        return await GetMTsocketApiResponse<SymbolList>(_request);
+        return await GetMTsocketApiResponseAsync<SymbolList>(_request);
     }
 
     public async Task<PriceHistory> GetPriceHistoryAsync(string symbol, string timeFrame, string fromDate, string toDate)
@@ -138,7 +137,7 @@ public abstract partial class MetatraderClient
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/history/prices?symbol={symbol}&timeframe={timeFrame}&from_date={fromDate}&to_date={toDate}";
         _request = BuildHttpGetRequest(_requestedUri);
 
-        return await GetMTsocketApiResponse<PriceHistory>(_request);
+        return await GetMTsocketApiResponseAsync<PriceHistory>(_request);
     }
 
     public async Task<TrackResponse> TrackPricesAsync(TrackingCommand trackCommand, params string[] symbols)
@@ -146,7 +145,7 @@ public abstract partial class MetatraderClient
         _requestedUri = BuildTrackPricesUri(trackCommand, symbols);
         _request = BuildHttpPostRequest(_requestedUri);
 
-        return await GetMTsocketApiResponse<TrackResponse>(_request);
+        return await GetMTsocketApiResponseAsync<TrackResponse>(_request);
     }
 
     public async Task<TrackResponse> TrackOHLCsAsync(TrackOHLCRequest ohlcRequest)
@@ -154,7 +153,7 @@ public abstract partial class MetatraderClient
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/track/ohlc";
         _request = BuildHttpPostRequest(_requestedUri, ohlcRequest.ToString());
 
-        return await GetMTsocketApiResponse<TrackResponse>(_request);
+        return await GetMTsocketApiResponseAsync<TrackResponse>(_request);
     }
 
     #endregion

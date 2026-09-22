@@ -154,4 +154,11 @@ public partial class MT5Client : MetatraderClient
 
         return $"{_partialURI}:{_webSocketPort}/v1/track/mbook?{symbolParameters}";
     }
+
+    private string BuildMAIndicatorValuesUri(string appliedPrice, string ma_Method, int ma_Period, int count, int ma_Shift, string symbol, string timeframe)
+    {
+        string parameters = $"symbol={symbol}&timeframe={timeframe}&ma_period={ma_Period}&ma_shift={ma_Shift}&ma_method={ma_Method}&applied_price={appliedPrice}&num={count}";
+        
+        return $"{_partialURI}:{_webSocketPort}/v1/indicator/ma?{parameters}";
+    }
 }
