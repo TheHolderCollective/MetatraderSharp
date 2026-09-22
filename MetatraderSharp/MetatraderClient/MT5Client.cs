@@ -24,86 +24,26 @@ public partial class MT5Client : MetatraderClient
 
     public async Task<Account> GetAccountInfoAsync()
     {
-        try
-        {
-            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/account";
+        _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/account";
+        _request = BuildHttpGetRequest(_requestedUri);
 
-            var response = await _client.GetAsync(_requestedUri);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var account = (responseContent != null) ? JsonConvert.DeserializeObject<Account>(responseContent) : null;
-
-            ArgumentNullException.ThrowIfNull(account);
-
-            SetQueryResult(account.ErrorID, account.ErrorDescription);
-            return account;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new Account()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
+        return await GetMTsocketApiResponse<Account>(_request);
     }
 
     public async Task<Calendar> GetCalendarAsync(string fromDate, string toDate, string countryCode = "", string currency = "")
     {
-        try
-        {
-            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/calendar?from_date={fromDate}&to_date={toDate}&country_code={countryCode}&currency={currency}";
+        _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/calendar?from_date={fromDate}&to_date={toDate}&country_code={countryCode}&currency={currency}";
+        _request = BuildHttpGetRequest(_requestedUri);
 
-            var response = await _client.GetAsync(_requestedUri);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var calendar = (responseContent != null) ? JsonConvert.DeserializeObject<Calendar>(responseContent) : null;
-
-            ArgumentNullException.ThrowIfNull(calendar);
-
-            SetQueryResult(calendar.ErrorID, calendar.ErrorDescription);
-            return calendar;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new Calendar()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
+        return await GetMTsocketApiResponse<Calendar>(_request);
     }
 
     public async Task<TickHistory> GetTickHistoryAsync(string fromDate, string toDate, string symbol, string tickFlag)
     {
-        try
-        {
-            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/history/ticks?symbol={symbol}&flags={tickFlag}&from_date={fromDate}&to_date={toDate}";
+        _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/history/ticks?symbol={symbol}&flags={tickFlag}&from_date={fromDate}&to_date={toDate}";
+        _request = BuildHttpGetRequest(_requestedUri);
 
-            var response = await _client.GetAsync(_requestedUri);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var tickHistory = (responseContent != null) ? JsonConvert.DeserializeObject<TickHistory>(responseContent) : null;
-
-            ArgumentNullException.ThrowIfNull(tickHistory);
-
-            SetQueryResult(tickHistory.ErrorID, tickHistory.ErrorDescription);
-            return tickHistory;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new TickHistory()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
+        return await GetMTsocketApiResponse<TickHistory>(_request);
     }
 
     public async Task<OrderHistory> GetOrderHistoryAsync(string fromDate, string toDate, string mode)

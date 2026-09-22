@@ -1,4 +1,6 @@
-﻿namespace MetatraderSharp.MetatraderClient;
+﻿using MetatraderSharp.MTsocketAPI.Responses.MT4;
+
+namespace MetatraderSharp.MetatraderClient;
 
 public partial class MT4Client : MetatraderClient
 {
@@ -77,6 +79,14 @@ public partial class MT4Client : MetatraderClient
         return _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/close?ticket={ticketNumber}";
     }
 
+    private OrderInfo UpdateErrorDescription(OrderInfo orderInfo)
+    {
+        if (orderInfo.ErrorDescription is not null && orderInfo.ErrorDescription.Contains("Cannot deserialize"))
+        {
+            orderInfo.ErrorDescription = orderInfo.ErrorDescription = "Deserialization error: Please check that ticket exists.";
+        }
+        return orderInfo;
+    }
 
     private bool ContainsNoTicket(string jsonResponse)
     {

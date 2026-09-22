@@ -151,9 +151,8 @@ public abstract partial class MetatraderClient
 
     public async Task<TrackResponse> TrackOHLCsAsync(TrackOHLCRequest ohlcRequest)
     {
-        string requestContent = ohlcRequest.ToString();
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/track/ohlc";
-        _request = BuildHttpPostRequest(_requestedUri, requestContent);
+        _request = BuildHttpPostRequest(_requestedUri, ohlcRequest.ToString());
 
         return await GetMTsocketApiResponse<TrackResponse>(_request);
     }

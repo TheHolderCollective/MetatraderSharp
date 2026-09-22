@@ -1,13 +1,9 @@
-﻿using MetatraderSharp.MTsocketAPI.Responses.Common;
-using MetatraderSharp.MTsocketAPI.Responses.MT4;
-using Newtonsoft.Json;
+﻿using MetatraderSharp.MTsocketAPI.Responses.MT4;
 
 namespace MetatraderSharp.MetatraderClient;
 
 public partial class MT4Client : MetatraderClient
 {
-    #region Constructors
-
     public MT4Client() : base(MetatraderClientType.MT4)
     {
     }
@@ -23,8 +19,6 @@ public partial class MT4Client : MetatraderClient
     public MT4Client(string webSocketPort): base(MetatraderClientType.MT4, webSocketPort)
     {
     }
-
-    #endregion
 
     public async Task<Account> GetAccountInfoAsync()
     {
@@ -60,44 +54,12 @@ public partial class MT4Client : MetatraderClient
         return await GetMTsocketApiResponse<Indicator>(_request);
     }
 
-    // TODO write workaround for ContainsNoTicket
     public async Task<OrderInfo> GetOrderInfoAsync(long ticketNumber)
     {
-        //_requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/info?ticket={ticketNumber}";
-        //_request = BuildHttpGetRequest(_requestedUri);
+        _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/info?ticket={ticketNumber}";
+        _request = BuildHttpGetRequest(_requestedUri);
 
-        //return await GetMTsocketApiResponse<OrderInfo>(_request);
-
-        try
-        {
-            _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/info?ticket={ticketNumber}";
-
-            var response = await _client.GetAsync(_requestedUri);
-            response.EnsureSuccessStatusCode();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            if (ContainsNoTicket(responseContent))
-            {
-                throw new InvalidOperationException("Ticket not found");
-            }
-
-            var orderInfo = (responseContent != null) ? JsonConvert.DeserializeObject<OrderInfo>(responseContent) : null;
-
-            ArgumentNullException.ThrowIfNull(orderInfo);
-
-            SetQueryResult(orderInfo.ErrorID, orderInfo.ErrorDescription);
-            return orderInfo;
-        }
-        catch (Exception ex)
-        {
-            SetQueryResult(QueryStatus.Error, ex.Message);
-            return new OrderInfo()
-            {
-                ErrorID = QueryStatus.Error,
-                ErrorDescription = ex.Message
-            };
-        }
+        return UpdateErrorDescription(await GetMTsocketApiResponse<OrderInfo>(_request));
     }
 
     public async Task<OrderList> GetOrderListAsync()
