@@ -2,7 +2,7 @@
 
 namespace MetatraderSharp.MetatraderClient;
 
-public partial class MT4Client : MetatraderClient
+public class MT4Client : MetatraderClient
 {
     public MT4Client() : base(MetatraderClientType.MT4)
     {
@@ -72,7 +72,7 @@ public partial class MT4Client : MetatraderClient
 
     public async Task<OrderSendResponse> PlaceOrderAsync(string symbol, string orderType, double volume, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0, int magic = 0, string comment = "", string expiration = "")
     {
-        _requestedUri = BuildSendOrderUri(symbol, orderType, volume, price, stopLoss, takeProfit, magic, comment, expiration);
+        _requestedUri = UriBuilder.BuildMT4SendOrderUri(_partialURI, _webSocketPort,symbol, orderType, volume, price, stopLoss, takeProfit, magic, comment, expiration);
         _request = BuildHttpPostRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<OrderSendResponse>(_request);
@@ -80,7 +80,7 @@ public partial class MT4Client : MetatraderClient
 
     public async Task<OrderModifyResponse> ModifyOrderAsync(long ticketNumber, double stopLoss, double takeProfit = 0.0, double price = 0.0, string expiration = "")
     {
-        _requestedUri = BuildModifyOrderUri(ticketNumber, stopLoss, takeProfit, price, expiration);
+        _requestedUri = UriBuilder.BuildMT4ModifyOrderUri(_partialURI,_webSocketPort,ticketNumber, stopLoss, takeProfit, price, expiration);
         _request = BuildHttpPostRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<OrderModifyResponse>(_request);
@@ -88,7 +88,7 @@ public partial class MT4Client : MetatraderClient
 
     public async Task<OrderCloseResponse> CloseOrderAsync(long ticketNumber, double volume = 0.0)
     {
-        _requestedUri = BuildCloseOrderUri(ticketNumber, volume);
+        _requestedUri = UriBuilder.BuildMT4CloseOrderUri(_partialURI, _webSocketPort, ticketNumber, volume);
         _request = BuildHttpPostRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<OrderCloseResponse>(_request);
@@ -140,5 +140,14 @@ public partial class MT4Client : MetatraderClient
             SetQueryResult(QueryStatus.Error, ex.Message);
             return 0;
         }
+    }
+
+    private OrderInfo UpdateErrorDescription(OrderInfo orderInfo)
+    {
+        if (orderInfo.ErrorDescription is not null && orderInfo.ErrorDescription.Contains("Cannot deserialize"))
+        {
+            orderInfo.ErrorDescription = orderInfo.ErrorDescription = "Deserialization error: Please check that ticket exists.";
+        }
+        return orderInfo;
     }
 }

@@ -1,6 +1,5 @@
 ﻿using MetatraderSharp.MTsocketAPI.Responses.Common;
 using MetatraderSharp.MTsocketAPI.Responses.MT5;
-using Newtonsoft.Json;
 
 namespace MetatraderSharp.MetatraderClient;
 
