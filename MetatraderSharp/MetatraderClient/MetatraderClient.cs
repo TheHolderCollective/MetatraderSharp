@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 
 namespace MetatraderSharp.MetatraderClient;
 
-public abstract partial class MetatraderClient
+public abstract class MetatraderClient
 {
     #region Fields
 
@@ -17,9 +17,10 @@ public abstract partial class MetatraderClient
     protected string? _lastQueryMessage;
     protected int _lastQueryStatus;
     protected int _lastErrorCode;
+    protected bool _clientStatusIsOK;
     protected HttpClient _client;
     protected HttpRequestMessage _request;
-    protected bool _clientStatusIsOK;
+    protected UriBuilder _uriBuilder;
 
     #endregion
 
@@ -44,6 +45,7 @@ public abstract partial class MetatraderClient
         _clientStatusMessage = string.Empty;
         _client = new HttpClient();
         _request = new HttpRequestMessage();
+        _uriBuilder = new UriBuilder();
     }
 
     public MetatraderClient(string clientType) : this()
@@ -59,20 +61,20 @@ public abstract partial class MetatraderClient
         VerifyHttpStatus(_client);
     }
 
-    public MetatraderClient(string clientType, HttpClient client, string webSocketPort) : this()
-    {
-        _clientType = clientType;
-        _webSocketPort = webSocketPort;
-        _client = client;
-        VerifyHttpStatus(_client);
-    }
-
     public MetatraderClient(string clientType, string webSocketPort) : this()
     {
         _clientType = clientType;
         _webSocketPort = webSocketPort;
+        _uriBuilder.SetUriParameter(webSocketPort);
         VerifyHttpStatus(_client);
     }
+
+    public MetatraderClient(string clientType, HttpClient client, string webSocketPort) : this(clientType, webSocketPort)
+    {
+        _client = client;
+        VerifyHttpStatus(_client);
+    }
+
 
     #endregion
 
@@ -142,7 +144,7 @@ public abstract partial class MetatraderClient
 
     public async Task<TrackResponse> TrackPricesAsync(TrackingCommand trackCommand, params string[] symbols)
     {
-        _requestedUri = BuildTrackPricesUri(trackCommand, symbols);
+        _requestedUri = UriBuilder.BuildTrackPricesUri(trackCommand, symbols);
         _request = BuildHttpPostRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<TrackResponse>(_request);
@@ -197,7 +199,53 @@ public abstract partial class MetatraderClient
 
     #endregion
 
-    #region Helper methods for building HttpRequestMessages
+    #region Helpers - Constructor
+
+    private void VerifyHttpStatus(HttpClient client)
+    {
+        try
+        {
+            ArgumentNullException.ThrowIfNull(client);
+
+            _requestedUri = $"{_partialURI}:{_webSocketPort}";
+            var response = client.GetAsync(_requestedUri).Result;
+            _clientStatusIsOK = response.IsSuccessStatusCode;
+            _clientStatusMessage = response.StatusCode.ToString();
+
+            SetQueryResult(QueryStatus.Ok, _clientStatusMessage);
+        }
+        catch (Exception ex)
+        {
+            _clientStatusMessage = ex.Message;
+            _clientStatusIsOK = false;
+
+            SetQueryResult(QueryStatus.Error, _clientStatusMessage);
+        }
+    }
+    #endregion
+
+    #region Helpers - Error Handling
+
+    protected void SetQueryResult(int errorID, string? errorDescription)
+    {
+        switch (errorID)
+        {
+            case 0:
+                _lastQueryStatus = QueryStatus.Ok;
+                break;
+            default:
+                _lastQueryStatus = QueryStatus.Error;
+                break;
+        }
+
+        _lastErrorCode = errorID;
+        _lastQueryMessage = errorDescription;
+    }
+
+    #endregion
+
+
+    #region Helpers -  HttpRequestMessages Builders
 
     protected HttpRequestMessage BuildHttpGetRequest(string uri)
     {
