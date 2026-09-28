@@ -23,7 +23,7 @@ public class MT4Client : MetatraderClient
     public async Task<Account> GetAccountInfoAsync()
     {
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/account";
-        _request = BuildHttpGetRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<Account>(_request);
     }
@@ -31,7 +31,7 @@ public class MT4Client : MetatraderClient
     public async Task<Indicator> GetATRValuesAsync(int period, int shift, string symbol, string timeframe)
     {
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/indicator/atr?symbol={symbol}&timeframe={timeframe}&period={period}&shift={shift}";
-        _request = BuildHttpGetRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<Indicator>(_request);
     }
@@ -40,7 +40,7 @@ public class MT4Client : MetatraderClient
     {
         string parameters = $"symbol={symbol}&timeframe={timeframe}&ma_period={ma_Period}&ma_shift={ma_Shift}&ma_method={ma_Method}&applied_price={appliedPrice}";
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/indicator/ma?{parameters}";
-        _request = BuildHttpGetRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<Indicator>(_request);
     }
@@ -49,7 +49,7 @@ public class MT4Client : MetatraderClient
     {
         string parameters = $"symbol={symbol}&timeframe={timeframe}&indicator_name={indicatorName}&param1={param1}&param2={param2}&param3={param3}&param4={param4}&mode={mode}&shift={shift}";
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/indicator/custom?{parameters}";
-        _request = BuildHttpGetRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<Indicator>(_request);
     }
@@ -57,7 +57,7 @@ public class MT4Client : MetatraderClient
     public async Task<OrderInfo> GetOrderInfoAsync(long ticketNumber)
     {
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/info?ticket={ticketNumber}";
-        _request = BuildHttpGetRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return UpdateErrorDescription(await GetMTsocketApiResponseAsync<OrderInfo>(_request));
     }
@@ -65,7 +65,7 @@ public class MT4Client : MetatraderClient
     public async Task<OrderList> GetOrderListAsync()
     {
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/order/list";
-        _request = BuildHttpGetRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<OrderList>(_request);
     }
@@ -73,7 +73,7 @@ public class MT4Client : MetatraderClient
     public async Task<OrderSendResponse> PlaceOrderAsync(string symbol, string orderType, double volume, double price = 0.0, double stopLoss = 0.0, double takeProfit = 0.0, int magic = 0, string comment = "", string expiration = "")
     {
         _requestedUri = UriBuilder.BuildMT4SendOrderUri(symbol, orderType, volume, price, stopLoss, takeProfit, magic, comment, expiration);
-        _request = BuildHttpPostRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpPostRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<OrderSendResponse>(_request);
     }
@@ -81,7 +81,7 @@ public class MT4Client : MetatraderClient
     public async Task<OrderModifyResponse> ModifyOrderAsync(long ticketNumber, double stopLoss, double takeProfit = 0.0, double price = 0.0, string expiration = "")
     {
         _requestedUri = UriBuilder.BuildMT4ModifyOrderUri(ticketNumber, stopLoss, takeProfit, price, expiration);
-        _request = BuildHttpPostRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpPostRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<OrderModifyResponse>(_request);
     }
@@ -89,7 +89,7 @@ public class MT4Client : MetatraderClient
     public async Task<OrderCloseResponse> CloseOrderAsync(long ticketNumber, double volume = 0.0)
     {
         _requestedUri = UriBuilder.BuildMT4CloseOrderUri(ticketNumber, volume);
-        _request = BuildHttpPostRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpPostRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<OrderCloseResponse>(_request);
     }
@@ -97,7 +97,7 @@ public class MT4Client : MetatraderClient
     public async Task<SymbolInformation> GetSymbolInformationAsync(string symbol)
     {
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/symbol/info?symbol={symbol}";
-        _request = BuildHttpGetRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<SymbolInformation>(_request);
     }
@@ -105,7 +105,7 @@ public class MT4Client : MetatraderClient
     public async Task<OrderHistory> GetOrderHistoryAsync(string fromDate, string toDate)
     {
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/history/orders?from_date={fromDate}&to_date={toDate}";
-        _request = BuildHttpGetRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<OrderHistory>(_request);
     }

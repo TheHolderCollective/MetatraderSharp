@@ -113,7 +113,7 @@ public abstract class MetatraderClient
     public async Task<TerminalInfo> GetTerminalInfoAsync()
     {
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/terminal";
-        _request = BuildHttpGetRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<TerminalInfo>(_request);
     }
@@ -121,7 +121,7 @@ public abstract class MetatraderClient
     public async Task<Quote> GetQuoteAsync(string symbol)
     {
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/quote?symbol={symbol}";
-        _request = BuildHttpGetRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<Quote>(_request);
     }
@@ -129,7 +129,7 @@ public abstract class MetatraderClient
     public async Task<SymbolList> GetSymbolListAsync()
     {
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/symbol/list";
-        _request = BuildHttpGetRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<SymbolList>(_request);
     }
@@ -137,7 +137,7 @@ public abstract class MetatraderClient
     public async Task<PriceHistory> GetPriceHistoryAsync(string symbol, string timeFrame, string fromDate, string toDate)
     {
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/history/prices?symbol={symbol}&timeframe={timeFrame}&from_date={fromDate}&to_date={toDate}";
-        _request = BuildHttpGetRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<PriceHistory>(_request);
     }
@@ -145,7 +145,7 @@ public abstract class MetatraderClient
     public async Task<TrackResponse> TrackPricesAsync(TrackingCommand trackCommand, params string[] symbols)
     {
         _requestedUri = UriBuilder.BuildTrackPricesUri(trackCommand, symbols);
-        _request = BuildHttpPostRequest(_requestedUri);
+        _request = HttpRequestMessageBuilder.BuildHttpPostRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<TrackResponse>(_request);
     }
@@ -153,7 +153,7 @@ public abstract class MetatraderClient
     public async Task<TrackResponse> TrackOHLCsAsync(TrackOHLCRequest ohlcRequest)
     {
         _requestedUri = $"{_partialURI}:{_webSocketPort}/v1/track/ohlc";
-        _request = BuildHttpPostRequest(_requestedUri, ohlcRequest.ToString());
+        _request = HttpRequestMessageBuilder.BuildHttpPostRequest(_requestedUri, ohlcRequest.ToString());
 
         return await GetMTsocketApiResponseAsync<TrackResponse>(_request);
     }
@@ -244,42 +244,4 @@ public abstract class MetatraderClient
 
     #endregion
 
-
-    #region Helpers -  HttpRequestMessages Builders
-
-    protected HttpRequestMessage BuildHttpGetRequest(string uri)
-    {
-        return new HttpRequestMessage
-        {
-            Method = HttpMethod.Get,
-            RequestUri = new Uri(uri),
-            Headers = { { "Accept", "application/json" } }
-        };
-    }
-
-    protected HttpRequestMessage BuildHttpPostRequest(string uri)
-    {
-        return new HttpRequestMessage
-        {
-            Method = HttpMethod.Post,
-            RequestUri = new Uri(_requestedUri),
-            Headers = { { "Accept", "application/json" } }
-        };
-    }
-
-    protected HttpRequestMessage BuildHttpPostRequest(string uri, string requestContent)
-    {
-        return new HttpRequestMessage
-        {
-            Method = HttpMethod.Post,
-            RequestUri = new Uri(uri),
-            Headers = { { "Accept", "application/json" } },
-            Content = new StringContent(requestContent)
-            {
-                Headers = { ContentType = new MediaTypeHeaderValue("application/json") }
-            }
-        };
-    }
-
-    #endregion
 }
