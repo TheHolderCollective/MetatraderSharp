@@ -4,7 +4,7 @@ using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.Common;
 using MetatraderSharp.Tests.Builders;
 
-namespace MetatraderSharp.Tests.MetatraderClientTests;
+namespace MetatraderSharp.Tests.Common;
 
 public class GetSymbolListAsync_Tests
 {
@@ -17,8 +17,8 @@ public class GetSymbolListAsync_Tests
 
         mockHttp.When("http://127.0.0.1:81/v1/symbol/list").Respond("application/json", mockSymbolList.ToString());
 
-        var client = mockHttp.ToHttpClient();
-        var mtClient = new MT4Client(client);
+        var httpClient = mockHttp.ToHttpClient();
+        var mtClient = new MT4Client(httpClient);
 
         // Act
         SymbolList symbolList = await mtClient.GetSymbolListAsync();

@@ -3,7 +3,7 @@ using FluentAssertions;
 using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.Tests.Builders;
 
-namespace MetatraderSharp.Tests.MetatraderClient;
+namespace MetatraderSharp.Tests.Common;
 
 public class GetTerminalInfoAsync_Tests
 {

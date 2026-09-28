@@ -3,7 +3,7 @@ using FluentAssertions;
 using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.Tests.Builders;
 
-namespace MetatraderSharp.Tests.MetatraderClientTests;
+namespace MetatraderSharp.Tests.Common;
 
 public class GetQuoteAsync_Tests
 {
