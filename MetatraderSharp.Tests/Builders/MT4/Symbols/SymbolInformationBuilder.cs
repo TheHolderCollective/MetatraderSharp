@@ -314,7 +314,6 @@ public class SymbolInformationBuilder
         return this;
     }
 
-
     public SymbolInformation Build()
     {
         return new SymbolInformation()
