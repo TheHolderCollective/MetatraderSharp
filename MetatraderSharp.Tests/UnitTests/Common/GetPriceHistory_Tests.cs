@@ -13,7 +13,6 @@ public class GetPriceHistory_Tests
         // Arrange
         var mockPriceHistory = new PriceHistoryBuilder().Build();
         var mockHttp = new MockHttpMessageHandler();
-
         mockHttp.When("http://127.0.0.1:81/v1/history/prices*").Respond("application/json", mockPriceHistory.ToString());
 
         var httpClient = mockHttp.ToHttpClient();

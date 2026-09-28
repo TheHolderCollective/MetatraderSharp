@@ -3,7 +3,7 @@ using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.Tests.Builders.MT4;
 using RichardSzalay.MockHttp;
 
-namespace MetatraderSharp.Tests.MT4ClientTests;
+namespace MetatraderSharp.Tests.MT4;
 
 public class GetAccountInfoAsync_Tests
 {
@@ -46,12 +46,12 @@ public class GetAccountInfoAsync_Tests
         accountInfo.ErrorID.Should().Be(0);
         accountInfo.ErrorDescription.Should().Be("no error");
     }
+
     [Fact]
     public async Task GetAccountInfoAsync_UnsuccessfulDeserialization_Test()
     {
         // Arrange
         var mockHttp = new MockHttpMessageHandler();
-
         mockHttp.When("http://127.0.0.1:81/v1/account").Respond("application/json", "");
 
         var client = mockHttp.ToHttpClient();

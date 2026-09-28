@@ -14,14 +14,13 @@ public class GetSymbolListAsync_Tests
         // Arrange
         var mockSymbolList = new SymbolListBuilder().Build(); 
         var mockHttp = new MockHttpMessageHandler();
-
         mockHttp.When("http://127.0.0.1:81/v1/symbol/list").Respond("application/json", mockSymbolList.ToString());
 
         var httpClient = mockHttp.ToHttpClient();
         var mtClient = new MT4Client(httpClient);
 
         // Act
-        SymbolList symbolList = await mtClient.GetSymbolListAsync();
+        var symbolList = await mtClient.GetSymbolListAsync();
 
         // Assert
         symbolList.Msg.Should().Be("SYMBOL_LIST");

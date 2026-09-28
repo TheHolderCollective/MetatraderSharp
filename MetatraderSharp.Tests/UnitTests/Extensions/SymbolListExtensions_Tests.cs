@@ -21,7 +21,7 @@ public class SymbolListExtensions_Tests
         var client = mockHttp.ToHttpClient();
         var mtClient = new MT4Client(client);
 
-        SymbolList symbolList = await mtClient.GetSymbolListAsync();
+        var symbolList = await mtClient.GetSymbolListAsync();
 
         // Act
         int symbolCount = symbolList.SymbolCount();
@@ -42,7 +42,7 @@ public class SymbolListExtensions_Tests
         var client = mockHttp.ToHttpClient();
         var mtClient = new MT4Client(client);
 
-        SymbolList symbolList = await mtClient.GetSymbolListAsync();
+        var symbolList = await mtClient.GetSymbolListAsync();
 
         // Act
         var symbolNames = symbolList.GetSymbolNames();
