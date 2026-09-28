@@ -21,9 +21,7 @@ public static class SymbolListExtensions
                     symbolNames.Add(symbol.Name);
             }
         }
-
         return symbolNames;
     }
-
 }
 
