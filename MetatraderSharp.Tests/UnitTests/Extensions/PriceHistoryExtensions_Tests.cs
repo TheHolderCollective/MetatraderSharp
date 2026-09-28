@@ -68,6 +68,7 @@ public class PriceHistoryExtensions_Tests
         var maxOpenRate = priceHistory.GetMaxOpenRate();
 
         // Assert
+        maxOpenRate.Should().NotBeNull();
         maxOpenRate.Open.Should().Be(1.16788);
         maxOpenRate.TickVolume.Should().Be(936);
     }
@@ -90,6 +91,7 @@ public class PriceHistoryExtensions_Tests
         var minOpenRate = priceHistory.GetMinOpenRate();
 
         // Assert
+        minOpenRate.Should().NotBeNull();
         minOpenRate.Open.Should().Be(1.16714);
         minOpenRate.TickVolume.Should().Be(1397);
     }

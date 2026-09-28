@@ -26,6 +26,7 @@ public class GetPriceHistory_Tests
         priceHistory.Msg.Should().Be("PRICE_HISTORY");
         priceHistory.Symbol.Should().Be("EURUSD");
         priceHistory.TimeFrame.Should().Be("PERIOD_M15");
+        priceHistory.Rates.Should().NotBeNull();
         priceHistory.Rates.Should().NotBeEmpty().And.HaveCount(5);
         priceHistory.ErrorID.Should().Be(0);
         priceHistory.ErrorDescription.Should().Be("no error");

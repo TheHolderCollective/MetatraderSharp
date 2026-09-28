@@ -25,6 +25,7 @@ public class GetSymbolListAsync_Tests
 
         // Assert
         symbolList.Msg.Should().Be("SYMBOL_LIST");
+        symbolList.Symbols.Should().NotBeNull();
         symbolList.Symbols.Should().NotBeEmpty().And.HaveCount(4);
         symbolList.Symbols[0].Name.Should().Be("AUDJPY");
         symbolList.Symbols[0].TradeMode.Should().Be(2);
