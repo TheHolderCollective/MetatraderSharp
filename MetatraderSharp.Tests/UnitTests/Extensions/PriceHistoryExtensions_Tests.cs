@@ -1,27 +1,43 @@
 ﻿using FluentAssertions;
 using MetatraderSharp.Extensions;
+using MetatraderSharp.MTsocketAPI.Responses.Common;
 using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.Tests.Builders;
 using RichardSzalay.MockHttp;
 
 namespace MetatraderSharp.Tests.Extensions;
 
-public class PriceHistoryExtensions_Tests
+public class PriceHistoryExtensions_Tests : IAsyncLifetime
 {
+    private readonly PriceHistory mockPriceHistory;
+    private readonly MockHttpMessageHandler mockHttp;
+    private readonly HttpClient httpClient;
+    private readonly MT4Client mtClient;
+    private PriceHistory priceHistory;
+
+    public PriceHistoryExtensions_Tests()
+    {
+        mockPriceHistory = new PriceHistoryBuilder().Build();
+        mockHttp = new MockHttpMessageHandler();
+        mockHttp.When("http://127.0.0.1:81/v1/history/prices*").Respond("application/json", mockPriceHistory.ToString());
+
+        httpClient = mockHttp.ToHttpClient();
+        mtClient = new MT4Client(httpClient);
+    }
+
+    public async Task InitializeAsync()
+    {
+        priceHistory = await mtClient.GetPriceHistoryAsync("EURUSD", TimeframesMT4.Period_M15, "2026.08.21 16:30:00", "2026.08.21 17:30:00");
+    }
+
+    public Task DisposeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
     [Fact]
     public async Task PriceHistoryExtensions_CorrectSymbolCount_Test()
     {
-        // Arrange
-        var mockPriceHistory = new PriceHistoryBuilder().Build();
-        var mockHttp = new MockHttpMessageHandler();
-
-        mockHttp.When("http://127.0.0.1:81/v1/history/prices*").Respond("application/json", mockPriceHistory.ToString());
-
-        var httpClient = mockHttp.ToHttpClient();
-        var mtClient = new MT4Client(httpClient);
-
-        var priceHistory = await mtClient.GetPriceHistoryAsync("EURUSD", TimeframesMT4.Period_M15, "2026.08.21 16:30:00", "2026.08.21 17:30:00");
-
         // Act
         int rateCount = priceHistory.RateCount();
 
@@ -32,17 +48,6 @@ public class PriceHistoryExtensions_Tests
     [Fact]
     public async Task PriceHistoryExtensions_GetRates_Test()
     {
-        // Arrange
-        var mockPriceHistory = new PriceHistoryBuilder().Build();
-        var mockHttp = new MockHttpMessageHandler();
-
-        mockHttp.When("http://127.0.0.1:81/v1/history/prices*").Respond("application/json", mockPriceHistory.ToString());
-
-        var httpClient = mockHttp.ToHttpClient();
-        var mtClient = new MT4Client(httpClient);
-
-        var priceHistory = await mtClient.GetPriceHistoryAsync("EURUSD", TimeframesMT4.Period_M15, "2026.08.21 16:30:00", "2026.08.21 17:30:00");
-
         // Act
         var rates = priceHistory.GetRates();
 
@@ -53,17 +58,6 @@ public class PriceHistoryExtensions_Tests
     [Fact]
     public async Task PriceHistoryExtensions_GetMaxOpenRate_Test()
     {
-        // Arrange
-        var mockPriceHistory = new PriceHistoryBuilder().Build();
-        var mockHttp = new MockHttpMessageHandler();
-
-        mockHttp.When("http://127.0.0.1:81/v1/history/prices*").Respond("application/json", mockPriceHistory.ToString());
-
-        var httpClient = mockHttp.ToHttpClient();
-        var mtClient = new MT4Client(httpClient);
-
-        var priceHistory = await mtClient.GetPriceHistoryAsync("EURUSD", TimeframesMT4.Period_M15, "2026.08.21 16:30:00", "2026.08.21 17:30:00");
-
         // Act
         var maxOpenRate = priceHistory.GetMaxOpenRate();
 
@@ -76,17 +70,6 @@ public class PriceHistoryExtensions_Tests
     [Fact]
     public async Task PriceHistoryExtensions_GetMinOpenRate_Test()
     {
-        // Arrange
-        var mockPriceHistory = new PriceHistoryBuilder().Build();
-        var mockHttp = new MockHttpMessageHandler();
-
-        mockHttp.When("http://127.0.0.1:81/v1/history/prices*").Respond("application/json", mockPriceHistory.ToString());
-
-        var httpClient = mockHttp.ToHttpClient();
-        var mtClient = new MT4Client(httpClient);
-
-        var priceHistory = await mtClient.GetPriceHistoryAsync("EURUSD", TimeframesMT4.Period_M15, "2026.08.21 16:30:00", "2026.08.21 17:30:00");
-
         // Act
         var minOpenRate = priceHistory.GetMinOpenRate();
 

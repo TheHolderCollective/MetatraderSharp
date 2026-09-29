@@ -79,5 +79,4 @@ public class GetSymbolInformationAsync_Tests
         // Assert
         symbolInfo.ErrorID.Should().Be(QueryStatus.Error);
     }
-
 }

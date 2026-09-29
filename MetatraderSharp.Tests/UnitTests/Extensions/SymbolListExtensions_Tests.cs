@@ -7,22 +7,37 @@ using RichardSzalay.MockHttp;
 
 namespace MetatraderSharp.Tests.Extensions;
 
-public class SymbolListExtensions_Tests
+public class SymbolListExtensions_Tests : IAsyncLifetime
 {
+    private readonly SymbolList mockSymbolList;
+    private readonly MockHttpMessageHandler mockHttp;
+    private readonly HttpClient httpClient;
+    private readonly MT4Client mtClient;
+    private SymbolList symbolList;
+
+    public SymbolListExtensions_Tests()
+    {
+        mockSymbolList = new SymbolListBuilder().Build();
+        mockHttp = new MockHttpMessageHandler();
+        mockHttp.When("http://127.0.0.1:81/v1/symbol/list").Respond("application/json", mockSymbolList.ToString());
+
+        httpClient = mockHttp.ToHttpClient();
+        mtClient = new MT4Client(httpClient);
+    }
+
+    public async Task InitializeAsync()
+    {
+        symbolList = await mtClient.GetSymbolListAsync();
+    }
+
+    public Task DisposeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
     [Fact]
     public async Task SymbolListExtensions_CorrectSymbolCount_Test()
     {
-        // Arrange
-        var mockSymbolList = new SymbolListBuilder().Build();
-        var mockHttp = new MockHttpMessageHandler();
-
-        mockHttp.When("http://127.0.0.1:81/v1/symbol/list").Respond("application/json", mockSymbolList.ToString());
-
-        var client = mockHttp.ToHttpClient();
-        var mtClient = new MT4Client(client);
-
-        var symbolList = await mtClient.GetSymbolListAsync();
-
         // Act
         int symbolCount = symbolList.SymbolCount();
 
@@ -33,17 +48,6 @@ public class SymbolListExtensions_Tests
     [Fact]
     public async Task SymbolListExtensions_CorrectSymbolNames_Test()
     {
-        // Arrange
-        var mockSymbolList = new SymbolListBuilder().Build();
-        var mockHttp = new MockHttpMessageHandler();
-
-        mockHttp.When("http://127.0.0.1:81/v1/symbol/list").Respond("application/json", mockSymbolList.ToString());
-
-        var client = mockHttp.ToHttpClient();
-        var mtClient = new MT4Client(client);
-
-        var symbolList = await mtClient.GetSymbolListAsync();
-
         // Act
         var symbolNames = symbolList.GetSymbolNames();
 
