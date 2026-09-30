@@ -5,7 +5,7 @@ using RichardSzalay.MockHttp;
 
 namespace MetatraderSharp.Tests.MT4;
 
-public class GetIndicatorValues_Tests
+public class GetIndicatorValuesAsync_Tests
 {
     [Fact]
     public async Task GetATRValuesAsync_SuccessfulDeserialization_Test()
