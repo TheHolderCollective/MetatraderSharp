@@ -36,7 +36,7 @@ public class SymbolListExtensions_Tests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task SymbolListExtensions_CorrectSymbolCount_Test()
+    public void SymbolListExtensions_CorrectSymbolCount_Test()
     {
         // Act
         int symbolCount = symbolList.SymbolCount();
@@ -46,7 +46,7 @@ public class SymbolListExtensions_Tests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task SymbolListExtensions_CorrectSymbolNames_Test()
+    public void SymbolListExtensions_CorrectSymbolNames_Test()
     {
         // Act
         var symbolNames = symbolList.GetSymbolNames();

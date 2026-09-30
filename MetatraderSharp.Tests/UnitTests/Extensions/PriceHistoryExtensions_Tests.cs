@@ -36,7 +36,7 @@ public class PriceHistoryExtensions_Tests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task PriceHistoryExtensions_CorrectSymbolCount_Test()
+    public void PriceHistoryExtensions_CorrectSymbolCount_Test()
     {
         // Act
         int rateCount = priceHistory.RateCount();
@@ -46,7 +46,7 @@ public class PriceHistoryExtensions_Tests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task PriceHistoryExtensions_GetRates_Test()
+    public void PriceHistoryExtensions_GetRates_Test()
     {
         // Act
         var rates = priceHistory.GetRates();
@@ -56,7 +56,7 @@ public class PriceHistoryExtensions_Tests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task PriceHistoryExtensions_GetMaxOpenRate_Test()
+    public void PriceHistoryExtensions_GetMaxOpenRate_Test()
     {
         // Act
         var maxOpenRate = priceHistory.GetMaxOpenRate();
@@ -68,7 +68,7 @@ public class PriceHistoryExtensions_Tests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task PriceHistoryExtensions_GetMinOpenRate_Test()
+    public void PriceHistoryExtensions_GetMinOpenRate_Test()
     {
         // Act
         var minOpenRate = priceHistory.GetMinOpenRate();
