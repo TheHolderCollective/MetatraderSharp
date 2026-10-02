@@ -121,13 +121,13 @@ public class TrackOHLCsAsync_Tests
                                                                 .WithErrorDescription("The operation completed successfully")
                                                                 .Build();
         var mockHttp = new MockHttpMessageHandler();
-        mockHttp.When("http://127.0.0.1:81/v1/track/prices").Respond("application/json", mockTrackPricesResponse.ToString());
+        mockHttp.When("http://127.0.0.1:81/v1/track/ohlc").Respond("application/json", mockTrackPricesResponse.ToString());
 
         var httpClient = mockHttp.ToHttpClient();
         var mtClient = new MT5Client(httpClient);
 
         // Act
-        var trackOHLCResponse = await mtClient.TrackPricesAsync(TrackingCommand.Stop, [""]);
+        var trackOHLCResponse = await mtClient.TrackOHLCsAsync(trackOHLCRequest);
 
         // Assert
         trackOHLCResponse.Msg.Should().Be("TRACK_OHLC");
