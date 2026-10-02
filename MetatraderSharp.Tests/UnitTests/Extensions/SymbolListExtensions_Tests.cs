@@ -23,6 +23,7 @@ public class SymbolListExtensions_Tests : IAsyncLifetime
 
         httpClient = mockHttp.ToHttpClient();
         mtClient = new MT4Client(httpClient);
+        symbolList = new();
     }
 
     public async Task InitializeAsync()

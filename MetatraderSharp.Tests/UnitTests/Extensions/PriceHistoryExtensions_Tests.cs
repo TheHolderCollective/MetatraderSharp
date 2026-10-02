@@ -23,6 +23,7 @@ public class PriceHistoryExtensions_Tests : IAsyncLifetime
 
         httpClient = mockHttp.ToHttpClient();
         mtClient = new MT4Client(httpClient);
+        priceHistory = new();
     }
 
     public async Task InitializeAsync()

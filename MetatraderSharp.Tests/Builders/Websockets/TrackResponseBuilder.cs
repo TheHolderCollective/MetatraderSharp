@@ -5,8 +5,8 @@ namespace MetatraderSharp.Tests.Builders;
 public class TrackResponseBuilder
 {
     private string _msg;
-    private List<string>? _success;
-    private List<string>? _fail;
+    private List<string> _success = [];
+    private List<string> _fail = [];
     private int _errorID;
     private string _errorDescription;
 
@@ -14,7 +14,7 @@ public class TrackResponseBuilder
     {
         _msg = "TRACK_PRICES";
         _success =["EURUSD", "GBPUSD"];
-        _fail = null;
+        _fail = [];
         _errorID = 0;
         _errorDescription = "no error";
     }
@@ -51,8 +51,8 @@ public class TrackResponseBuilder
 
     public TrackResponseBuilder WithTrackingSuccessfullyStopped()
     {
-        this._success = null;
-        this._fail = null;
+        this._success = [];
+        this._fail = [];
         this._errorID = 0;
         this._errorDescription = "no error";
         return this;
