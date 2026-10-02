@@ -30,6 +30,31 @@ public class ModifyOrderAsync_Tests
     }
 
     [Fact]
+    public async Task ModifyOrderAsync_TicketDoesntExist_Test()
+    {
+        // Arrange
+        var mockOrderModifyResponse = new OrderResponseBuilder<OrderModifyResponse>().WithMsg("ORDER_MODIFY")
+                                                                                     .WithTicket(1516332028)
+                                                                                     .WithErrorID(4108)
+                                                                                     .WithErrorDescription("invalid ticket")
+                                                                                    . Build();
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.When("http://127.0.0.1:81/v1/order/modify").Respond("application/json", mockOrderModifyResponse.ToString());
+
+        var httpClient = mockHttp.ToHttpClient();
+        var mtClient = new MT4Client(httpClient);
+
+        // Act
+        var orderModifyResponse = await mtClient.ModifyOrderAsync(1516332028, 1.13295);
+
+        // Assert
+        orderModifyResponse.Msg.Should().Be("ORDER_MODIFY");
+        orderModifyResponse.Ticket.Should().Be(1516332028);
+        orderModifyResponse.ErrorID.Should().Be(4108);
+        orderModifyResponse.ErrorDescription.Should().Be("invalid ticket");
+    }
+
+    [Fact]
     public async Task ModifyOrderAsync_OrderNoChange_Test()
     {
         // Arrange

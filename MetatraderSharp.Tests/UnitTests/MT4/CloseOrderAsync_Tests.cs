@@ -52,6 +52,7 @@ public class CloseOrderAsync_Tests
     {
         // Arrange
         var mockOrderCloseResponse = new OrderCloseResponseBuilder().WithTicket(1516862197)
+                                                                    .WithType(null)
                                                                     .WithErrorID(4108)
                                                                     .WithErrorDescription("invalid ticket")
                                                                     .Build();
@@ -70,5 +71,31 @@ public class CloseOrderAsync_Tests
         orderCloseResponse.Type.Should().BeNull();
         orderCloseResponse.ErrorID.Should().Be(4108);
         orderCloseResponse.ErrorDescription.Should().Be("invalid ticket");
+    }
+
+    [Fact]
+    public async Task CloseOrderAsync_OrderPartiallyClosedSuccessfully_Test()
+    {
+        // Arrange
+        var mockOrderCloseResponse = new OrderCloseResponseBuilder().WithTicket(364998759)
+                                                                    .WithType("PARTIALLY_CLOSED")
+                                                                    .WithErrorID(0)
+                                                                    .WithErrorDescription("no error")
+                                                                    .Build();
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.When("http://127.0.0.1:81/v1/order/close").Respond("application/json", mockOrderCloseResponse.ToString());
+
+        var httpClient = mockHttp.ToHttpClient();
+        var mtClient = new MT4Client(httpClient);
+
+        // Act
+        var orderCloseResponse = await mtClient.CloseOrderAsync(364998759);
+
+        // Assert
+        orderCloseResponse.Msg.Should().Be("ORDER_CLOSE");
+        orderCloseResponse.Ticket.Should().Be(364998759);
+        orderCloseResponse.Type.Should().Be("PARTIALLY_CLOSED");
+        orderCloseResponse.ErrorID.Should().Be(0);
+        orderCloseResponse.ErrorDescription.Should().Be("no error");
     }
 }
