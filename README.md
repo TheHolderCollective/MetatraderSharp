@@ -15,9 +15,7 @@ For more information on how to install the MTsocketAPI please consult: https://w
 
 ## Usage Examples
 
-For examples on how to use the library please consult the cookbook which can be found in this repository:
-
-[MetatraderSharp Cookbook](https://github.com/TheHolderCollective/MetatraderSharpCookbook)
+For examples on how to use the library please consult: [MetatraderSharp Cookbook](https://github.com/TheHolderCollective/MetatraderSharpCookbook)
 
 ## Disclaimer
 
