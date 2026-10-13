@@ -1,10 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<PackageId>MetatraderSharp.13.10.2026.001</PackageId>
+		<PackageId>MetatraderSharp</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>Rosamund Holder</Authors>
 		<TargetFramework>net9.0</TargetFramework>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Description>A C# wrapper library which simplifies the use of MTsocketAPI for MT4 and MT5</Description>
+		<PackageProjectUrl>https://github.com/TheHolderCollective/MetatraderSharp</PackageProjectUrl>
+		<PackageReleaseNotes>
+			* Intial Release
+		</PackageReleaseNotes>
+		<PackageTags>metatradersharp, mtsocketapi, mt4-api, mt5-api, mt4, mt5, metatrader</PackageTags>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
