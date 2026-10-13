@@ -6,7 +6,7 @@ Blog Post: [MetatraderSharp - The Origins Story](https://theholdercollective.git
 
 ## Project Status
 
-[11-Oct-2026] - Testing almost completed.
+Initial release v1.0.0 available.
 
 ## Usage Requirements
 Successful usage of the MetatraderSharp library requires:
