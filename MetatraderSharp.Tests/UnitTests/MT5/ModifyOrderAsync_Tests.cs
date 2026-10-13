@@ -51,10 +51,10 @@ public class ModifyOrderAsync_Tests
     {
         // Arrange
         var mockOrderModifyResponse = new OrderResponseBuilder<OrderModifyResponse>().WithMsg("ORDER_MODIFY")
-                                                                                    .WithTicket(1204716433)
-                                                                                    .WithErrorID(4754)
-                                                                                    .WithErrorDescription("Order not found")
-                                                                                    .Build();
+                                                                                     .WithTicket(1204716433)
+                                                                                     .WithErrorID(4754)
+                                                                                     .WithErrorDescription("Order not found")
+                                                                                     .Build();
         var mockHttp = new MockHttpMessageHandler();
         mockHttp.When("http://127.0.0.1:81/v1/order/modify").Respond("application/json", mockOrderModifyResponse.ToString());
 

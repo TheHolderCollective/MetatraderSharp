@@ -12,7 +12,8 @@ public class CloseOrderAsync_Tests
     public async Task CloseOrderAsync_OrderPartiallyClosedSuccessfully_Test()
     {
         // Arrange
-        var mockOrderCloseResponse = new OrderResponseBuilder<OrderCloseResponse>().WithTicket(120467847)
+        var mockOrderCloseResponse = new OrderResponseBuilder<OrderCloseResponse>().WithMsg("ORDER_CLOSE") 
+                                                                                   .WithTicket(120467847)
                                                                                    .WithType("PARTIALLY_CLOSED")
                                                                                    .WithOrder(120467847)
                                                                                    .WithVolume(0.01)
@@ -48,7 +49,8 @@ public class CloseOrderAsync_Tests
     public async Task CloseOrderAsync_OrderFullyClosedSuccessfully_Test()
     {
         // Arrange
-        var mockOrderCloseResponse = new OrderResponseBuilder<OrderCloseResponse>().WithTicket(120467847)
+        var mockOrderCloseResponse = new OrderResponseBuilder<OrderCloseResponse>().WithMsg("ORDER_CLOSE")
+                                                                                   .WithTicket(120467847)
                                                                                    .WithType("FULLY_CLOSED")
                                                                                    .WithOrder(120467847)
                                                                                    .WithRequestID(3113131646)
@@ -84,7 +86,8 @@ public class CloseOrderAsync_Tests
     public async Task CloseOrderAsync_TicketDoesntExist_Test()
     {
         // Arrange
-        var mockOrderCloseResponse = new OrderResponseBuilder<OrderCloseResponse>().WithTicket(120468473)                                                                                   
+        var mockOrderCloseResponse = new OrderResponseBuilder<OrderCloseResponse>().WithMsg("ORDER_CLOSE")
+                                                                                   .WithTicket(120468473)                                                                                   
                                                                                    .WithErrorID(4754)
                                                                                    .WithErrorDescription("Order not found")
                                                                                    .Build();

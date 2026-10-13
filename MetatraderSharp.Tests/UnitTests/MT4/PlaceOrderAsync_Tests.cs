@@ -12,7 +12,7 @@ public class PlaceOrderAsync_Tests
     public async Task PlaceOrderAsync_OrderPlacedSuccessfully_Test()
     {
         // Arrange
-        var mockOrderSendResponse = new OrderResponseBuilder<OrderSendResponse>().Build();
+        var mockOrderSendResponse = new OrderResponseBuilder<OrderSendResponse>().WithMsg("ORDER_SEND").Build();
         var mockHttp = new MockHttpMessageHandler();
         mockHttp.When("http://127.0.0.1:81/v1/order").Respond("application/json", mockOrderSendResponse.ToString());
 
@@ -33,10 +33,11 @@ public class PlaceOrderAsync_Tests
     public async Task PlaceOrderAsync_InvalidSymbol_Test()
     {
         // Arrange
-        var mockOrderSendResponse = new OrderResponseBuilder<OrderSendResponse>().WithTicket(-1)
-                                                                                .WithErrorID(4106)
-                                                                                .WithErrorDescription("unknown symbol")
-                                                                                .Build();
+        var mockOrderSendResponse = new OrderResponseBuilder<OrderSendResponse>().WithMsg("ORDER_SEND")
+                                                                                 .WithTicket(-1)
+                                                                                 .WithErrorID(4106)
+                                                                                 .WithErrorDescription("unknown symbol")
+                                                                                 .Build();
         var mockHttp = new MockHttpMessageHandler();
         mockHttp.When("http://127.0.0.1:81/v1/order").Respond("application/json", mockOrderSendResponse.ToString());
 
@@ -57,10 +58,11 @@ public class PlaceOrderAsync_Tests
     public async Task PlaceOrderAsync_InvalidVolume_Test()
     {
         // Arrange
-        var mockOrderSendResponse = new OrderResponseBuilder<OrderSendResponse>().WithTicket(-1)
-                                                                                .WithErrorID(4051)
-                                                                                .WithErrorDescription("invalid function parameter value")
-                                                                                .Build();
+        var mockOrderSendResponse = new OrderResponseBuilder<OrderSendResponse>().WithMsg("ORDER_SEND")
+                                                                                 .WithTicket(-1)
+                                                                                 .WithErrorID(4051)
+                                                                                 .WithErrorDescription("invalid function parameter value")
+                                                                                 .Build();
         var mockHttp = new MockHttpMessageHandler();
         mockHttp.When("http://127.0.0.1:81/v1/order").Respond("application/json", mockOrderSendResponse.ToString());
 
