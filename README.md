@@ -1,10 +1,12 @@
 ## MetatraderSharp
 
-MetatraderSharp is wrapper library which aims to simplify the use of the MTsocketAPI.
+MetatraderSharp is a wrapper library which aims to simplify the use of the MTsocketAPI.
+
+Blog Post: [MetatraderSharp - The Origins Story](https://theholdercollective.github.io/posts/MetatraderSharp-Origins/)
 
 ## Project Status
 
-[27-Aug-2026] - Under review and testing.
+[11-Oct-2026] - Testing almost completed.
 
 ## Usage Requirements
 Successful usage of the MetatraderSharp library requires:
@@ -15,9 +17,7 @@ For more information on how to install the MTsocketAPI please consult: https://w
 
 ## Usage Examples
 
-For examples on how to use the library please consult the cookbook which can be found in this repository:
-
-https://github.com/TheHolderCollective/MetatraderSharpCookbook
+For examples on how to use the library please consult: [MetatraderSharp Cookbook](https://github.com/TheHolderCollective/MetatraderSharpCookbook)
 
 ## Disclaimer
 
