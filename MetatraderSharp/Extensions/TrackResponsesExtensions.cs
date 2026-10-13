@@ -46,7 +46,7 @@ public static class TrackResponsesExtensions
             symbols.Append(symbol + " ");
         }
 
-        return symbols.ToString();
+        return symbols.ToString().Trim();
     }
 
     public static string FailedSymbols(this TrackResponse trackResponse)
@@ -61,7 +61,7 @@ public static class TrackResponsesExtensions
             symbols.Append(symbol + " ");
         }
 
-        return symbols.ToString();
+        return symbols.ToString().Trim();
     }
 }
 
