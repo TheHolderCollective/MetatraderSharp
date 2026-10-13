@@ -7,16 +7,30 @@ public static class TrackResponsesExtensions
 {
     public static int SymbolCount(this TrackResponse trackResponse)
     {
-        return trackResponse.Success.Count + trackResponse.Fail.Count;
+        int symbolCount = 0;
+
+        if (trackResponse.Success is not null)
+            symbolCount = trackResponse.Success.Count;
+
+        if (trackResponse.Fail is not null)
+            symbolCount += trackResponse.Fail.Count;
+
+        return symbolCount;
     }
 
     public static int SuccessCount(this TrackResponse trackResponse)
     {
+        if (trackResponse.Success is null)
+            return 0;
+
         return trackResponse.Success.Count;
     }
 
     public static int FailCount(this TrackResponse trackResponse)
     {
+        if (trackResponse.Fail is null)
+            return 0;
+
         return trackResponse.Fail.Count;
     }
 
@@ -24,12 +38,12 @@ public static class TrackResponsesExtensions
     {
         StringBuilder symbols = new();
 
-        if(trackResponse.SuccessCount() > 0)
+        if (trackResponse.Success is null)
+            return string.Empty;
+
+        foreach (var symbol in trackResponse.Success)
         {
-            foreach(var symbol in trackResponse.Success)
-            {
-                symbols.Append(symbol + " ");
-            }
+            symbols.Append(symbol + " ");
         }
 
         return symbols.ToString();
@@ -39,12 +53,12 @@ public static class TrackResponsesExtensions
     {
         StringBuilder symbols = new();
 
-        if (trackResponse.FailCount() > 0)
+        if (trackResponse.Fail is null)
+            return string.Empty;
+
+        foreach (var symbol in trackResponse.Fail)
         {
-            foreach (var symbol in trackResponse.Fail)
-            {
-                symbols.Append(symbol + " ");
-            }
+            symbols.Append(symbol + " ");
         }
 
         return symbols.ToString();
