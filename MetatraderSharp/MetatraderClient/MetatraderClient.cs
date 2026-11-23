@@ -144,7 +144,7 @@ public abstract class MetatraderClient
 
     public async Task<TrackResponse> TrackPricesAsync(TrackingCommand trackCommand, params string[] symbols)
     {
-        _requestedUri = UriBuilder.BuildTrackPricesUri(trackCommand, symbols);
+        _requestedUri = _uriBuilder.BuildTrackPricesUri(trackCommand, symbols);
         _request = HttpRequestMessageBuilder.BuildHttpPostRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<TrackResponse>(_request);

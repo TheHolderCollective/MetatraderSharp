@@ -63,7 +63,7 @@ public class MT5Client : MetatraderClient
 
     public async Task<Indicator> GetCustomIndicatorValuesAsync(string indicatorName, string symbol, string timeframe, int index, int count, string param1 = "", string param2 = "", string param3 = "", string param4 = "")
     {
-        _requestedUri = UriBuilder.BuildMT5GetCustomIndicatorValuesUri(indicatorName, symbol, timeframe, index, count, param1, param2, param3, param4);
+        _requestedUri = _uriBuilder.BuildMT5GetCustomIndicatorValuesUri(indicatorName, symbol, timeframe, index, count, param1, param2, param3, param4);
         _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<Indicator>(_request);
@@ -71,7 +71,7 @@ public class MT5Client : MetatraderClient
 
     public async Task<Indicator> GetMAIndicatorValuesAsync(string appliedPrice, string ma_Method, int ma_Period, int count, int ma_Shift, string symbol, string timeframe)
     {
-        _requestedUri = UriBuilder.BuildMT5MAIndicatorValuesUri(appliedPrice, ma_Method, ma_Period, count, ma_Shift, symbol, timeframe);
+        _requestedUri = _uriBuilder.BuildMT5MAIndicatorValuesUri(appliedPrice, ma_Method, ma_Period, count, ma_Shift, symbol, timeframe);
         _request = HttpRequestMessageBuilder.BuildHttpGetRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<Indicator>(_request);
@@ -80,7 +80,7 @@ public class MT5Client : MetatraderClient
     public async Task<OrderSendResponse> PlaceOrderAsync(string symbol, string orderType, double volume, bool async = false, double price = 0.0, double stopLoss = 0.0,
                                                          double takeProfit = 0.0, int magic = 0, string orderFillType = "", string comment = "", string expiration = "")
     {
-        _requestedUri = UriBuilder.BuildMT5SendOrderUri(symbol, orderType, volume, async, price, stopLoss, takeProfit, magic, orderFillType, comment, expiration);
+        _requestedUri = _uriBuilder.BuildMT5SendOrderUri(symbol, orderType, volume, async, price, stopLoss, takeProfit, magic, orderFillType, comment, expiration);
         _request = HttpRequestMessageBuilder.BuildHttpPostRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<OrderSendResponse>(_request);
@@ -88,7 +88,7 @@ public class MT5Client : MetatraderClient
 
     public async Task<OrderModifyResponse> ModifyOrderAsync(long ticketNumber, double stopLoss, double takeProfit = 0.0, double price = 0.0, bool async = false, string expiration = "")
     {
-        _requestedUri = UriBuilder.BuildMT5ModifyOrderUri(ticketNumber, stopLoss, takeProfit, price, async, expiration);
+        _requestedUri = _uriBuilder.BuildMT5ModifyOrderUri(ticketNumber, stopLoss, takeProfit, price, async, expiration);
         _request = HttpRequestMessageBuilder.BuildHttpPostRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<OrderModifyResponse>(_request);
@@ -96,7 +96,7 @@ public class MT5Client : MetatraderClient
 
     public async Task<OrderCloseResponse> CloseOrderAsync(long ticketNumber, double volume = 0.0, bool async = false)
     {
-        _requestedUri = UriBuilder.BuildMT5CloseOrderUri(ticketNumber, volume, async);
+        _requestedUri = _uriBuilder.BuildMT5CloseOrderUri(ticketNumber, volume, async);
         _request = HttpRequestMessageBuilder.BuildHttpPostRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<OrderCloseResponse>(_request);
@@ -136,7 +136,7 @@ public class MT5Client : MetatraderClient
 
     public async Task<TrackResponse> TrackMarketBookAsync(params string[] symbolList)
     {
-        _requestedUri = UriBuilder.BuildMT5TrackMarketBookUri(symbolList);
+        _requestedUri = _uriBuilder.BuildMT5TrackMarketBookUri(symbolList);
         _request = HttpRequestMessageBuilder.BuildHttpPostRequest(_requestedUri);
 
         return await GetMTsocketApiResponseAsync<TrackResponse>(_request);

@@ -2,8 +2,8 @@
 
 public class UriBuilder
 {
-    private static string? _partialUri;
-    private static string? _webSocketPort;
+    private string? _partialUri;
+    private string? _webSocketPort;
 
     public UriBuilder()
     {
@@ -21,7 +21,7 @@ public class UriBuilder
         _webSocketPort = webSocketPort;
     }
 
-    public static string BuildTrackPricesUri(TrackingCommand trackCommand, params string[] symbolList)
+    public string BuildTrackPricesUri(TrackingCommand trackCommand, params string[] symbolList)
     {
         string symbolParameters = "";
 
@@ -49,7 +49,7 @@ public class UriBuilder
         return $"{_partialUri}:{_webSocketPort}/v1/track/prices?{symbolParameters}";
     }
 
-    public static string BuildMT4ModifyOrderUri(long ticketNumber, double stopLoss, double takeProfit, double price, string expiration)
+    public string BuildMT4ModifyOrderUri(long ticketNumber, double stopLoss, double takeProfit, double price, string expiration)
     {
         string uri = $"{_partialUri}:{_webSocketPort}/v1/order/modify?ticket={ticketNumber}&sl={stopLoss}";
 
@@ -68,7 +68,7 @@ public class UriBuilder
         return uri;
     }
 
-    public static string BuildMT4SendOrderUri(string symbol, string orderType, double volume, double price = 0.0, double stopLoss = 0.0, 
+    public string BuildMT4SendOrderUri(string symbol, string orderType, double volume, double price = 0.0, double stopLoss = 0.0,
                                         double takeProfit = 0.0, int magic = 0, string comment = "", string expiration = "")
     {
         string uri = $"{_partialUri}:{_webSocketPort}/v1/order?symbol={symbol}&volume={volume}&type={orderType}";
@@ -113,7 +113,7 @@ public class UriBuilder
         return uri;
     }
 
-    public static string BuildMT4CloseOrderUri(long ticketNumber, double volume = 0.0)
+    public string BuildMT4CloseOrderUri(long ticketNumber, double volume = 0.0)
     {
         if (volume != 0.0)
         {
@@ -123,7 +123,7 @@ public class UriBuilder
         return $"{_partialUri}:{_webSocketPort}/v1/order/close?ticket={ticketNumber}";
     }
 
-    public static string BuildMT5ModifyOrderUri(long ticketNumber, double stopLoss, double takeProfit, double price, bool async, string expiration)
+    public string BuildMT5ModifyOrderUri(long ticketNumber, double stopLoss, double takeProfit, double price, bool async, string expiration)
     {
         string uri = $"{_partialUri}:{_webSocketPort}/v1/order/modify?ticket={ticketNumber}&sl={stopLoss}&async={async}";
 
@@ -142,7 +142,7 @@ public class UriBuilder
         return uri;
     }
 
-    public static string BuildMT5SendOrderUri(string symbol, string orderType, double volume, bool async = false, double price = 0.0, double stopLoss = 0.0, 
+    public string BuildMT5SendOrderUri(string symbol, string orderType, double volume, bool async = false, double price = 0.0, double stopLoss = 0.0,
                                         double takeProfit = 0.0, int magic = 0, string orderFillType = "", string comment = "", string expiration = "")
     {
         string uri = $"{_partialUri}:{_webSocketPort}/v1/order?symbol={symbol}&volume={volume}&type={orderType}";
@@ -206,7 +206,7 @@ public class UriBuilder
         return uri;
     }
 
-    public static string BuildMT5CloseOrderUri(long ticketNumber, double volume = 0.0, bool async = false)
+    public string BuildMT5CloseOrderUri(long ticketNumber, double volume = 0.0, bool async = false)
     {
         string uri = $"{_partialUri}:{_webSocketPort}/v1/order/close?ticket={ticketNumber}";
 
@@ -223,7 +223,7 @@ public class UriBuilder
         return uri;
     }
 
-    public static string BuildMT5GetCustomIndicatorValuesUri(string indicatorName, string symbol, string timeframe, int index, 
+    public string BuildMT5GetCustomIndicatorValuesUri(string indicatorName, string symbol, string timeframe, int index,
                                                              int count, string param1 = "", string param2 = "", string param3 = "", string param4 = "")
     {
         string parameters = $"symbol={symbol}&timeframe={timeframe}&indicator_name={indicatorName}&index={index}&num={count}";
@@ -248,7 +248,7 @@ public class UriBuilder
         return $"{_partialUri}:{_webSocketPort}/v1/indicator/custom?{parameters}";
     }
 
-    public static string BuildMT5TrackMarketBookUri(params string[] symbolList)
+    public string BuildMT5TrackMarketBookUri(params string[] symbolList)
     {
         string symbolParameters = "";
 
@@ -275,7 +275,7 @@ public class UriBuilder
         return $"{_partialUri}:{_webSocketPort}/v1/track/mbook?{symbolParameters}";
     }
 
-    public static string BuildMT5MAIndicatorValuesUri(string appliedPrice, string ma_Method, int ma_Period, int count, int ma_Shift, string symbol, string timeframe)
+    public string BuildMT5MAIndicatorValuesUri(string appliedPrice, string ma_Method, int ma_Period, int count, int ma_Shift, string symbol, string timeframe)
     {
         string parameters = $"symbol={symbol}&timeframe={timeframe}&ma_period={ma_Period}&ma_shift={ma_Shift}&ma_method={ma_Method}&applied_price={appliedPrice}&num={count}";
 
