@@ -2,14 +2,6 @@
 
 A C# wrapper library which simplifies the use of MTsocketAPI for MT4 and MT5.
 
-## Usage Requirements
-
-Successful usage of the MetatraderSharp library requires:
-- Metatrader 4/Metratrader 5 to be installed 
-- a version of the MTsocketAPI installed in your Metatrader
-
-The MT4/MT5 client should be instantiated with the port number which matches the http port used by the MTsocketAPI in the terminal. The default client uses port 81 to match the default settings of the MTsocketAPI.
-
 ## Quick Start Example 1
 Using a default MT4 client:
 
@@ -67,6 +59,14 @@ else
 
 ## Usage Examples
 For complete examples on how to use the library please consult: [MetatraderSharp Cookbook](https://github.com/TheHolderCollective/MetatraderSharpCookbook)
+
+## Usage Requirements
+
+Successful usage of the MetatraderSharp library requires:
+- Metatrader 4/Metratrader 5 to be installed 
+- a version of the MTsocketAPI installed in your Metatrader
+
+The MT4/MT5 client should be instantiated with the port number which matches the http port used by the MTsocketAPI in the terminal. The default client uses port 81 to match the default settings of the MTsocketAPI.
 
 ## Disclaimer
 
