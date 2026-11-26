@@ -2,6 +2,8 @@
 
 A C# wrapper library which simplifies the use of MTsocketAPI for MT4 and MT5.
 
+![Static Badge](https://img.shields.io/badge/Framework-.NET_9_-blue)  ![Static Badge](https://img.shields.io/badge/Framework-.NET_10_-blue)
+
 ## Quick Start Example 1
 Using a default MT4 client:
 
