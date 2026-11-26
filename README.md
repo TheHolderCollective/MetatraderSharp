@@ -1,4 +1,4 @@
-## MetatraderSharp
+# MetatraderSharp ![Static Badge](https://img.shields.io/badge/release-v1.0.1-blue)
 
 A C# wrapper library which simplifies the use of MTsocketAPI for MT4 and MT5.
 
